@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles.css">
     
     <!-- FUENTES BONITAS -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- ============================================ -->
     <!-- CONEXIÓN A FIREBASE                         -->
@@ -28,6 +28,7 @@
     
     <audio id="musica-fondo" loop>
         <source src="musica/rapunzel.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio.
     </audio>
 
     <!-- ============================================ -->
@@ -64,7 +65,7 @@
             <!-- MENSAJE DE BIENVENIDA -->
             <div class="mensaje-bienvenida">
                 <p>💝 Completa el siguiente formulario para confirmar tu asistencia</p>
-                <p class="mensaje-pequeno">📌 Máximo <strong>4 personas</strong> por grupo familiar (incluyendo al líder)</p>
+                <p class="mensaje-pequeno">📌 Máximo <strong>4 personas</strong> por grupo familiar (1 líder + 3 acompañantes)</p>
             </div>
             
             <!-- ============================================ -->
@@ -81,6 +82,10 @@
                         Datos del Líder del Grupo
                     </h3>
                     
+                    <p style="color: #6B4F7C; font-size: 0.95rem; margin-bottom: 20px;">
+                        📌 El líder es la persona que coordinará al grupo familiar
+                    </p>
+                    
                     <div class="campo-formulario">
                         <label for="nombreLider">Nombre completo del líder:</label>
                         <input 
@@ -90,7 +95,7 @@
                             placeholder="Ej: Carlos Gómez"
                             required
                         >
-                        <span class="campo-ayuda">📌 Quien coordinará al grupo familiar</span>
+                        <span class="campo-ayuda">📌 Nombre de quien coordina el grupo</span>
                     </div>
                     
                     <div class="campo-formulario">
@@ -116,7 +121,7 @@
                     </h3>
                     
                     <div class="campo-formulario">
-                        <label for="cantidad">Número de invitados (incluyendo al líder):</label>
+                        <label for="cantidad">Número total de personas (incluyendo al líder):</label>
                         <input 
                             type="number" 
                             id="cantidad" 
@@ -126,21 +131,26 @@
                             value="1"
                             required
                         >
-                        <span class="campo-ayuda">📌 Máximo <strong>4 personas</strong> por grupo familiar</span>
+                        <span class="campo-ayuda">📌 Máximo <strong>4 personas</strong> por grupo (1 líder + 3 acompañantes)</span>
                     </div>
                 </div>
                 
                 <!-- ============================================ -->
-                <!-- 3. CAMPOS DINÁMICOS PARA INVITADOS           -->
+                <!-- 3. CAMPOS DINÁMICOS PARA ACOMPAÑANTES        -->
                 <!-- ============================================ -->
                 <div class="grupo-formulario grupo-invitados" id="grupo-invitados">
                     <h3 class="subtitulo-formulario">
                         <span class="icono-grupo">🎀</span>
-                        Datos de los Invitados
+                        Datos de los Acompañantes
                     </h3>
+                    
+                    <p style="color: #6B4F7C; font-size: 0.95rem; margin-bottom: 15px;">
+                        📌 Ingresa los datos de cada persona que acompañará al líder
+                    </p>
                     
                     <div id="contenedor-invitados">
                         <!-- AQUÍ SE GENERARÁN LOS CAMPOS DINÁMICAMENTE -->
+                        <!-- SOLO PARA ACOMPAÑANTES (NO EL LÍDER) -->
                     </div>
                 </div>
                 
