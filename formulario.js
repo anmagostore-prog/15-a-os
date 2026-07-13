@@ -5,7 +5,7 @@
 // =====================================================
 // 1. VARIABLES GLOBALES
 // =====================================================
-let invitadosRegistrados = []; // Para controlar duplicados
+let invitadosRegistrados = [];
 
 // =====================================================
 // 2. GENERAR CAMPOS DINÁMICOS
@@ -24,8 +24,9 @@ document.addEventListener('DOMContentLoaded', function() {
             cantidad = 1;
         }
         
+        // ✅ LÍMITE ACTUALIZADO: MÁXIMO 4 PERSONAS
         if (cantidad > 4) {
-            alert('⚠️ Máximo 20 personas por grupo');
+            alert('⚠️ Máximo 4 personas por grupo familiar');
             cantidad = 4;
             cantidadInput.value = 4;
         }
@@ -152,8 +153,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             }
             
-            // Verificar si el teléfono ya está registrado (solo en Firebase)
-            // Por ahora, solo recolectamos los datos
             invitados.push({
                 nombre: nombre,
                 telefono: telefono,
@@ -165,29 +164,51 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (hayError) return;
         
-        // Si no hay errores, mostrar los datos (por ahora)
-        console.log('✅ Datos a guardar:', invitados);
+        // ✅ VERIFICAR QUE NO HAYA MÁS DE 4 PERSONAS
+        if (invitados.length > 4) {
+            mostrarMensaje('error', '⚠️ El grupo no puede tener más de 4 personas');
+            return;
+        }
         
-        // ============================================ -->
-        // AQUÍ CONECTAREMOS CON FIREBASE              -->
-        // Por ahora, solo mostramos los datos          -->
-        // ============================================ -->
+        // Mostrar mensaje de "Guardando..."
+        mostrarMensaje('info', '⏳ Guardando datos en la nube...');
         
-        // Mostrar mensaje de éxito (temporal)
-        mostrarMensaje('exito', `
-            ✅ ¡Datos guardados exitosamente!
-            <br>
-            <small>Se registraron ${invitados.length} invitados</small>
-        `);
-        
-        // Limpiar el formulario después de guardar (opcional)
-        // document.getElementById('formulario-invitados').reset();
+        try {
+            // Guardar en Firebase usando la función global
+            const resultado = await guardarMultiplesInvitados(invitados);
+            
+            if (resultado.success) {
+                // Éxito
+                mostrarMensaje('exito', `
+                    ✅ ¡${resultado.guardados} de ${resultado.total} invitados registrados!
+                    <br>
+                    <small>Los datos se guardaron en Firebase correctamente</small>
+                `);
+                
+                // Limpiar formulario
+                document.getElementById('formulario-invitados').reset();
+                document.getElementById('cantidad').value = 1;
+                document.getElementById('cantidad').dispatchEvent(new Event('change'));
+                
+            } else {
+                // Algunos errores
+                mostrarMensaje('error', `
+                    ⚠️ Se guardaron ${resultado.guardados} de ${resultado.total} invitados
+                    <br>
+                    <small>Errores: ${resultado.errores.join(', ')}</small>
+                `);
+            }
+            
+        } catch (error) {
+            console.error('❌ Error al guardar:', error);
+            mostrarMensaje('error', '❌ Error al guardar los datos. Revisa la conexión a Firebase.');
+        }
     }
     
     // Evento del botón guardar
     btnGuardar.addEventListener('click', guardarInvitados);
     
-    // También guardar con Enter (solo si no estamos en un campo de texto)
+    // También guardar con Enter
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && e.target.tagName !== 'INPUT') {
             guardarInvitados();
@@ -198,8 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // =====================================================
 // 4. FUNCIONES DE AYUDA
 // =====================================================
-
-// Función para limpiar el formulario
 document.addEventListener('DOMContentLoaded', function() {
     const btnLimpiar = document.getElementById('btn-limpiar');
     
@@ -216,4 +235,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('📝 Formulario cargado correctamente');
-console.log('💡 Recuerda: Próximamente conectaremos con Firebase');
+console.log('👥 Límite: 4 personas por grupo familiar');
