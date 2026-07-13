@@ -9,31 +9,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const cantidadInput = document.getElementById('cantidad');
     const contenedor = document.getElementById('contenedor-invitados');
     
-    // Función para generar los campos de acompañantes
     function generarCamposInvitados(cantidad) {
         // Limpiar el contenedor
         contenedor.innerHTML = '';
         
-        // Validar que la cantidad sea un número válido
+        // Validar cantidad
         if (isNaN(cantidad) || cantidad < 1) {
             cantidad = 1;
         }
         
-        // ✅ LÍMITE: MÁXIMO 4 PERSONAS (1 LÍDER + 3 ACOMPAÑANTES)
         if (cantidad > 4) {
-            alert('⚠️ Máximo 4 personas por grupo familiar (1 líder + 3 acompañantes)');
+            alert('⚠️ Máximo 4 personas por grupo (1 líder + 3 acompañantes)');
             cantidad = 4;
             cantidadInput.value = 4;
         }
         
-        // ✅ EL LÍDER YA SE REGISTRÓ ARRIBA
-        // SOLO GENERAMOS CAMPOS PARA LOS ACOMPAÑANTES (del 2 al 4)
+        // ✅ CALCULAR ACOMPAÑANTES (cantidad - 1)
         const numAcompanantes = cantidad - 1;
         
+        // Si solo va el líder, mostrar mensaje
         if (numAcompanantes === 0) {
-            // Si solo va el líder, mostrar mensaje
             contenedor.innerHTML = `
-                <div class="mensaje-info" style="
+                <div style="
                     background: #F3E8FF; 
                     padding: 20px; 
                     border-radius: 12px; 
@@ -47,12 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Generar campos para cada ACOMPAÑANTE
+        // ✅ GENERAR SOLO ACOMPAÑANTES (NUNCA EL LÍDER)
         for (let i = 1; i <= numAcompanantes; i++) {
-            // El índice real del invitado es i + 1 (porque el 1 es el líder)
-            const idx = i + 1;
-            
-            // Crear contenedor para cada acompañante
             const invitadoDiv = document.createElement('div');
             invitadoDiv.className = 'invitado-card';
             
@@ -60,22 +53,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h4 class="invitado-titulo">👤 Acompañante ${i}</h4>
                 
                 <div class="campo-formulario">
-                    <label for="nombre${idx}">Nombre completo del acompañante ${i}:</label>
+                    <label for="nombre_acompanante_${i}">Nombre completo del acompañante ${i}:</label>
                     <input 
                         type="text" 
-                        id="nombre${idx}" 
-                        name="nombre${idx}" 
+                        id="nombre_acompanante_${i}" 
+                        name="nombre_acompanante_${i}" 
                         placeholder="Ej: María Pérez"
                         required
                     >
                 </div>
                 
                 <div class="campo-formulario">
-                    <label for="telefono${idx}">Teléfono del acompañante ${i}:</label>
+                    <label for="telefono_acompanante_${i}">Teléfono del acompañante ${i}:</label>
                     <input 
                         type="tel" 
-                        id="telefono${idx}" 
-                        name="telefono${idx}" 
+                        id="telefono_acompanante_${i}" 
+                        name="telefono_acompanante_${i}" 
                         placeholder="Ej: 3219876543"
                         required
                     >
@@ -93,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
         generarCamposInvitados(cantidad);
     });
     
-    // Escuchar cuando se presiona Enter en el campo cantidad
     cantidadInput.addEventListener('keyup', function(e) {
         if (e.key === 'Enter') {
             const cantidad = parseInt(this.value) || 1;
@@ -101,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Generar campos iniciales (con 1 = solo líder, sin acompañantes)
+    // Generar campos iniciales (cantidad = 1 → solo líder)
     generarCamposInvitados(1);
 });
 
@@ -112,7 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnGuardar = document.getElementById('btn-guardar');
     const mensajesDiv = document.getElementById('mensajes');
     
-    // Función para mostrar mensajes
     function mostrarMensaje(tipo, texto) {
         mensajesDiv.innerHTML = `
             <div class="mensaje ${tipo}">
@@ -120,20 +111,18 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
         
-        // Auto-ocultar después de 5 segundos
         setTimeout(() => {
             mensajesDiv.innerHTML = '';
         }, 5000);
     }
     
-    // Función principal para guardar
     async function guardarInvitados() {
         // Obtener datos del líder
         const nombreLider = document.getElementById('nombreLider').value.trim();
         const telefonoLider = document.getElementById('telefonoLider').value.trim();
         const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
         
-        // Validar datos del líder
+        // Validar líder
         if (!nombreLider) {
             mostrarMensaje('error', '⚠️ Por favor, ingresa el nombre del líder');
             document.getElementById('nombreLider').focus();
@@ -141,15 +130,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (!telefonoLider || telefonoLider.length < 7) {
-            mostrarMensaje('error', '⚠️ Por favor, ingresa un teléfono válido para el líder (mínimo 7 dígitos)');
+            mostrarMensaje('error', '⚠️ Por favor, ingresa un teléfono válido para el líder');
             document.getElementById('telefonoLider').focus();
             return;
         }
         
-        // ✅ RECOLECTAR DATOS: PRIMERO EL LÍDER
+        // ✅ RECOLECTAR DATOS
         const invitados = [];
         
-        // 1. Agregar al líder
+        // 1. Agregar al líder (SIEMPRE va primero)
         invitados.push({
             nombre: nombreLider,
             telefono: telefonoLider,
@@ -164,20 +153,19 @@ document.addEventListener('DOMContentLoaded', function() {
         let hayError = false;
         
         for (let i = 1; i <= numAcompanantes; i++) {
-            const idx = i + 1; // El índice real del acompañante
-            const nombre = document.getElementById(`nombre${idx}`).value.trim();
-            const telefono = document.getElementById(`telefono${idx}`).value.trim();
+            const nombre = document.getElementById(`nombre_acompanante_${i}`).value.trim();
+            const telefono = document.getElementById(`telefono_acompanante_${i}`).value.trim();
             
             if (!nombre) {
                 mostrarMensaje('error', `⚠️ Por favor, ingresa el nombre del acompañante ${i}`);
-                document.getElementById(`nombre${idx}`).focus();
+                document.getElementById(`nombre_acompanante_${i}`).focus();
                 hayError = true;
                 break;
             }
             
             if (!telefono || telefono.length < 7) {
-                mostrarMensaje('error', `⚠️ Por favor, ingresa un teléfono válido para el acompañante ${i} (mínimo 7 dígitos)`);
-                document.getElementById(`telefono${idx}`).focus();
+                mostrarMensaje('error', `⚠️ Por favor, ingresa un teléfono válido para el acompañante ${i}`);
+                document.getElementById(`telefono_acompanante_${i}`).focus();
                 hayError = true;
                 break;
             }
@@ -194,26 +182,23 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (hayError) return;
         
-        // ✅ VERIFICAR QUE NO HAYA MÁS DE 4 PERSONAS (1 LÍDER + 3 ACOMPAÑANTES)
+        // Verificar límite
         if (invitados.length > 4) {
-            mostrarMensaje('error', '⚠️ El grupo no puede tener más de 4 personas (1 líder + 3 acompañantes)');
+            mostrarMensaje('error', '⚠️ Máximo 4 personas (1 líder + 3 acompañantes)');
             return;
         }
         
-        // Mostrar mensaje de "Guardando..."
+        // Guardar
         mostrarMensaje('info', '⏳ Guardando datos en la nube...');
         
         try {
-            // Verificar que la función global existe
             if (typeof guardarMultiplesInvitados !== 'function') {
-                throw new Error('Firebase no está configurado correctamente');
+                throw new Error('Firebase no está configurado');
             }
             
-            // Guardar en Firebase
             const resultado = await guardarMultiplesInvitados(invitados);
             
             if (resultado.success) {
-                // Éxito
                 mostrarMensaje('exito', `
                     ✅ ¡${resultado.guardados} de ${resultado.total} invitados registrados!
                     <br>
@@ -226,42 +211,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('cantidad').dispatchEvent(new Event('change'));
                 
             } else {
-                // Algunos errores
                 mostrarMensaje('error', `
-                    ⚠️ Se guardaron ${resultado.guardados} de ${resultado.total} invitados
+                    ⚠️ Se guardaron ${resultado.guardados} de ${resultado.total}
                     <br>
-                    <small>Errores: ${resultado.errores.join(', ')}</small>
+                    <small>${resultado.errores.join(', ')}</small>
                 `);
             }
             
         } catch (error) {
-            console.error('❌ Error al guardar:', error);
-            mostrarMensaje('error', '❌ Error al guardar los datos. Revisa la conexión a Firebase.');
+            console.error('❌ Error:', error);
+            mostrarMensaje('error', '❌ Error al guardar. Revisa Firebase.');
         }
     }
     
-    // Evento del botón guardar
     btnGuardar.addEventListener('click', guardarInvitados);
 });
 
 // =====================================================
-// 3. FUNCIONES DE AYUDA
+// 3. LIMPIAR FORMULARIO
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnLimpiar = document.getElementById('btn-limpiar');
     
     btnLimpiar.addEventListener('click', function() {
-        if (confirm('¿Estás seguro de que quieres limpiar el formulario?')) {
+        if (confirm('¿Limpiar el formulario?')) {
             document.getElementById('formulario-invitados').reset();
-            // Regenerar campos de invitados (con 1)
-            const cantidadInput = document.getElementById('cantidad');
-            cantidadInput.value = 1;
-            cantidadInput.dispatchEvent(new Event('change'));
+            document.getElementById('cantidad').value = 1;
+            document.getElementById('cantidad').dispatchEvent(new Event('change'));
             document.getElementById('mensajes').innerHTML = '';
         }
     });
 });
 
 console.log('📝 Formulario cargado correctamente');
-console.log('👑 Líder + máximo 3 acompañantes = 4 personas por grupo');
-console.log('✅ Sin redundancia - el líder se pide una sola vez');
+console.log('✅ El líder se pide UNA SOLA VEZ');
+console.log('✅ Los campos dinámicos son SOLO para acompañantes');
+console.log('👑 1 líder + máximo 3 acompañantes = 4 personas');
