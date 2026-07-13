@@ -69,27 +69,29 @@
 </div>
         </div>
     </header>
-
-    <!-- ============================================ -->
-    <!-- 3. SECCIÓN DE VIDEO                         -->
-    <!-- ============================================ -->
-    <section id="video" class="seccion-video">
-        <h2 class="titulo-seccion">
-            <span class="decoracion">🎬</span>
-            Video de Invitación
-            <span class="decoracion">✨</span>
-        </h2>
-        
-        <div class="video-container">
-            <!-- ============================================ -->
-            <!-- AQUÍ VA EL VIDEO LOCAL                      -->
-            <!-- ============================================ -->
-            <video controls class="video-invitacion">
-                <source src="videos/invitacion.mp4" type="video/mp4">
-                Tu navegador no soporta el video.
-            </video>
-            <p class="comentario-video">📌 Reemplaza "videos/invitacion.mp4" con la ruta de tu video</p>
+ <!-- ============================================ -->
+<!-- VIDEO CON GOOGLE DRIVE (CÓDIGO COMPLETO)    -->
+<!-- ============================================ -->
+<section id="video" class="seccion-video">
+    <h2 class="titulo-seccion">
+        <span class="decoracion">🎬</span>
+        Video de Invitación
+        <span class="decoracion">✨</span>
+    </h2>
+    
+    <div class="video-container">
+        <!-- AQUÍ VA EL VIDEO DE GOOGLE DRIVE -->
+        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 20px; box-shadow: 0 10px 30px rgba(192, 132, 252, 0.2);">
+            <iframe 
+                src="https://drive.google.com/file/d/TU_ID_DEL_VIDEO/preview" 
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                allow="autoplay; fullscreen"
+                allowfullscreen>
+            </iframe>
         </div>
+        <p class="comentario-video">🎥 ¡Mira nuestro video de invitación!</p>
+    </div>
+
     </section>
 
     <!-- ============================================ -->
