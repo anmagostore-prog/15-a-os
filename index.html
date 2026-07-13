@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎀 ¡Mis 15 años! - [Nombre de tu hija]</title>
+    
+    <!-- CONEXIÓN AL CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- FUENTES BONITAS DE GOOGLE (estilo Rapunsel) -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ============================================ -->
+    <!-- 1. BOTÓN DE MÚSICA (flotante)                -->
+    <!-- ============================================ -->
+    <button id="musica-btn" class="music-button">
+        🎵 Activar Música
+    </button>
+    
+    <!-- MÚSICA DE FONDO (oculta) -->
+    <audio id="musica-fondo" loop>
+        <!-- AQUÍ PONES LA RUTA DE TU CANCIÓN -->
+        <source src="musica/rapunzel.mp3" type="audio/mpeg">
+        <!-- Si no funciona, el navegador mostrará este mensaje -->
+        Tu navegador no soporta el audio.
+    </audio>
+
+    <!-- ============================================ -->
+    <!-- 2. ENCABEZADO PRINCIPAL                      -->
+    <!-- ============================================ -->
+    <header class="header-principal">
+        <div class="header-contenido">
+            <!-- DECORACIÓN (flores) -->
+            <div class="decoracion-superior">
+                <span class="flor">🌸</span>
+                <span class="flor">🌺</span>
+                <span class="flor">🌸</span>
+            </div>
+            
+            <!-- TÍTULO PRINCIPAL -->
+            <h1 class="titulo-principal">
+                <span class="titulo-pequeno">¡Celebramos los</span>
+                <span class="titulo-grande">15 Años</span>
+                <span class="titulo-nombre">de [Nombre de tu hija]</span>
+            </h1>
+            
+            <!-- DECORACIÓN INFERIOR -->
+            <div class="decoracion-inferior">
+                <span class="estrella">✨</span>
+                <span class="estrella">🌟</span>
+                <span class="estrella">✨</span>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- AQUÍ VA LA FOTO PRINCIPAL (ImageKit)        -->
+            <!-- ============================================ -->
+            <div class="foto-principal-container">
+                <img 
+                    src="" 
+                    alt="Foto de [Nombre de tu hija]" 
+                    class="foto-principal"
+                >
+                <!-- COMENTARIO: Pega aquí la URL de ImageKit -->
+                <p class="comentario-imagen">📌 Pega aquí la URL de ImageKit para la foto principal</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================ -->
+    <!-- 3. SECCIÓN DE VIDEO                         -->
+    <!-- ============================================ -->
+    <section id="video" class="seccion-video">
+        <h2 class="titulo-seccion">
+            <span class="decoracion">🎬</span>
+            Video de Invitación
+            <span class="decoracion">✨</span>
+        </h2>
+        
+        <div class="video-container">
+            <!-- ============================================ -->
+            <!-- AQUÍ VA EL VIDEO LOCAL                      -->
+            <!-- ============================================ -->
+            <video controls class="video-invitacion">
+                <source src="videos/invitacion.mp4" type="video/mp4">
+                Tu navegador no soporta el video.
+            </video>
+            <p class="comentario-video">📌 Reemplaza "videos/invitacion.mp4" con la ruta de tu video</p>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 4. SECCIÓN DE NORMAS                         -->
+    <!-- ============================================ -->
+    <section id="normas" class="seccion-normas">
+        <h2 class="titulo-seccion">
+            <span class="decoracion">📋</span>
+            Normas del Evento
+            <span class="decoracion">✨</span>
+        </h2>
+        
+        <div class="grid-normas">
+            <!-- ============================================ -->
+            <!-- NORMA 1: HORA DE LLEGADA                    -->
+            <!-- ============================================ -->
+            <div class="norma-card">
+                <div class="norma-icono">⏰</div>
+                <h3>Hora de Llegada</h3>
+                <p>La recepción comienza a las <strong>7:00 PM</strong>. Te esperamos puntual.</p>
+                <!-- COMENTARIO: Modifica la hora aquí -->
+            </div>
+            
+            <!-- ============================================ -->
+            <!-- NORMA 2: CRONOGRAMA                         -->
+            <!-- ============================================ -->
+            <div class="norma-card">
+                <div class="norma-icono">📅</div>
+                <h3>Cronograma</h3>
+                <p>
+                    <strong>7:00 PM</strong> - Recepción<br>
+                    <strong>8:00 PM</strong> - Cena<br>
+                    <strong>9:30 PM</strong> - Baile<br>
+                    <strong>11:00 PM</strong> - Despedida
+                </p>
+                <!-- COMENTARIO: Modifica los horarios aquí -->
+            </div>
+            
+            <!-- ============================================ -->
+            <!-- NORMA 3: PARQUEADERO                        -->
+            <!-- ============================================ -->
+            <div class="norma-card">
+                <div class="norma-icono">🅿️</div>
+                <h3>Parqueadero</h3>
+                <p>Contamos con parqueadero <strong>gratuito</strong> para todos los invitados.</p>
+                <!-- COMENTARIO: Cambia "gratuito" o agrega más info -->
+            </div>
+            
+            <!-- ============================================ -->
+            <!-- NORMA 4: HORA DE FINALIZACIÓN               -->
+            <!-- ============================================ -->
+            <div class="norma-card">
+                <div class="norma-icono">🌙</div>
+                <h3>Hora de Finalización</h3>
+                <p>El evento finaliza a las <strong>11:30 PM</strong>.</p>
+                <!-- COMENTARIO: Modifica la hora aquí -->
+            </div>
+            
+            <!-- ============================================ -->
+            <!-- NORMA 5: LLUVIA DE SOBRES                   -->
+            <!-- ============================================ -->
+            <div class="norma-card">
+                <div class="norma-icono">💝</div>
+                <h3>Lluvia de Sobres</h3>
+                <p>Se realizará la tradicional <strong>lluvia de sobres</strong> durante el baile.</p>
+                <!-- COMENTARIO: Explica cómo se maneja aquí -->
+            </div>
+            
+            <!-- ============================================ -->
+            <!-- NORMA 6: ESPACIO EXTRA (para que agregues)  -->
+            <!-- ============================================ -->
+            <div class="norma-card">
+                <div class="norma-icono">✨</div>
+                <h3>[Agrega tu norma aquí]</h3>
+                <p>[Descripción de la norma]</p>
+                <!-- COMENTARIO: Duplica este bloque para más normas -->
+            </div>
+            
+            <!-- INSTRUCCIÓN: Para agregar más normas, copia el bloque norma-card -->
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 5. BOTÓN DE CONFIRMACIÓN                    -->
+    <!-- ============================================ -->
+    <section class="seccion-boton">
+        <div class="boton-container">
+            <a href="confirmacion.html" class="btn-confirmar">
+                <span class="btn-texto">✨ CONFIRMAR ASISTENCIA ✨</span>
+                <span class="btn-subtexto">¡No faltes, te esperamos!</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 6. FOOTER (PIE DE PÁGINA)                   -->
+    <!-- ============================================ -->
+    <footer class="footer-principal">
+        <div class="footer-contenido">
+            <div class="footer-info">
+                <!-- ============================================ -->
+                <!-- MODIFICA ESTOS DATOS CON LOS TUYOS          -->
+                <!-- ============================================ -->
+                <div class="footer-item">
+                    <span class="footer-icono">📍</span>
+                    <div>
+                        <strong>Dirección:</strong>
+                        <p>AV. 123 # 45-67, Bogotá, Colombia</p>
+                        <!-- COMENTARIO: Cambia la dirección aquí -->
+                    </div>
+                </div>
+                
+                <div class="footer-item">
+                    <span class="footer-icono">📞</span>
+                    <div>
+                        <strong>Teléfonos:</strong>
+                        <p>+57 310 123 4567</p>
+                        <p>+57 320 765 4321</p>
+                        <!-- COMENTARIO: Cambia los teléfonos aquí -->
+                    </div>
+                </div>
+                
+                <div class="footer-item">
+                    <span class="footer-icono">📅</span>
+                    <div>
+                        <strong>Fecha:</strong>
+                        <p>13 de Julio de 2026</p>
+                        <!-- COMENTARIO: Cambia la fecha aquí -->
+                    </div>
+                </div>
+                
+                <div class="footer-item">
+                    <span class="footer-icono">⏰</span>
+                    <div>
+                        <strong>Hora:</strong>
+                        <p>7:00 PM - 11:30 PM</p>
+                        <!-- COMENTARIO: Cambia la hora aquí -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- REDES SOCIALES (opcional) -->
+            <div class="footer-redes">
+                <h4>Síguenos en redes</h4>
+                <div class="redes-sociales">
+                    <!-- ============================================ -->
+                    <!-- AQUÍ VAN LOS LINKS DE REDES SOCIALES        -->
+                    <!-- ============================================ -->
+                    <a href="#" target="_blank" class="red-social">📷 Instagram</a>
+                    <a href="#" target="_blank" class="red-social">📘 Facebook</a>
+                    <a href="#" target="_blank" class="red-social">🐦 Twitter</a>
+                    <!-- COMENTARIO: Cambia los links de redes aquí -->
+                </div>
+            </div>
+            
+            <div class="footer-copy">
+                <p>© 2026 - [Nombre de tu hija] - Todos los derechos reservados</p>
+                <p class="footer-corazon">Hecho con ❤️ para mi princesa</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================ -->
+    <!-- CONEXIÓN AL JAVASCRIPT                      -->
+    <!-- ============================================ -->
+    <script src="app.js"></script>
+    
+    <!-- COMENTARIO FINAL: Ahora vamos a crear el CSS -->
+</body>
+</html>
