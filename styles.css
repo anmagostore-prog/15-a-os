@@ -507,3 +507,237 @@ h1, h2, h3, h4 {
         padding: 20px;
     }
 }
+/* ==================================================
+   11. ESTILOS ESPECÍFICOS DEL FORMULARIO
+   ================================================== */
+.seccion-formulario {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.formulario-container {
+    background: white;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(192, 132, 252, 0.2);
+}
+
+.mensaje-bienvenida {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #F3E8FF, #FCE7F3);
+    border-radius: 20px;
+}
+
+.mensaje-bienvenida p {
+    font-size: 1.2rem;
+    color: #4B2B5C;
+}
+
+.mensaje-pequeno {
+    font-size: 0.9rem !important;
+    color: #A78BFA !important;
+    margin-top: 10px;
+}
+
+/* Grupos del formulario */
+.grupo-formulario {
+    margin-bottom: 35px;
+    padding: 25px;
+    background: #FAF5FF;
+    border-radius: 20px;
+    border: 2px solid #F3E8FF;
+}
+
+.subtitulo-formulario {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.8rem;
+    color: #7C3AED;
+    margin-bottom: 20px;
+}
+
+.icono-grupo {
+    margin-right: 10px;
+}
+
+/* Campos del formulario */
+.campo-formulario {
+    margin-bottom: 20px;
+}
+
+.campo-formulario label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #4B2B5C;
+}
+
+.campo-formulario input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #E9D5FF;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Quicksand', sans-serif;
+    transition: border-color 0.3s ease;
+    background: white;
+}
+
+.campo-formulario input:focus {
+    outline: none;
+    border-color: #C084FC;
+    box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.1);
+}
+
+.campo-ayuda {
+    display: block;
+    font-size: 0.85rem;
+    color: #A78BFA;
+    margin-top: 5px;
+}
+
+/* Tarjetas de invitados */
+.invitado-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 2px solid #F3E8FF;
+    transition: all 0.3s ease;
+}
+
+.invitado-card:hover {
+    border-color: #C084FC;
+    box-shadow: 0 5px 20px rgba(192, 132, 252, 0.1);
+}
+
+.invitado-titulo {
+    font-family: 'Great Vibes', cursive;
+    color: #7C3AED;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+/* Botones del formulario */
+.acciones-formulario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.btn-guardar,
+.btn-limpiar,
+.btn-volver {
+    padding: 15px 35px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Quicksand', sans-serif;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-guardar {
+    background: linear-gradient(135deg, #C084FC, #7C3AED);
+    color: white;
+    box-shadow: 0 10px 30px rgba(192, 132, 252, 0.3);
+}
+
+.btn-guardar:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(192, 132, 252, 0.4);
+}
+
+.btn-limpiar {
+    background: #F3E8FF;
+    color: #7C3AED;
+}
+
+.btn-limpiar:hover {
+    background: #E9D5FF;
+    transform: translateY(-3px);
+}
+
+.btn-volver {
+    background: #FCE7F3;
+    color: #F472B6;
+}
+
+.btn-volver:hover {
+    background: #F9A8D4;
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* Mensajes */
+.mensajes {
+    margin-top: 25px;
+    min-height: 60px;
+}
+
+.mensaje {
+    padding: 15px 20px;
+    border-radius: 15px;
+    font-weight: 500;
+    text-align: center;
+    animation: slideIn 0.3s ease;
+}
+
+.mensaje.exito {
+    background: #D1FAE5;
+    color: #065F46;
+    border: 2px solid #6EE7B7;
+}
+
+.mensaje.error {
+    background: #FEE2E2;
+    color: #991B1B;
+    border: 2px solid #FCA5A5;
+}
+
+.mensaje.info {
+    background: #DBEAFE;
+    color: #1E40AF;
+    border: 2px solid #93C5FD;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive del formulario */
+@media (max-width: 768px) {
+    .formulario-container {
+        padding: 20px;
+    }
+    
+    .grupo-formulario {
+        padding: 15px;
+    }
+    
+    .acciones-formulario {
+        flex-direction: column;
+    }
+    
+    .btn-guardar,
+    .btn-limpiar,
+    .btn-volver {
+        width: 100%;
+        justify-content: center;
+    }
+}
