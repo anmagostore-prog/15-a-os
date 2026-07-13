@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', function() {
             cantidad = 1;
         }
         
-        if (cantidad > 20) {
+        if (cantidad > 4) {
             alert('⚠️ Máximo 20 personas por grupo');
-            cantidad = 20;
-            cantidadInput.value = 20;
+            cantidad = 4;
+            cantidadInput.value = 4;
         }
         
         // Generar campos para cada invitado
