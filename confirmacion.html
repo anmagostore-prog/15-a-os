@@ -11,29 +11,19 @@
     <!-- FUENTES BONITAS -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- ============================================ -->
-    <!-- CONEXIÓN A FIREBASE                         -->
-    <!-- ============================================ -->
+    <!-- CONEXIÓN A FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
-    <!-- ============================================ -->
-    <!-- BOTÓN DE MÚSICA (flotante)                  -->
-    <!-- ============================================ -->
-    <button id="musica-btn" class="music-button">
-        🎵 Activar Música
-    </button>
-    
+    <!-- BOTÓN DE MÚSICA -->
+    <button id="musica-btn" class="music-button">🎵 Activar Música</button>
     <audio id="musica-fondo" loop>
         <source src="musica/rapunzel.mp3" type="audio/mpeg">
-        Tu navegador no soporta audio.
     </audio>
 
-    <!-- ============================================ -->
-    <!-- ENCABEZADO DEL FORMULARIO                    -->
-    <!-- ============================================ -->
+    <!-- ENCABEZADO -->
     <header class="header-principal">
         <div class="header-contenido">
             <div class="decoracion-superior">
@@ -56,26 +46,20 @@
         </div>
     </header>
 
-    <!-- ============================================ -->
-    <!-- FORMULARIO PRINCIPAL                         -->
-    <!-- ============================================ -->
+    <!-- FORMULARIO -->
     <section class="seccion-formulario">
         <div class="formulario-container">
             
-            <!-- MENSAJE DE BIENVENIDA -->
             <div class="mensaje-bienvenida">
                 <p>💝 Completa el siguiente formulario para confirmar tu asistencia</p>
                 <p class="mensaje-pequeno">📌 Máximo <strong>4 personas</strong> por grupo familiar (1 líder + 3 acompañantes)</p>
             </div>
             
-            <!-- ============================================ -->
-            <!-- FORMULARIO                                  -->
-            <!-- ============================================ -->
             <form id="formulario-invitados" class="formulario">
                 
-                <!-- ============================================ -->
-                <!-- 1. DATOS DEL LÍDER DEL GRUPO                -->
-                <!-- ============================================ -->
+                <!-- ========================================== -->
+                <!-- 1. DATOS DEL LÍDER (SOLO UNA VEZ)         -->
+                <!-- ========================================== -->
                 <div class="grupo-formulario grupo-lider">
                     <h3 class="subtitulo-formulario">
                         <span class="icono-grupo">👑</span>
@@ -95,7 +79,6 @@
                             placeholder="Ej: Carlos Gómez"
                             required
                         >
-                        <span class="campo-ayuda">📌 Nombre de quien coordina el grupo</span>
                     </div>
                     
                     <div class="campo-formulario">
@@ -111,9 +94,9 @@
                     </div>
                 </div>
                 
-                <!-- ============================================ -->
-                <!-- 2. CANTIDAD DE PERSONAS                      -->
-                <!-- ============================================ -->
+                <!-- ========================================== -->
+                <!-- 2. CANTIDAD DE PERSONAS                    -->
+                <!-- ========================================== -->
                 <div class="grupo-formulario grupo-cantidad">
                     <h3 class="subtitulo-formulario">
                         <span class="icono-grupo">👥</span>
@@ -131,13 +114,13 @@
                             value="1"
                             required
                         >
-                        <span class="campo-ayuda">📌 Máximo <strong>4 personas</strong> por grupo (1 líder + 3 acompañantes)</span>
+                        <span class="campo-ayuda">📌 Máximo <strong>4 personas</strong> (1 líder + hasta 3 acompañantes)</span>
                     </div>
                 </div>
                 
-                <!-- ============================================ -->
-                <!-- 3. CAMPOS DINÁMICOS PARA ACOMPAÑANTES        -->
-                <!-- ============================================ -->
+                <!-- ========================================== -->
+                <!-- 3. CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)   -->
+                <!-- ========================================== -->
                 <div class="grupo-formulario grupo-invitados" id="grupo-invitados">
                     <h3 class="subtitulo-formulario">
                         <span class="icono-grupo">🎀</span>
@@ -150,13 +133,13 @@
                     
                     <div id="contenedor-invitados">
                         <!-- AQUÍ SE GENERARÁN LOS CAMPOS DINÁMICAMENTE -->
-                        <!-- SOLO PARA ACOMPAÑANTES (NO EL LÍDER) -->
+                        <!-- SOLO PARA ACOMPAÑANTES (NUNCA EL LÍDER) -->
                     </div>
                 </div>
                 
-                <!-- ============================================ -->
-                <!-- 4. BOTONES DE ACCIÓN                         -->
-                <!-- ============================================ -->
+                <!-- ========================================== -->
+                <!-- 4. BOTONES                                -->
+                <!-- ========================================== -->
                 <div class="acciones-formulario">
                     <button type="button" id="btn-guardar" class="btn-guardar">
                         💾 Guardar Invitados
@@ -171,20 +154,14 @@
                     </a>
                 </div>
                 
-                <!-- ============================================ -->
-                <!-- 5. ÁREA DE MENSAJES                          -->
-                <!-- ============================================ -->
-                <div id="mensajes" class="mensajes">
-                    <!-- Aquí aparecerán los mensajes de éxito o error -->
-                </div>
+                <!-- MENSAJES -->
+                <div id="mensajes" class="mensajes"></div>
                 
             </form>
         </div>
     </section>
 
-    <!-- ============================================ -->
-    <!-- FOOTER                                      -->
-    <!-- ============================================ -->
+    <!-- FOOTER -->
     <footer class="footer-principal">
         <div class="footer-contenido">
             <div class="footer-copy">
@@ -194,9 +171,7 @@
         </div>
     </footer>
 
-    <!-- ============================================ -->
-    <!-- CONEXIÓN A JAVASCRIPT                        -->
-    <!-- ============================================ -->
+    <!-- JAVASCRIPT -->
     <script src="app.js"></script>
     <script src="firebase-config.js"></script>
     <script src="formulario.js"></script>
