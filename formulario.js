@@ -1,20 +1,15 @@
 // =====================================================
-// formulario.js - LÓGICA DEL FORMULARIO
+// formulario.js - LÓGICA DEL FORMULARIO (CORREGIDO)
 // =====================================================
 
 // =====================================================
-// 1. VARIABLES GLOBALES
-// =====================================================
-let invitadosRegistrados = [];
-
-// =====================================================
-// 2. GENERAR CAMPOS DINÁMICOS
+// 1. GENERAR CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const cantidadInput = document.getElementById('cantidad');
     const contenedor = document.getElementById('contenedor-invitados');
     
-    // Función para generar los campos de invitados
+    // Función para generar los campos de acompañantes
     function generarCamposInvitados(cantidad) {
         // Limpiar el contenedor
         contenedor.innerHTML = '';
@@ -24,47 +19,67 @@ document.addEventListener('DOMContentLoaded', function() {
             cantidad = 1;
         }
         
-        // ✅ LÍMITE ACTUALIZADO: MÁXIMO 4 PERSONAS
+        // ✅ LÍMITE: MÁXIMO 4 PERSONAS (1 LÍDER + 3 ACOMPAÑANTES)
         if (cantidad > 4) {
-            alert('⚠️ Máximo 4 personas por grupo familiar');
+            alert('⚠️ Máximo 4 personas por grupo familiar (1 líder + 3 acompañantes)');
             cantidad = 4;
             cantidadInput.value = 4;
         }
         
-        // Generar campos para cada invitado
-        for (let i = 1; i <= cantidad; i++) {
-            // Crear contenedor para cada invitado
+        // ✅ EL LÍDER YA SE REGISTRÓ ARRIBA
+        // SOLO GENERAMOS CAMPOS PARA LOS ACOMPAÑANTES (del 2 al 4)
+        const numAcompanantes = cantidad - 1;
+        
+        if (numAcompanantes === 0) {
+            // Si solo va el líder, mostrar mensaje
+            contenedor.innerHTML = `
+                <div class="mensaje-info" style="
+                    background: #F3E8FF; 
+                    padding: 20px; 
+                    border-radius: 12px; 
+                    text-align: center;
+                    color: #7C3AED;
+                    font-size: 1.1rem;
+                ">
+                    💫 Solo asistirá el líder. No hay acompañantes.
+                </div>
+            `;
+            return;
+        }
+        
+        // Generar campos para cada ACOMPAÑANTE
+        for (let i = 1; i <= numAcompanantes; i++) {
+            // El índice real del invitado es i + 1 (porque el 1 es el líder)
+            const idx = i + 1;
+            
+            // Crear contenedor para cada acompañante
             const invitadoDiv = document.createElement('div');
             invitadoDiv.className = 'invitado-card';
             
-            // Si es el primer invitado, asumimos que es el líder
-            const esLider = (i === 1);
-            const titulo = esLider ? '👑 Líder del Grupo' : `👤 Invitado ${i}`;
-            
             invitadoDiv.innerHTML = `
-                <h4 class="invitado-titulo">${titulo}</h4>
+                <h4 class="invitado-titulo">👤 Acompañante ${i}</h4>
                 
                 <div class="campo-formulario">
-                    <label for="nombre${i}">Nombre completo:</label>
+                    <label for="nombre${idx}">Nombre completo del acompañante ${i}:</label>
                     <input 
                         type="text" 
-                        id="nombre${i}" 
-                        name="nombre${i}" 
-                        placeholder="Ej: ${esLider ? 'Carlos Gómez' : 'María Pérez'}"
+                        id="nombre${idx}" 
+                        name="nombre${idx}" 
+                        placeholder="Ej: María Pérez"
                         required
                     >
                 </div>
                 
                 <div class="campo-formulario">
-                    <label for="telefono${i}">Teléfono:</label>
+                    <label for="telefono${idx}">Teléfono del acompañante ${i}:</label>
                     <input 
                         type="tel" 
-                        id="telefono${i}" 
-                        name="telefono${i}" 
-                        placeholder="Ej: ${esLider ? '3101234567' : '3219876543'}"
+                        id="telefono${idx}" 
+                        name="telefono${idx}" 
+                        placeholder="Ej: 3219876543"
                         required
                     >
-                    <span class="campo-ayuda">📌 Número de contacto del invitado</span>
+                    <span class="campo-ayuda">📌 Número de contacto del acompañante</span>
                 </div>
             `;
             
@@ -86,12 +101,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Generar campos iniciales (con 1 invitado = líder)
+    // Generar campos iniciales (con 1 = solo líder, sin acompañantes)
     generarCamposInvitados(1);
 });
 
 // =====================================================
-// 3. VALIDACIÓN Y GUARDADO
+// 2. VALIDACIÓN Y GUARDADO
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnGuardar = document.getElementById('btn-guardar');
@@ -126,29 +141,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (!telefonoLider || telefonoLider.length < 7) {
-            mostrarMensaje('error', '⚠️ Por favor, ingresa un teléfono válido para el líder');
+            mostrarMensaje('error', '⚠️ Por favor, ingresa un teléfono válido para el líder (mínimo 7 dígitos)');
             document.getElementById('telefonoLider').focus();
             return;
         }
         
-        // Recolectar datos de los invitados
+        // ✅ RECOLECTAR DATOS: PRIMERO EL LÍDER
         const invitados = [];
+        
+        // 1. Agregar al líder
+        invitados.push({
+            nombre: nombreLider,
+            telefono: telefonoLider,
+            lider: nombreLider,
+            telefonoLider: telefonoLider,
+            tipo: 'líder',
+            fechaRegistro: new Date().toISOString()
+        });
+        
+        // 2. Agregar a los acompañantes
+        const numAcompanantes = cantidad - 1;
         let hayError = false;
         
-        for (let i = 1; i <= cantidad; i++) {
-            const nombre = document.getElementById(`nombre${i}`).value.trim();
-            const telefono = document.getElementById(`telefono${i}`).value.trim();
+        for (let i = 1; i <= numAcompanantes; i++) {
+            const idx = i + 1; // El índice real del acompañante
+            const nombre = document.getElementById(`nombre${idx}`).value.trim();
+            const telefono = document.getElementById(`telefono${idx}`).value.trim();
             
             if (!nombre) {
-                mostrarMensaje('error', `⚠️ Por favor, ingresa el nombre del invitado ${i}`);
-                document.getElementById(`nombre${i}`).focus();
+                mostrarMensaje('error', `⚠️ Por favor, ingresa el nombre del acompañante ${i}`);
+                document.getElementById(`nombre${idx}`).focus();
                 hayError = true;
                 break;
             }
             
             if (!telefono || telefono.length < 7) {
-                mostrarMensaje('error', `⚠️ Por favor, ingresa un teléfono válido para el invitado ${i}`);
-                document.getElementById(`telefono${i}`).focus();
+                mostrarMensaje('error', `⚠️ Por favor, ingresa un teléfono válido para el acompañante ${i} (mínimo 7 dígitos)`);
+                document.getElementById(`telefono${idx}`).focus();
                 hayError = true;
                 break;
             }
@@ -158,15 +187,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 telefono: telefono,
                 lider: nombreLider,
                 telefonoLider: telefonoLider,
+                tipo: 'acompañante',
                 fechaRegistro: new Date().toISOString()
             });
         }
         
         if (hayError) return;
         
-        // ✅ VERIFICAR QUE NO HAYA MÁS DE 4 PERSONAS
+        // ✅ VERIFICAR QUE NO HAYA MÁS DE 4 PERSONAS (1 LÍDER + 3 ACOMPAÑANTES)
         if (invitados.length > 4) {
-            mostrarMensaje('error', '⚠️ El grupo no puede tener más de 4 personas');
+            mostrarMensaje('error', '⚠️ El grupo no puede tener más de 4 personas (1 líder + 3 acompañantes)');
             return;
         }
         
@@ -174,7 +204,12 @@ document.addEventListener('DOMContentLoaded', function() {
         mostrarMensaje('info', '⏳ Guardando datos en la nube...');
         
         try {
-            // Guardar en Firebase usando la función global
+            // Verificar que la función global existe
+            if (typeof guardarMultiplesInvitados !== 'function') {
+                throw new Error('Firebase no está configurado correctamente');
+            }
+            
+            // Guardar en Firebase
             const resultado = await guardarMultiplesInvitados(invitados);
             
             if (resultado.success) {
@@ -182,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 mostrarMensaje('exito', `
                     ✅ ¡${resultado.guardados} de ${resultado.total} invitados registrados!
                     <br>
-                    <small>Los datos se guardaron en Firebase correctamente</small>
+                    <small>👑 Líder: ${nombreLider} | 👥 Acompañantes: ${numAcompanantes}</small>
                 `);
                 
                 // Limpiar formulario
@@ -207,17 +242,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Evento del botón guardar
     btnGuardar.addEventListener('click', guardarInvitados);
-    
-    // También guardar con Enter
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && e.target.tagName !== 'INPUT') {
-            guardarInvitados();
-        }
-    });
 });
 
 // =====================================================
-// 4. FUNCIONES DE AYUDA
+// 3. FUNCIONES DE AYUDA
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnLimpiar = document.getElementById('btn-limpiar');
@@ -235,4 +263,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('📝 Formulario cargado correctamente');
-console.log('👥 Límite: 4 personas por grupo familiar');
+console.log('👑 Líder + máximo 3 acompañantes = 4 personas por grupo');
+console.log('✅ Sin redundancia - el líder se pide una sola vez');
