@@ -1,11 +1,62 @@
 /* ==================================================
-   ESTILOS PARA LA FIESTA DE 15 AÑOS
-   TEMÁTICA: RAPUNSEL / DISNEY
-   COLORES: LILA, ROSA, DORADO
+   🎀 ESTILOS PARA FIESTA DE 15 AÑOS - RAPUNSEL
+   ================================================== 
+   📌 VERSIÓN MEJORADA - MÁS LEGIBLE Y ORGANIZADA
    ================================================== */
 
 /* ==================================================
-   1. CONFIGURACIÓN GENERAL
+   1. IMPORTAR FUENTES
+   ================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* ==================================================
+   2. VARIABLES GLOBALES (FÁCIL DE MODIFICAR)
+   ================================================== */
+:root {
+    /* Colores principales */
+    --lila: #C084FC;
+    --lila-claro: #F3E8FF;
+    --lila-oscuro: #7C3AED;
+    --rosa: #F472B6;
+    --rosa-claro: #FCE7F3;
+    --dorado: #FBBF24;
+    --dorado-claro: #FDE68A;
+    
+    /* Colores de texto */
+    --texto-principal: #4B2B5C;
+    --texto-secundario: #6B4F7C;
+    --texto-claro: #A78BFA;
+    --texto-blanco: #FFFFFF;
+    
+    /* Fondos */
+    --fondo-body: #FAF5FF;
+    --fondo-card: #FFFFFF;
+    --fondo-input: #FFFFFF;
+    
+    /* Sombras */
+    --sombra-suave: 0 10px 30px rgba(192, 132, 252, 0.15);
+    --sombra-media: 0 15px 40px rgba(192, 132, 252, 0.25);
+    --sombra-fuerte: 0 20px 60px rgba(192, 132, 252, 0.3);
+    
+    /* Bordes */
+    --borde-suave: 2px solid #F3E8FF;
+    --borde-input: 2px solid #E9D5FF;
+    --borde-focus: 2px solid #C084FC;
+    
+    /* Tipografía */
+    --fuente-titulo: 'Great Vibes', cursive;
+    --fuente-texto: 'Quicksand', sans-serif;
+    
+    /* Espaciado */
+    --espacio-xs: 5px;
+    --espacio-sm: 10px;
+    --espacio-md: 20px;
+    --espacio-lg: 30px;
+    --espacio-xl: 40px;
+}
+
+/* ==================================================
+   3. RESET Y CONFIGURACIÓN GENERAL
    ================================================== */
 * {
     margin: 0;
@@ -14,30 +65,40 @@
 }
 
 body {
-    font-family: 'Quicksand', sans-serif;
+    font-family: var(--fuente-texto);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.7;
     background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 50%, #FCE7F3 100%);
-    color: #4B2B5C;
+    color: var(--texto-principal);
     min-height: 100vh;
     overflow-x: hidden;
 }
 
 /* ==================================================
-   2. TIPOGRAFÍA Y TÍTULOS
+   4. TIPOGRAFÍA - TÍTULOS
    ================================================== */
 h1, h2, h3, h4 {
-    font-family: 'Great Vibes', cursive;
+    font-family: var(--fuente-titulo);
+    font-weight: 400;
+    line-height: 1.3;
 }
 
+h1 { font-size: 3rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 2rem; }
+h4 { font-size: 1.5rem; }
+
+/* TÍTULOS PRINCIPALES */
 .titulo-principal {
     text-align: center;
-    margin: 20px 0;
-    line-height: 1.2;
+    margin: var(--espacio-md) 0;
 }
 
 .titulo-pequeno {
     display: block;
     font-size: 1.8rem;
-    color: #7C3AED;
+    color: var(--lila-oscuro);
     font-weight: 300;
     letter-spacing: 3px;
 }
@@ -45,9 +106,10 @@ h1, h2, h3, h4 {
 .titulo-grande {
     display: block;
     font-size: 5rem;
-    background: linear-gradient(135deg, #C084FC, #F472B6);
+    background: linear-gradient(135deg, var(--lila), var(--rosa));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     text-shadow: 0 0 30px rgba(192, 132, 252, 0.3);
     animation: brillo 3s ease-in-out infinite;
 }
@@ -55,16 +117,16 @@ h1, h2, h3, h4 {
 .titulo-nombre {
     display: block;
     font-size: 2.5rem;
-    color: #7C3AED;
-    margin-top: 10px;
+    color: var(--lila-oscuro);
+    margin-top: var(--espacio-sm);
 }
 
+/* TÍTULOS DE SECCIÓN */
 .titulo-seccion {
     text-align: center;
     font-size: 2.8rem;
-    color: #7C3AED;
-    margin: 40px 0 30px 0;
-    position: relative;
+    color: var(--lila-oscuro);
+    margin: var(--espacio-xl) 0 var(--espacio-lg) 0;
 }
 
 .titulo-seccion .decoracion {
@@ -74,16 +136,50 @@ h1, h2, h3, h4 {
     animation: flotar 2s ease-in-out infinite;
 }
 
+/* SUBTÍTULOS DEL FORMULARIO */
+.subtitulo-formulario {
+    font-family: var(--fuente-titulo);
+    font-size: 1.8rem;
+    color: var(--lila-oscuro);
+    margin-bottom: var(--espacio-md);
+}
+
 /* ==================================================
-   3. ANIMACIONES
+   5. TEXTO Y PÁRRAFOS
+   ================================================== */
+p {
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--texto-secundario);
+}
+
+.texto-pequeno {
+    font-size: 0.9rem;
+    color: var(--texto-claro);
+}
+
+.texto-destacado {
+    font-weight: 600;
+    color: var(--lila-oscuro);
+}
+
+.texto-blanco {
+    color: var(--texto-blanco);
+}
+
+/* ==================================================
+   6. ANIMACIONES
    ================================================== */
 @keyframes brillo {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; text-shadow: 0 0 50px rgba(192, 132, 252, 0.5); }
+    50% { 
+        opacity: 0.7; 
+        text-shadow: 0 0 50px rgba(192, 132, 252, 0.5); 
+    }
 }
 
 @keyframes flotar {
-    0%, 100% { transform: translateY(0px); }
+    0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
 }
 
@@ -97,20 +193,32 @@ h1, h2, h3, h4 {
     100% { transform: rotate(360deg); }
 }
 
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ==================================================
-   4. ENCABEZADO Y FOTO PRINCIPAL
+   7. ENCABEZADO Y DECORACIONES
    ================================================== */
 .header-principal {
-    padding: 30px 20px 20px 20px;
+    padding: var(--espacio-lg) var(--espacio-md) var(--espacio-md);
     max-width: 1200px;
     margin: 0 auto;
 }
 
+/* Decoraciones (flores y estrellas) */
 .decoracion-superior,
 .decoracion-inferior {
     text-align: center;
     font-size: 2rem;
-    margin: 10px 0;
+    margin: var(--espacio-sm) 0;
 }
 
 .decoracion-superior .flor {
@@ -127,11 +235,13 @@ h1, h2, h3, h4 {
     animation-delay: 1s;
 }
 
+/* ==================================================
+   8. FOTO PRINCIPAL
+   ================================================== */
 .foto-principal-container {
     text-align: center;
-    margin: 30px auto;
+    margin: var(--espacio-lg) auto;
     max-width: 400px;
-    position: relative;
 }
 
 .foto-principal {
@@ -139,8 +249,8 @@ h1, h2, h3, h4 {
     height: 400px;
     object-fit: cover;
     border-radius: 50px 20px 50px 20px;
-    box-shadow: 0 20px 60px rgba(192, 132, 252, 0.3);
-    border: 4px solid white;
+    box-shadow: var(--sombra-fuerte);
+    border: 4px solid var(--texto-blanco);
     transition: transform 0.3s ease;
 }
 
@@ -148,32 +258,33 @@ h1, h2, h3, h4 {
     transform: scale(1.02);
 }
 
+/* Comentarios de ayuda (para edición) */
 .comentario-imagen,
 .comentario-video {
-    color: #A78BFA;
-    font-size: 0.9rem;
-    margin-top: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 8px 15px;
+    color: var(--texto-claro);
+    font-size: 0.85rem;
+    margin-top: var(--espacio-sm);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
     border-radius: 20px;
     display: inline-block;
-    border: 1px dashed #C084FC;
+    border: 1px dashed var(--lila);
 }
 
 /* ==================================================
-   5. SECCIÓN DE VIDEO
+   9. SECCIÓN DE VIDEO
    ================================================== */
 .seccion-video {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: var(--espacio-md);
 }
 
 .video-container {
-    background: white;
-    padding: 20px;
+    background: var(--fondo-card);
+    padding: var(--espacio-md);
     border-radius: 30px;
-    box-shadow: 0 10px 40px rgba(192, 132, 252, 0.2);
+    box-shadow: var(--sombra-suave);
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
@@ -187,28 +298,29 @@ h1, h2, h3, h4 {
 }
 
 /* ==================================================
-   6. SECCIÓN DE NORMAS
+   10. SECCIÓN DE NORMAS
    ================================================== */
 .seccion-normas {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: var(--espacio-md);
 }
 
 .grid-normas {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
-    padding: 20px 0;
+    padding: var(--espacio-md) 0;
 }
 
+/* Tarjetas de normas */
 .norma-card {
-    background: white;
-    padding: 30px 25px;
+    background: var(--fondo-card);
+    padding: var(--espacio-lg) 25px;
     border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(192, 132, 252, 0.15);
+    box-shadow: var(--sombra-suave);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 2px solid #F3E8FF;
+    border: var(--borde-suave);
     position: relative;
     overflow: hidden;
 }
@@ -220,19 +332,17 @@ h1, h2, h3, h4 {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #C084FC, #F472B6, #FBBF24);
+    background: linear-gradient(90deg, var(--lila), var(--rosa), var(--dorado));
 }
 
 .norma-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 50px rgba(192, 132, 252, 0.25);
+    box-shadow: var(--sombra-media);
 }
 
 .norma-icono {
     font-size: 2.5rem;
-    margin-bottom: 15px;
-    display: inline-block;
-    background: linear-gradient(135deg, #F3E8FF, #FCE7F3);
+    background: linear-gradient(135deg, var(--lila-claro), var(--rosa-claro));
     padding: 15px;
     border-radius: 50%;
     width: 70px;
@@ -240,40 +350,36 @@ h1, h2, h3, h4 {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 15px;
 }
 
 .norma-card h3 {
-    font-family: 'Great Vibes', cursive;
+    font-family: var(--fuente-titulo);
     font-size: 1.8rem;
-    color: #7C3AED;
-    margin: 10px 0;
+    color: var(--lila-oscuro);
+    margin: var(--espacio-sm) 0;
 }
 
 .norma-card p {
-    color: #6B4F7C;
-    line-height: 1.6;
-    font-size: 1rem;
+    color: var(--texto-secundario);
+    line-height: 1.8;
 }
 
 /* ==================================================
-   7. BOTÓN DE CONFIRMACIÓN
+   11. BOTÓN DE CONFIRMACIÓN (Página principal)
    ================================================== */
 .seccion-boton {
     text-align: center;
-    padding: 40px 20px;
+    padding: var(--espacio-xl) var(--espacio-md);
     max-width: 1200px;
     margin: 0 auto;
-}
-
-.boton-container {
-    display: inline-block;
 }
 
 .btn-confirmar {
     display: inline-block;
     padding: 25px 60px;
-    background: linear-gradient(135deg, #C084FC, #F472B6);
-    color: white;
+    background: linear-gradient(135deg, var(--lila), var(--rosa));
+    color: var(--texto-blanco);
     text-decoration: none;
     font-size: 1.8rem;
     border-radius: 50px;
@@ -281,7 +387,7 @@ h1, h2, h3, h4 {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    font-family: 'Great Vibes', cursive;
+    font-family: var(--fuente-titulo);
 }
 
 .btn-confirmar::before {
@@ -291,7 +397,7 @@ h1, h2, h3, h4 {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, #FBBF24, #F472B6, #C084FC, #FBBF24);
+    background: linear-gradient(45deg, var(--dorado), var(--rosa), var(--lila), var(--dorado));
     background-size: 400% 400%;
     border-radius: 50px;
     z-index: -1;
@@ -315,14 +421,14 @@ h1, h2, h3, h4 {
 .btn-subtexto {
     display: block;
     font-size: 1rem;
-    font-family: 'Quicksand', sans-serif;
+    font-family: var(--fuente-texto);
     font-weight: 300;
     opacity: 0.9;
-    margin-top: 5px;
+    margin-top: var(--espacio-xs);
 }
 
 /* ==================================================
-   8. BOTÓN DE MÚSICA (flotante)
+   12. BOTÓN DE MÚSICA (Flotante)
    ================================================== */
 .music-button {
     position: fixed;
@@ -330,15 +436,16 @@ h1, h2, h3, h4 {
     right: 30px;
     z-index: 1000;
     padding: 15px 25px;
-    background: linear-gradient(135deg, #7C3AED, #F472B6);
-    color: white;
+    background: linear-gradient(135deg, var(--lila-oscuro), var(--rosa));
+    color: var(--texto-blanco);
     border: none;
     border-radius: 50px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
     box-shadow: 0 10px 30px rgba(192, 132, 252, 0.4);
     transition: all 0.3s ease;
-    font-family: 'Quicksand', sans-serif;
+    font-family: var(--fuente-texto);
 }
 
 .music-button:hover {
@@ -347,16 +454,16 @@ h1, h2, h3, h4 {
 }
 
 .music-button.activo {
-    background: linear-gradient(135deg, #F472B6, #FBBF24);
+    background: linear-gradient(135deg, var(--rosa), var(--dorado));
     animation: latido 1s ease-in-out infinite;
 }
 
 /* ==================================================
-   9. FOOTER
+   13. FOOTER
    ================================================== */
 .footer-principal {
-    background: linear-gradient(135deg, #4B2B5C, #7C3AED);
-    color: white;
+    background: linear-gradient(135deg, #4B2B5C, var(--lila-oscuro));
+    color: var(--texto-blanco);
     padding: 50px 20px 20px 20px;
     margin-top: 50px;
     border-radius: 50px 50px 0 0;
@@ -371,7 +478,7 @@ h1, h2, h3, h4 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 30px;
-    margin-bottom: 40px;
+    margin-bottom: var(--espacio-xl);
 }
 
 .footer-item {
@@ -388,25 +495,26 @@ h1, h2, h3, h4 {
 .footer-item strong {
     display: block;
     font-size: 1.1rem;
-    margin-bottom: 5px;
-    color: #FBBF24;
+    margin-bottom: var(--espacio-xs);
+    color: var(--dorado);
 }
 
 .footer-item p {
-    margin: 5px 0;
+    margin: var(--espacio-xs) 0;
     opacity: 0.9;
+    color: var(--texto-blanco);
 }
 
 .footer-redes {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: var(--espacio-lg);
 }
 
 .footer-redes h4 {
-    font-family: 'Great Vibes', cursive;
+    font-family: var(--fuente-titulo);
     font-size: 2rem;
-    margin-bottom: 20px;
-    color: #FBBF24;
+    margin-bottom: var(--espacio-md);
+    color: var(--dorado);
 }
 
 .redes-sociales {
@@ -417,237 +525,191 @@ h1, h2, h3, h4 {
 }
 
 .red-social {
-    color: white;
+    color: var(--texto-blanco);
     text-decoration: none;
     padding: 10px 25px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 25px;
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 500;
 }
 
 .red-social:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-3px);
-    border-color: #FBBF24;
+    border-color: var(--dorado);
 }
 
 .footer-copy {
     text-align: center;
-    padding-top: 30px;
+    padding-top: var(--espacio-lg);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-copy p {
     opacity: 0.8;
     font-size: 0.9rem;
+    color: var(--texto-blanco);
 }
 
 .footer-corazon {
-    margin-top: 10px;
+    margin-top: var(--espacio-sm);
     opacity: 0.6;
     font-size: 0.8rem;
 }
 
 /* ==================================================
-   10. RESPONSIVE (para móviles)
-   ================================================== */
-@media (max-width: 768px) {
-    .titulo-grande {
-        font-size: 3.5rem;
-    }
-    
-    .titulo-nombre {
-        font-size: 2rem;
-    }
-    
-    .titulo-seccion {
-        font-size: 2rem;
-    }
-    
-    .foto-principal {
-        height: 250px;
-    }
-    
-    .btn-confirmar {
-        padding: 20px 30px;
-        font-size: 1.2rem;
-    }
-    
-    .btn-texto {
-        font-size: 1.3rem;
-    }
-    
-    .grid-normas {
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-info {
-        grid-template-columns: 1fr;
-    }
-    
-    .music-button {
-        bottom: 15px;
-        right: 15px;
-        padding: 10px 18px;
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .titulo-grande {
-        font-size: 2.8rem;
-    }
-    
-    .foto-principal {
-        height: 200px;
-    }
-    
-    .norma-card {
-        padding: 20px;
-    }
-}
-/* ==================================================
-   11. ESTILOS ESPECÍFICOS DEL FORMULARIO
+   14. FORMULARIO - ESTRUCTURA PRINCIPAL
    ================================================== */
 .seccion-formulario {
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: var(--espacio-md);
 }
 
 .formulario-container {
-    background: white;
-    padding: 40px;
+    background: var(--fondo-card);
+    padding: var(--espacio-xl);
     border-radius: 30px;
-    box-shadow: 0 20px 60px rgba(192, 132, 252, 0.2);
+    box-shadow: var(--sombra-fuerte);
 }
 
+/* ==================================================
+   15. FORMULARIO - MENSAJE DE BIENVENIDA
+   ================================================== */
 .mensaje-bienvenida {
     text-align: center;
-    margin-bottom: 30px;
-    padding: 20px;
-    background: linear-gradient(135deg, #F3E8FF, #FCE7F3);
+    margin-bottom: var(--espacio-lg);
+    padding: var(--espacio-md);
+    background: linear-gradient(135deg, var(--lila-claro), var(--rosa-claro));
     border-radius: 20px;
 }
 
 .mensaje-bienvenida p {
-    font-size: 1.2rem;
-    color: #4B2B5C;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--texto-principal);
 }
 
-.mensaje-pequeno {
-    font-size: 0.9rem !important;
-    color: #A78BFA !important;
-    margin-top: 10px;
+.mensaje-bienvenida .mensaje-pequeno {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--texto-claro);
+    margin-top: var(--espacio-sm);
 }
 
-/* Grupos del formulario */
+/* ==================================================
+   16. FORMULARIO - GRUPOS Y CAMPOS
+   ================================================== */
 .grupo-formulario {
     margin-bottom: 35px;
     padding: 25px;
-    background: #FAF5FF;
+    background: var(--fondo-body);
     border-radius: 20px;
-    border: 2px solid #F3E8FF;
+    border: var(--borde-suave);
 }
 
-.subtitulo-formulario {
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.8rem;
-    color: #7C3AED;
-    margin-bottom: 20px;
-}
-
-.icono-grupo {
-    margin-right: 10px;
-}
-
-/* Campos del formulario */
+/* ==================================================
+   17. FORMULARIO - CAMPOS DE ENTRADA
+   ================================================== */
 .campo-formulario {
-    margin-bottom: 20px;
+    margin-bottom: var(--espacio-md);
 }
 
 .campo-formulario label {
     display: block;
     font-weight: 600;
+    font-size: 0.95rem;
     margin-bottom: 8px;
-    color: #4B2B5C;
+    color: var(--texto-principal);
 }
 
 .campo-formulario input {
     width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #E9D5FF;
+    padding: 12px 16px;
+    border: var(--borde-input);
     border-radius: 12px;
     font-size: 1rem;
-    font-family: 'Quicksand', sans-serif;
-    transition: border-color 0.3s ease;
-    background: white;
+    font-family: var(--fuente-texto);
+    font-weight: 400;
+    background: var(--fondo-input);
+    color: var(--texto-principal);
+    transition: all 0.3s ease;
 }
 
 .campo-formulario input:focus {
     outline: none;
-    border-color: #C084FC;
+    border-color: var(--lila);
     box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.1);
+}
+
+.campo-formulario input::placeholder {
+    color: #B0A0C0;
+    font-weight: 300;
 }
 
 .campo-ayuda {
     display: block;
-    font-size: 0.85rem;
-    color: #A78BFA;
+    font-size: 0.8rem;
+    color: var(--texto-claro);
     margin-top: 5px;
 }
 
-/* Tarjetas de invitados */
+/* ==================================================
+   18. FORMULARIO - TARJETAS DE INVITADOS
+   ================================================== */
 .invitado-card {
-    background: white;
-    padding: 20px;
+    background: var(--fondo-card);
+    padding: var(--espacio-md);
     border-radius: 15px;
-    margin-bottom: 20px;
-    border: 2px solid #F3E8FF;
+    margin-bottom: var(--espacio-md);
+    border: var(--borde-suave);
     transition: all 0.3s ease;
 }
 
 .invitado-card:hover {
-    border-color: #C084FC;
+    border-color: var(--lila);
     box-shadow: 0 5px 20px rgba(192, 132, 252, 0.1);
 }
 
 .invitado-titulo {
-    font-family: 'Great Vibes', cursive;
-    color: #7C3AED;
+    font-family: var(--fuente-titulo);
+    color: var(--lila-oscuro);
     font-size: 1.3rem;
     margin-bottom: 15px;
 }
 
-/* Botones del formulario */
+/* ==================================================
+   19. FORMULARIO - BOTONES DE ACCIÓN
+   ================================================== */
 .acciones-formulario {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    margin-top: 30px;
+    margin-top: var(--espacio-lg);
     justify-content: center;
 }
 
 .btn-guardar,
 .btn-limpiar,
 .btn-volver {
-    padding: 15px 35px;
+    padding: 14px 35px;
     border: none;
     border-radius: 50px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Quicksand', sans-serif;
+    font-family: var(--fuente-texto);
     text-decoration: none;
     display: inline-block;
     text-align: center;
 }
 
 .btn-guardar {
-    background: linear-gradient(135deg, #C084FC, #7C3AED);
-    color: white;
+    background: linear-gradient(135deg, var(--lila), var(--lila-oscuro));
+    color: var(--texto-blanco);
     box-shadow: 0 10px 30px rgba(192, 132, 252, 0.3);
 }
 
@@ -657,8 +719,8 @@ h1, h2, h3, h4 {
 }
 
 .btn-limpiar {
-    background: #F3E8FF;
-    color: #7C3AED;
+    background: var(--lila-claro);
+    color: var(--lila-oscuro);
 }
 
 .btn-limpiar:hover {
@@ -667,17 +729,19 @@ h1, h2, h3, h4 {
 }
 
 .btn-volver {
-    background: #FCE7F3;
-    color: #F472B6;
+    background: var(--rosa-claro);
+    color: var(--rosa);
 }
 
 .btn-volver:hover {
     background: #F9A8D4;
-    color: white;
+    color: var(--texto-blanco);
     transform: translateY(-3px);
 }
 
-/* Mensajes */
+/* ==================================================
+   20. FORMULARIO - MENSAJES DE RESPUESTA
+   ================================================== */
 .mensajes {
     margin-top: 25px;
     min-height: 60px;
@@ -689,6 +753,7 @@ h1, h2, h3, h4 {
     font-weight: 500;
     text-align: center;
     animation: slideIn 0.3s ease;
+    line-height: 1.6;
 }
 
 .mensaje.exito {
@@ -709,21 +774,67 @@ h1, h2, h3, h4 {
     border: 2px solid #93C5FD;
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+/* ==================================================
+   21. ICONOS DEL FORMULARIO
+   ================================================== */
+.icono-grupo {
+    margin-right: 10px;
+}
+
+/* ==================================================
+   22. RESPONSIVE - TABLET Y MÓVIL
+   ================================================== */
+@media (max-width: 1024px) {
+    .titulo-grande {
+        font-size: 4rem;
     }
 }
 
-/* Responsive del formulario */
 @media (max-width: 768px) {
+    /* Tipografía */
+    .titulo-grande {
+        font-size: 3.5rem;
+    }
+    
+    .titulo-nombre {
+        font-size: 2rem;
+    }
+    
+    .titulo-seccion {
+        font-size: 2.2rem;
+    }
+    
+    .subtitulo-formulario {
+        font-size: 1.5rem;
+    }
+    
+    /* Imágenes */
+    .foto-principal {
+        height: 250px;
+    }
+    
+    /* Botones */
+    .btn-confirmar {
+        padding: 20px 30px;
+        font-size: 1.4rem;
+    }
+    
+    .btn-texto {
+        font-size: 1.5rem;
+    }
+    
+    /* Grids */
+    .grid-normas {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-info {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Formulario */
     .formulario-container {
-        padding: 20px;
+        padding: var(--espacio-md);
     }
     
     .grupo-formulario {
@@ -732,6 +843,7 @@ h1, h2, h3, h4 {
     
     .acciones-formulario {
         flex-direction: column;
+        align-items: stretch;
     }
     
     .btn-guardar,
@@ -740,4 +852,67 @@ h1, h2, h3, h4 {
         width: 100%;
         justify-content: center;
     }
+    
+    /* Música */
+    .music-button {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 18px;
+        font-size: 0.9rem;
+    }
 }
+
+@media (max-width: 480px) {
+    .titulo-grande {
+        font-size: 2.8rem;
+    }
+    
+    .titulo-pequeno {
+        font-size: 1.3rem;
+    }
+    
+    .titulo-nombre {
+        font-size: 1.6rem;
+    }
+    
+    .foto-principal {
+        height: 200px;
+    }
+    
+    .norma-card {
+        padding: var(--espacio-md);
+    }
+    
+    .formulario-container {
+        padding: 15px;
+    }
+}
+
+/* ==================================================
+   23. MEJORAS DE ACCESIBILIDAD Y LEGIBILIDAD
+   ================================================== */
+/* Mejor contraste en textos */
+.texto-contraste {
+    color: var(--texto-principal);
+}
+
+/* Selección de texto */
+::selection {
+    background: var(--lila);
+    color: var(--texto-blanco);
+}
+
+/* Scroll suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Focus visible para accesibilidad */
+:focus-visible {
+    outline: 3px solid var(--lila);
+    outline-offset: 2px;
+}
+
+/* ==================================================
+   24. FIN DEL CSS
+   ================================================== */
