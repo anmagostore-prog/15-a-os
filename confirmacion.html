@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📝 Confirmar Asistencia - 15 Años</title>
+    
+    <!-- CONEXIÓN AL CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- FUENTES BONITAS -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- ============================================ -->
+    <!-- CONEXIÓN A FIREBASE (LO HAREMOS DESPUÉS)     -->
+    <!-- ============================================ -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+    <!-- ============================================ -->
+    <!-- BOTÓN DE MÚSICA (flotante)                  -->
+    <!-- ============================================ -->
+    <button id="musica-btn" class="music-button">
+        🎵 Activar Música
+    </button>
+    
+    <audio id="musica-fondo" loop>
+        <source src="musica/rapunzel.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ============================================ -->
+    <!-- ENCABEZADO DEL FORMULARIO                    -->
+    <!-- ============================================ -->
+    <header class="header-principal">
+        <div class="header-contenido">
+            <div class="decoracion-superior">
+                <span class="flor">🌸</span>
+                <span class="flor">🌺</span>
+                <span class="flor">🌸</span>
+            </div>
+            
+            <h1 class="titulo-principal">
+                <span class="titulo-pequeno">Confirma tu</span>
+                <span class="titulo-grande" style="font-size: 3.5rem;">Asistencia</span>
+                <span class="titulo-nombre">✨ ¡Te esperamos! ✨</span>
+            </h1>
+            
+            <div class="decoracion-inferior">
+                <span class="estrella">✨</span>
+                <span class="estrella">🌟</span>
+                <span class="estrella">✨</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================ -->
+    <!-- FORMULARIO PRINCIPAL                         -->
+    <!-- ============================================ -->
+    <section class="seccion-formulario">
+        <div class="formulario-container">
+            
+            <!-- MENSAJE DE BIENVENIDA -->
+            <div class="mensaje-bienvenida">
+                <p>💝 Completa el siguiente formulario para confirmar tu asistencia</p>
+                <p class="mensaje-pequeno">Los datos serán usados únicamente para la organización del evento</p>
+            </div>
+            
+            <!-- ============================================ -->
+            <!-- FORMULARIO                                  -->
+            <!-- ============================================ -->
+            <form id="formulario-invitados" class="formulario">
+                
+                <!-- ============================================ -->
+                <!-- 1. DATOS DEL LÍDER DEL GRUPO                -->
+                <!-- ============================================ -->
+                <div class="grupo-formulario grupo-lider">
+                    <h3 class="subtitulo-formulario">
+                        <span class="icono-grupo">👑</span>
+                        Datos del Líder del Grupo
+                    </h3>
+                    
+                    <div class="campo-formulario">
+                        <label for="nombreLider">Nombre completo del líder:</label>
+                        <input 
+                            type="text" 
+                            id="nombreLider" 
+                            name="nombreLider" 
+                            placeholder="Ej: Carlos Gómez"
+                            required
+                        >
+                        <span class="campo-ayuda">📌 Quien coordinará al grupo familiar</span>
+                    </div>
+                    
+                    <div class="campo-formulario">
+                        <label for="telefonoLider">Teléfono del líder:</label>
+                        <input 
+                            type="tel" 
+                            id="telefonoLider" 
+                            name="telefonoLider" 
+                            placeholder="Ej: 3101234567"
+                            required
+                        >
+                        <span class="campo-ayuda">📌 Número de contacto del líder</span>
+                    </div>
+                </div>
+                
+                <!-- ============================================ -->
+                <!-- 2. CANTIDAD DE PERSONAS                      -->
+                <!-- ============================================ -->
+                <div class="grupo-formulario grupo-cantidad">
+                    <h3 class="subtitulo-formulario">
+                        <span class="icono-grupo">👥</span>
+                        ¿Cuántas personas van?
+                    </h3>
+                    
+                    <div class="campo-formulario">
+                        <label for="cantidad">Número de invitados (incluyendo al líder):</label>
+                        <input 
+                            type="number" 
+                            id="cantidad" 
+                            name="cantidad" 
+                            min="1" 
+                            max="20" 
+                            value="1"
+                            required
+                        >
+                        <span class="campo-ayuda">📌 Máximo 20 personas por grupo</span>
+                    </div>
+                </div>
+                
+                <!-- ============================================ -->
+                <!-- 3. CAMPOS DINÁMICOS PARA INVITADOS           -->
+                <!-- ============================================ -->
+                <div class="grupo-formulario grupo-invitados" id="grupo-invitados">
+                    <h3 class="subtitulo-formulario">
+                        <span class="icono-grupo">🎀</span>
+                        Datos de los Invitados
+                    </h3>
+                    
+                    <div id="contenedor-invitados">
+                        <!-- AQUÍ SE GENERARÁN LOS CAMPOS DINÁMICAMENTE -->
+                        <!-- Con JavaScript agregaremos los campos -->
+                    </div>
+                </div>
+                
+                <!-- ============================================ -->
+                <!-- 4. BOTONES DE ACCIÓN                         -->
+                <!-- ============================================ -->
+                <div class="acciones-formulario">
+                    <button type="button" id="btn-guardar" class="btn-guardar">
+                        💾 Guardar Invitados
+                    </button>
+                    
+                    <button type="reset" id="btn-limpiar" class="btn-limpiar">
+                        🧹 Limpiar Formulario
+                    </button>
+                    
+                    <a href="index.html" class="btn-volver">
+                        🏠 Volver al Inicio
+                    </a>
+                </div>
+                
+                <!-- ============================================ -->
+                <!-- 5. ÁREA DE MENSAJES                          -->
+                <!-- ============================================ -->
+                <div id="mensajes" class="mensajes">
+                    <!-- Aquí aparecerán los mensajes de éxito o error -->
+                </div>
+                
+            </form>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- FOOTER                                      -->
+    <!-- ============================================ -->
+    <footer class="footer-principal">
+        <div class="footer-contenido">
+            <div class="footer-copy">
+                <p>© 2026 - [Nombre de tu hija] - Todos los derechos reservados</p>
+                <p class="footer-corazon">Hecho con ❤️ para mi princesa</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================ -->
+    <!-- CONEXIÓN A JAVASCRIPT                        -->
+    <!-- ============================================ -->
+    <script src="app.js"></script>
+    <script src="formulario.js"></script>
+    
+</body>
+</html>
