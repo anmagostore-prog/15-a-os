@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <!-- ============================================ -->
-    <!-- CONEXIÓN A FIREBASE (LO HAREMOS DESPUÉS)     -->
+    <!-- CONEXIÓN A FIREBASE                         -->
     <!-- ============================================ -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -64,7 +64,7 @@
             <!-- MENSAJE DE BIENVENIDA -->
             <div class="mensaje-bienvenida">
                 <p>💝 Completa el siguiente formulario para confirmar tu asistencia</p>
-                <p class="mensaje-pequeno">Los datos serán usados únicamente para la organización del evento</p>
+                <p class="mensaje-pequeno">📌 Máximo <strong>4 personas</strong> por grupo familiar (incluyendo al líder)</p>
             </div>
             
             <!-- ============================================ -->
@@ -126,7 +126,7 @@
                             value="1"
                             required
                         >
-                        <span class="campo-ayuda">📌 Máximo 20 personas por grupo</span>
+                        <span class="campo-ayuda">📌 Máximo <strong>4 personas</strong> por grupo familiar</span>
                     </div>
                 </div>
                 
@@ -141,7 +141,6 @@
                     
                     <div id="contenedor-invitados">
                         <!-- AQUÍ SE GENERARÁN LOS CAMPOS DINÁMICAMENTE -->
-                        <!-- Con JavaScript agregaremos los campos -->
                     </div>
                 </div>
                 
@@ -189,6 +188,7 @@
     <!-- CONEXIÓN A JAVASCRIPT                        -->
     <!-- ============================================ -->
     <script src="app.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="formulario.js"></script>
     
 </body>
