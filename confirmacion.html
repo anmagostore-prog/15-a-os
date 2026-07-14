@@ -5,49 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📝 Confirmar Asistencia - 15 Años</title>
     
-    <!-- CONEXIÓN AL CSS -->
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- FUENTES BONITAS -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-   <!-- ============================================ -->
-<!-- CONEXIÓN A FIREBASE (VERSIÓN COMPAT)        -->
-<!-- ============================================ -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyCzsQI6QGv7Ksg097jS1hpMPIPXQR2yZQg",
-        authDomain: "fiesta-15-anos-mariana.firebaseapp.com",
-        projectId: "fiesta-15-anos-mariana",
-        storageBucket: "fiesta-15-anos-mariana.firebasestorage.app",
-        messagingSenderId: "859702756674",
-        appId: "1:859702756674:web:c91d4f0a139a59a746f4db"
-    };
-
-    // Inicializar Firebase
-    firebase.initializeApp(firebaseConfig);
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     
-    // ✅ HACER db GLOBAL
-    window.db = firebase.firestore();
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCzsQI6QGv7Ksg097jS1hpMPIPXQR2yZQg",
+            authDomain: "fiesta-15-anos-mariana.firebaseapp.com",
+            projectId: "fiesta-15-anos-mariana",
+            storageBucket: "fiesta-15-anos-mariana.firebasestorage.app",
+            messagingSenderId: "859702756674",
+            appId: "1:859702756674:web:c91d4f0a139a59a746f4db"
+        };
 
-    console.log('🔥 Firebase conectado correctamente');
-    console.log('📁 Colección: "invitados"');
-    console.log('✅ db disponible globalmente:', window.db ? 'Sí' : 'No');
-</script>
+        firebase.initializeApp(firebaseConfig);
+        window.db = firebase.firestore();
+        console.log('🔥 Firebase conectado correctamente');
+    </script>
 </head>
 <body>
 
-    <!-- ============================================ -->
-    <!-- 1. BOTÓN DE MÚSICA (flotante)                -->
-    <!-- ============================================ -->
-    <button id="musica-btn" class="music-button">
-        🎵 Activar Música
-    </button>
+    <!-- BOTÓN DE MÚSICA -->
+    <button id="musica-btn" class="music-button">🎵 Activar Música</button>
 
-    <!-- REPRODUCTOR DE YOUTUBE (INVISIBLE PERO NO OCULTO) -->
     <div id="youtube-audio" style="position: absolute; width: 1px; height: 1px; overflow: hidden; top: -1000px; left: -1000px;">
         <iframe 
             id="audio-iframe"
@@ -56,9 +40,7 @@
         </iframe>
     </div>
 
-    <!-- ============================================ -->
-    <!-- 2. ENCABEZADO                                -->
-    <!-- ============================================ -->
+    <!-- ENCABEZADO -->
     <header class="header-principal">
         <div class="header-contenido">
             <div class="decoracion-superior">
@@ -81,31 +63,25 @@
         </div>
     </header>
 
-    <!-- ============================================ -->
-    <!-- 3. FORMULARIO                                -->
-    <!-- ============================================ -->
+    <!-- FORMULARIO -->
     <section class="seccion-formulario">
         <div class="formulario-container">
             
             <div class="mensaje-bienvenida">
                 <p>💝 Completa el siguiente formulario para confirmar tu asistencia</p>
-                <p class="mensaje-pequeno">📌 Máximo <strong>4 personas</strong> por grupo familiar (1 líder + 3 acompañantes)</p>
+                <p class="mensaje-pequeno">📌 El líder del grupo registrará a todos los acompañantes</p>
             </div>
             
             <form id="formulario-invitados" class="formulario">
                 
                 <!-- ========================================== -->
-                <!-- DATOS DEL LÍDER (SOLO UNA VEZ)             -->
+                <!-- 1. DATOS DEL LÍDER                        -->
                 <!-- ========================================== -->
                 <div class="grupo-formulario grupo-lider">
                     <h3 class="subtitulo-formulario">
                         <span class="icono-grupo">👑</span>
                         Datos del Líder del Grupo
                     </h3>
-                    
-                    <p style="color: #6B4F7C; font-size: 0.95rem; margin-bottom: 20px;">
-                        📌 El líder es la persona que coordinará al grupo familiar
-                    </p>
                     
                     <div class="campo-formulario">
                         <label for="nombreLider">Nombre completo del líder:</label>
@@ -119,7 +95,7 @@
                     </div>
                     
                     <div class="campo-formulario">
-                        <label for="telefonoLider">Teléfono del líder:</label>
+                        <label for="telefonoLider">📞 Teléfono del líder:</label>
                         <input 
                             type="tel" 
                             id="telefonoLider" 
@@ -127,36 +103,39 @@
                             placeholder="Ej: 3101234567"
                             required
                         >
-                        <span class="campo-ayuda">📌 Número de contacto del líder</span>
+                        <span class="campo-ayuda">📌 El líder será contactado por este número</span>
                     </div>
+
+                    <!-- VALIDACIÓN EN TIEMPO REAL -->
+                    <div id="validacion-lider" style="margin-top: 10px; font-size: 0.9rem;"></div>
                 </div>
                 
                 <!-- ========================================== -->
-                <!-- CANTIDAD DE PERSONAS                       -->
+                <!-- 2. CANTIDAD DE ACOMPAÑANTES               -->
                 <!-- ========================================== -->
                 <div class="grupo-formulario grupo-cantidad">
                     <h3 class="subtitulo-formulario">
                         <span class="icono-grupo">👥</span>
-                        ¿Cuántas personas van?
+                        ¿Cuántos acompañantes llevas?
                     </h3>
                     
                     <div class="campo-formulario">
-                        <label for="cantidad">Número total de personas (incluyendo al líder):</label>
+                        <label for="cantidad">Número de acompañantes (máximo 3):</label>
                         <input 
                             type="number" 
                             id="cantidad" 
                             name="cantidad" 
-                            min="1" 
-                            max="4" 
-                            value="1"
+                            min="0" 
+                            max="3" 
+                            value="0"
                             required
                         >
-                        <span class="campo-ayuda">📌 Máximo <strong>4 personas</strong> (1 líder + hasta 3 acompañantes)</span>
+                        <span class="campo-ayuda">📌 Máximo <strong>3 acompañantes</strong> por grupo familiar</span>
                     </div>
                 </div>
                 
                 <!-- ========================================== -->
-                <!-- CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)       -->
+                <!-- 3. CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)   -->
                 <!-- ========================================== -->
                 <div class="grupo-formulario grupo-invitados" id="grupo-invitados">
                     <h3 class="subtitulo-formulario">
@@ -164,21 +143,17 @@
                         Datos de los Acompañantes
                     </h3>
                     
-                    <p style="color: #6B4F7C; font-size: 0.95rem; margin-bottom: 15px;">
-                        📌 Ingresa los datos de cada persona que acompañará al líder
-                    </p>
-                    
                     <div id="contenedor-invitados">
                         <!-- AQUÍ SE GENERARÁN LOS CAMPOS DINÁMICAMENTE -->
                     </div>
                 </div>
                 
                 <!-- ========================================== -->
-                <!-- BOTONES DE ACCIÓN                          -->
+                <!-- 4. BOTONES                                -->
                 <!-- ========================================== -->
                 <div class="acciones-formulario">
                     <button type="button" id="btn-guardar" class="btn-guardar">
-                        💾 Guardar Invitados
+                        💾 Guardar Grupo Familiar
                     </button>
                     
                     <button type="reset" id="btn-limpiar" class="btn-limpiar">
@@ -197,9 +172,7 @@
         </div>
     </section>
 
-    <!-- ============================================ -->
-    <!-- 4. FOOTER                                    -->
-    <!-- ============================================ -->
+    <!-- FOOTER -->
     <footer class="footer-principal">
         <div class="footer-contenido">
             <div class="footer-copy">
@@ -209,9 +182,7 @@
         </div>
     </footer>
 
-    <!-- ============================================ -->
-    <!-- 5. JAVASCRIPT                                -->
-    <!-- ============================================ -->
+    <!-- JAVASCRIPT -->
     <script src="app.js"></script>
     <script src="formulario.js"></script>
     
