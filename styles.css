@@ -997,3 +997,46 @@ html {
 /* ==================================================
    26. FIN DEL CSS
    ================================================== */
+/* ==================================================
+   13. BOTÓN DE CONFIRMACIÓN FLOTANTE (CON MISMO ESTILO)
+   ================================================== */
+.btn-confirmar-flotante {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    z-index: 1000;
+    display: inline-block;
+    padding: 15px 25px;
+    background: linear-gradient(135deg, var(--lila), var(--rosa));
+    color: var(--texto-blanco);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(192, 132, 252, 0.4);
+    transition: all 0.3s ease;
+    font-family: var(--fuente-texto);
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    animation: latido 2s ease-in-out infinite;
+}
+
+.btn-confirmar-flotante:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 40px rgba(192, 132, 252, 0.6);
+}
+
+.btn-confirmar-flotante:active {
+    transform: scale(0.95);
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+    .btn-confirmar-flotante {
+        bottom: 80px;
+        right: 15px;
+        padding: 12px 18px;
+        font-size: 0.9rem;
+    }
+}
