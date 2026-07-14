@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📝 Confirmar Asistencia - 15 Años</title>
     
+    <!-- CONEXIÓN AL CSS -->
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- FUENTES BONITAS -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- FIREBASE -->
+    <!-- ============================================ -->
+    <!-- CONEXIÓN A FIREBASE (VERSIÓN COMPAT)        -->
+    <!-- ============================================ -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     
@@ -24,14 +29,21 @@
 
         firebase.initializeApp(firebaseConfig);
         window.db = firebase.firestore();
+        
         console.log('🔥 Firebase conectado correctamente');
+        console.log('📁 Colección: "grupos"');
     </script>
 </head>
 <body>
 
-    <!-- BOTÓN DE MÚSICA -->
-    <button id="musica-btn" class="music-button">🎵 Activar Música</button>
+    <!-- ============================================ -->
+    <!-- 1. BOTÓN DE MÚSICA (flotante)                -->
+    <!-- ============================================ -->
+    <button id="musica-btn" class="music-button">
+        🎵 Activar Música
+    </button>
 
+    <!-- REPRODUCTOR DE YOUTUBE (INVISIBLE PERO NO OCULTO) -->
     <div id="youtube-audio" style="position: absolute; width: 1px; height: 1px; overflow: hidden; top: -1000px; left: -1000px;">
         <iframe 
             id="audio-iframe"
@@ -40,7 +52,9 @@
         </iframe>
     </div>
 
-    <!-- ENCABEZADO -->
+    <!-- ============================================ -->
+    <!-- 2. ENCABEZADO                                -->
+    <!-- ============================================ -->
     <header class="header-principal">
         <div class="header-contenido">
             <div class="decoracion-superior">
@@ -63,25 +77,62 @@
         </div>
     </header>
 
-    <!-- FORMULARIO -->
+    <!-- ============================================ -->
+    <!-- 3. FORMULARIO                                -->
+    <!-- ============================================ -->
     <section class="seccion-formulario">
         <div class="formulario-container">
             
+            <!-- ========================================== -->
+            <!-- AVISOS IMPORTANTES                         -->
+            <!-- ========================================== -->
+            <div style="background: #FEF3C7; padding: 15px; border-radius: 10px; border-left: 4px solid #F59E0B; margin-bottom: 15px;">
+                <p style="color: #92400E; font-size: 0.95rem; margin: 0; line-height: 1.6;">
+                    🔒 <strong>Este enlace es personal e intransferible.</strong>
+                    <br>
+                    • Solo las personas invitadas pueden confirmar asistencia.
+                    <br>
+                    • No compartas este enlace en redes sociales o grupos públicos.
+                    <br>
+                    • Cada persona debe aparecer en <strong>UN SOLO</strong> grupo.
+                    <br>
+                    • Si necesitas ayuda, contáctanos al <strong>+57 300 649 8710</strong>.
+                </p>
+            </div>
+
+            <div style="background: #F3E8FF; padding: 15px; border-radius: 10px; border-left: 4px solid #7C3AED; margin-bottom: 20px;">
+                <p style="color: #4B2B5C; font-size: 0.95rem; margin: 0; line-height: 1.6;">
+                    📌 <strong>¿Cómo funciona el registro?</strong>
+                    <br>
+                    • Registra solo a tu <strong>núcleo familiar</strong> (esposo/a, hijos menores, etc.).
+                    <br>
+                    • Los <strong>hijos mayores</strong> (con su propia familia) recibirán su propia invitación.
+                    <br>
+                    • Cada persona debe aparecer en <strong>UN SOLO</strong> grupo.
+                    <br>
+                    • <strong>Límite:</strong> 1 líder + 3 acompañantes por grupo.
+                </p>
+            </div>
+            
             <div class="mensaje-bienvenida">
                 <p>💝 Completa el siguiente formulario para confirmar tu asistencia</p>
-                <p class="mensaje-pequeno">📌 El líder del grupo registrará a todos los acompañantes</p>
+                <p class="mensaje-pequeno">📌 Máximo <strong>4 personas</strong> por grupo familiar (1 líder + 3 acompañantes)</p>
             </div>
             
             <form id="formulario-invitados" class="formulario">
                 
                 <!-- ========================================== -->
-                <!-- 1. DATOS DEL LÍDER                        -->
+                <!-- DATOS DEL LÍDER (SOLO UNA VEZ)             -->
                 <!-- ========================================== -->
                 <div class="grupo-formulario grupo-lider">
                     <h3 class="subtitulo-formulario">
                         <span class="icono-grupo">👑</span>
                         Datos del Líder del Grupo
                     </h3>
+                    
+                    <p style="color: #6B4F7C; font-size: 0.95rem; margin-bottom: 20px;">
+                        📌 El líder es la persona que coordinará al grupo familiar
+                    </p>
                     
                     <div class="campo-formulario">
                         <label for="nombreLider">Nombre completo del líder:</label>
@@ -111,7 +162,7 @@
                 </div>
                 
                 <!-- ========================================== -->
-                <!-- 2. CANTIDAD DE ACOMPAÑANTES               -->
+                <!-- CANTIDAD DE ACOMPAÑANTES                   -->
                 <!-- ========================================== -->
                 <div class="grupo-formulario grupo-cantidad">
                     <h3 class="subtitulo-formulario">
@@ -132,10 +183,20 @@
                         >
                         <span class="campo-ayuda">📌 Máximo <strong>3 acompañantes</strong> por grupo familiar</span>
                     </div>
+
+                    <!-- AVISO PARA CASOS ESPECIALES -->
+                    <div style="background: #FEF3C7; padding: 12px 15px; border-radius: 10px; border-left: 4px solid #F59E0B; margin-top: 10px;">
+                        <p style="color: #92400E; font-size: 0.9rem; margin: 0;">
+                            📌 ¿Necesitas registrar a más de 3 acompañantes?
+                            <br>
+                            <strong>Contáctanos</strong> y evaluaremos tu caso: 
+                            <a href="tel:+573006498710" style="color: #7C3AED; font-weight: 600;">📞 +57 300 649 8710</a>
+                        </p>
+                    </div>
                 </div>
                 
                 <!-- ========================================== -->
-                <!-- 3. CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)   -->
+                <!-- CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)       -->
                 <!-- ========================================== -->
                 <div class="grupo-formulario grupo-invitados" id="grupo-invitados">
                     <h3 class="subtitulo-formulario">
@@ -143,13 +204,17 @@
                         Datos de los Acompañantes
                     </h3>
                     
+                    <p style="color: #6B4F7C; font-size: 0.95rem; margin-bottom: 15px;">
+                        📌 Ingresa los datos de cada persona que acompañará al líder
+                    </p>
+                    
                     <div id="contenedor-invitados">
                         <!-- AQUÍ SE GENERARÁN LOS CAMPOS DINÁMICAMENTE -->
                     </div>
                 </div>
                 
                 <!-- ========================================== -->
-                <!-- 4. BOTONES                                -->
+                <!-- BOTONES DE ACCIÓN                          -->
                 <!-- ========================================== -->
                 <div class="acciones-formulario">
                     <button type="button" id="btn-guardar" class="btn-guardar">
@@ -172,7 +237,9 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ============================================ -->
+    <!-- 4. FOOTER                                    -->
+    <!-- ============================================ -->
     <footer class="footer-principal">
         <div class="footer-contenido">
             <div class="footer-copy">
@@ -182,7 +249,9 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT -->
+    <!-- ============================================ -->
+    <!-- 5. JAVASCRIPT                                -->
+    <!-- ============================================ -->
     <script src="app.js"></script>
     <script src="formulario.js"></script>
     
