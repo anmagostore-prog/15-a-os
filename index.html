@@ -21,10 +21,11 @@
 </button>
 
 <!-- REPRODUCTOR DE YOUTUBE (OCULTO, SOLO AUDIO) -->
-<div id="youtube-audio" style="display: none;">
+<!-- REPRODUCTOR DE YOUTUBE (INVISIBLE PERO NO OCULTO) -->
+<div id="youtube-audio" style="position: absolute; width: 1px; height: 1px; overflow: hidden; top: -1000px; left: -1000px;">
     <iframe 
         id="audio-iframe"
-        src="https://www.youtube.com/embed/fZSZMp32XaA?autoplay=0&mute=0&controls=0&loop=1&playlist=fZSZMp32XaA" 
+        src="https://www.youtube.com/embed/fZSZMp32XaA?autoplay=0&mute=0&controls=0&loop=1&playlist=fZSZMp32XaA&enablejsapi=1" 
         allow="autoplay; encrypted-media">
     </iframe>
 </div>
