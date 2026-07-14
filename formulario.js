@@ -1,5 +1,5 @@
 // =====================================================
-// formulario.js - NUEVA VERSIÓN (CON PARENTESCO)
+// formulario.js - VERSIÓN CORREGIDA (VALIDACIÓN EN TIEMPO REAL)
 // =====================================================
 
 // =====================================================
@@ -93,19 +93,23 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const telefonoInput = document.getElementById('telefonoLider');
     const validacionDiv = document.getElementById('validacion-lider');
-    let telefonoVerificado = false;
-    let telefonoRegistrado = false;
+    
+    // ✅ VARIABLES GLOBALES PARA VALIDACIÓN
+    window.telefonoVerificado = false;
+    window.telefonoRegistrado = false;
+    window.telefonoActual = '';
 
     telefonoInput.addEventListener('input', async function() {
         const telefono = this.value.trim();
-        const validacionDiv = document.getElementById('validacion-lider');
+        window.telefonoActual = telefono;
         
         // Validar formato (mínimo 7 dígitos)
         if (telefono.length < 7) {
             validacionDiv.innerHTML = `
                 <span style="color: #F59E0B;">⏳ Ingresa al menos 7 dígitos...</span>
             `;
-            telefonoVerificado = false;
+            window.telefonoVerificado = false;
+            window.telefonoRegistrado = false;
             return;
         }
 
@@ -123,27 +127,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 validacionDiv.innerHTML = `
                     <span style="color: #EF4444;">❌ Este número ya está registrado</span>
                 `;
-                telefonoVerificado = false;
-                telefonoRegistrado = true;
+                window.telefonoVerificado = false;
+                window.telefonoRegistrado = true;
             } else {
                 validacionDiv.innerHTML = `
                     <span style="color: #10B981;">✅ Teléfono disponible</span>
                 `;
-                telefonoVerificado = true;
-                telefonoRegistrado = false;
+                window.telefonoVerificado = true;
+                window.telefonoRegistrado = false;
             }
         } catch (error) {
             console.error('❌ Error al verificar:', error);
             validacionDiv.innerHTML = `
                 <span style="color: #EF4444;">❌ Error al verificar. Intenta nuevamente.</span>
             `;
-            telefonoVerificado = false;
+            window.telefonoVerificado = false;
+            window.telefonoRegistrado = false;
         }
     });
-
-    // Exponer variables para usar en guardarInvitados
-    window.telefonoVerificado = telefonoVerificado;
-    window.telefonoRegistrado = telefonoRegistrado;
 });
 
 // =====================================================
@@ -177,20 +178,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const telefonoLider = document.getElementById('telefonoLider').value.trim();
         const cantidad = parseInt(document.getElementById('cantidad').value) || 0;
         
-        // ✅ VALIDACIÓN EN TIEMPO REAL
+        // ✅ VALIDACIÓN DEL TELÉFONO
         if (!telefonoLider || telefonoLider.length < 7) {
             mostrarMensaje('error', '⚠️ El teléfono debe tener al menos 7 dígitos');
+            document.getElementById('telefonoLider').focus();
             return;
         }
 
-        // Verificar que el teléfono esté disponible
+        // 🔥 VALIDACIÓN EN TIEMPO REAL (USANDO window.)
         if (window.telefonoRegistrado) {
-            mostrarMensaje('error', '⚠️ Este teléfono ya está registrado');
+            mostrarMensaje('error', '⚠️ Este teléfono ya está registrado. Usa otro número.');
+            document.getElementById('telefonoLider').focus();
             return;
         }
 
         if (!window.telefonoVerificado) {
-            mostrarMensaje('error', '⚠️ Verifica el teléfono antes de guardar');
+            mostrarMensaje('error', '⚠️ Verifica el teléfono antes de guardar (espera a que aparezca "✅ Teléfono disponible")');
+            document.getElementById('telefonoLider').focus();
+            return;
+        }
+        
+        // ✅ Validar que el teléfono actual coincida con el verificado
+        if (telefonoLider !== window.telefonoActual) {
+            mostrarMensaje('error', '⚠️ El teléfono ha cambiado. Verifica nuevamente.');
+            document.getElementById('telefonoLider').focus();
             return;
         }
         
@@ -260,8 +271,11 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('cantidad').value = 0;
             document.getElementById('cantidad').dispatchEvent(new Event('change'));
             document.getElementById('validacion-lider').innerHTML = '';
+            
+            // ✅ RESETEAR VARIABLES GLOBALES
             window.telefonoVerificado = false;
             window.telefonoRegistrado = false;
+            window.telefonoActual = '';
             
         } catch (error) {
             console.error('❌ Error:', error);
@@ -285,12 +299,15 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('cantidad').dispatchEvent(new Event('change'));
             document.getElementById('validacion-lider').innerHTML = '';
             document.getElementById('mensajes').innerHTML = '';
+            
+            // ✅ RESETEAR VARIABLES GLOBALES
             window.telefonoVerificado = false;
             window.telefonoRegistrado = false;
+            window.telefonoActual = '';
         }
     });
 });
 
-console.log('📝 Nueva versión del formulario cargada');
+console.log('📝 Formulario cargado correctamente');
+console.log('✅ Validación de teléfono en tiempo real (con window.)');
 console.log('✅ Líder + acompañantes con parentesco');
-console.log('✅ Validación de teléfono en tiempo real');
