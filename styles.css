@@ -13,7 +13,6 @@
    2. VARIABLES GLOBALES (FÁCIL DE MODIFICAR)
    ================================================== */
 :root {
-    /* Colores principales */
     --lila: #C084FC;
     --lila-claro: #F3E8FF;
     --lila-oscuro: #7C3AED;
@@ -21,33 +20,21 @@
     --rosa-claro: #FCE7F3;
     --dorado: #FBBF24;
     --dorado-claro: #FDE68A;
-    
-    /* Colores de texto */
     --texto-principal: #4B2B5C;
     --texto-secundario: #6B4F7C;
     --texto-claro: #A78BFA;
     --texto-blanco: #FFFFFF;
-    
-    /* Fondos */
     --fondo-body: #FAF5FF;
     --fondo-card: #FFFFFF;
     --fondo-input: #FFFFFF;
-    
-    /* Sombras */
     --sombra-suave: 0 10px 30px rgba(192, 132, 252, 0.15);
     --sombra-media: 0 15px 40px rgba(192, 132, 252, 0.25);
     --sombra-fuerte: 0 20px 60px rgba(192, 132, 252, 0.3);
-    
-    /* Bordes */
     --borde-suave: 2px solid #F3E8FF;
     --borde-input: 2px solid #E9D5FF;
     --borde-focus: 2px solid #C084FC;
-    
-    /* Tipografía */
     --fuente-titulo: 'Great Vibes', cursive;
     --fuente-texto: 'Quicksand', sans-serif;
-    
-    /* Espaciado */
     --espacio-xs: 5px;
     --espacio-sm: 10px;
     --espacio-md: 20px;
@@ -83,7 +70,6 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Patrón de fondo sutil */
 body::before {
     content: '';
     position: fixed;
@@ -100,25 +86,22 @@ body::before {
 }
 
 /* ==================================================
-   4. TIPOGRAFÍA - TÍTULOS
+   4. TIPOGRAFÍA
    ================================================== */
 h1, h2, h3, h4 {
     font-family: var(--fuente-titulo);
     font-weight: 400;
     line-height: 1.3;
 }
-
 h1 { font-size: 3rem; }
 h2 { font-size: 2.5rem; }
 h3 { font-size: 2rem; }
 h4 { font-size: 1.5rem; }
 
-/* TÍTULOS PRINCIPALES */
 .titulo-principal {
     text-align: center;
     margin: var(--espacio-md) 0;
 }
-
 .titulo-pequeno {
     display: block;
     font-size: 1.8rem;
@@ -126,7 +109,6 @@ h4 { font-size: 1.5rem; }
     font-weight: 300;
     letter-spacing: 3px;
 }
-
 .titulo-grande {
     display: block;
     font-size: 5rem;
@@ -137,7 +119,6 @@ h4 { font-size: 1.5rem; }
     text-shadow: 0 0 30px rgba(192, 132, 252, 0.3);
     animation: brillo 3s ease-in-out infinite;
 }
-
 .titulo-nombre {
     display: block;
     font-size: 2.5rem;
@@ -145,14 +126,12 @@ h4 { font-size: 1.5rem; }
     margin-top: var(--espacio-sm);
 }
 
-/* TÍTULOS DE SECCIÓN */
 .titulo-seccion {
     text-align: center;
     font-size: 2.8rem;
     color: var(--lila-oscuro);
     margin: var(--espacio-xl) 0 var(--espacio-lg) 0;
 }
-
 .titulo-seccion .decoracion {
     font-size: 2rem;
     display: inline-block;
@@ -160,7 +139,6 @@ h4 { font-size: 1.5rem; }
     animation: flotar 2s ease-in-out infinite;
 }
 
-/* SUBTÍTULOS DEL FORMULARIO */
 .subtitulo-formulario {
     font-family: var(--fuente-titulo);
     font-size: 1.8rem;
@@ -168,73 +146,53 @@ h4 { font-size: 1.5rem; }
     margin-bottom: var(--espacio-md);
 }
 
-/* ==================================================
-   5. TEXTO Y PÁRRAFOS
-   ================================================== */
 p {
     font-weight: 400;
     line-height: 1.8;
     color: var(--texto-secundario);
 }
-
 .texto-pequeno {
     font-size: 0.9rem;
     color: var(--texto-claro);
 }
-
 .texto-destacado {
     font-weight: 600;
     color: var(--lila-oscuro);
 }
-
 .texto-blanco {
     color: var(--texto-blanco);
 }
 
 /* ==================================================
-   6. ANIMACIONES
+   5. ANIMACIONES
    ================================================== */
 @keyframes brillo {
     0%, 100% { opacity: 1; }
-    50% { 
-        opacity: 0.7; 
-        text-shadow: 0 0 50px rgba(192, 132, 252, 0.5); 
-    }
+    50% { opacity: 0.7; text-shadow: 0 0 50px rgba(192, 132, 252, 0.5); }
 }
-
 @keyframes flotar {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
 }
-
 @keyframes latido {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
 }
-
 @keyframes girar {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes flotarDecoracion {
     0%, 100% { transform: translateY(-50%) scale(1); }
     50% { transform: translateY(-40%) scale(1.1); }
 }
 
 /* ==================================================
-   7. ENCABEZADO Y DECORACIONES
+   6. ENCABEZADO Y DECORACIONES
    ================================================== */
 .header-principal {
     padding: var(--espacio-lg) var(--espacio-md) var(--espacio-md);
@@ -244,29 +202,20 @@ p {
     z-index: 1;
 }
 
-/* Decoraciones (flores y estrellas) */
 .decoracion-superior,
 .decoracion-inferior {
     text-align: center;
     font-size: 2rem;
     margin: var(--espacio-sm) 0;
 }
-
 .decoracion-superior .flor {
     display: inline-block;
     margin: 0 10px;
     animation: flotar 3s ease-in-out infinite;
 }
+.decoracion-superior .flor:nth-child(2) { animation-delay: 0.5s; }
+.decoracion-superior .flor:nth-child(3) { animation-delay: 1s; }
 
-.decoracion-superior .flor:nth-child(2) {
-    animation-delay: 0.5s;
-}
-
-.decoracion-superior .flor:nth-child(3) {
-    animation-delay: 1s;
-}
-
-/* Borde decorativo en el header */
 .header-principal::after {
     content: '✨ 🌸 ✨ 🌺 ✨';
     display: block;
@@ -278,14 +227,13 @@ p {
 }
 
 /* ==================================================
-   8. FOTO PRINCIPAL
+   7. FOTO PRINCIPAL
    ================================================== */
 .foto-principal-container {
     text-align: center;
     margin: var(--espacio-lg) auto;
     max-width: 450px;
 }
-
 .foto-principal {
     width: 100%;
     height: 450px;
@@ -296,12 +244,10 @@ p {
     border: 4px solid var(--texto-blanco);
     transition: transform 0.3s ease;
 }
-
 .foto-principal:hover {
     transform: scale(1.02);
 }
 
-/* Comentarios de ayuda (para edición) */
 .comentario-imagen,
 .comentario-video {
     color: var(--texto-claro);
@@ -315,7 +261,7 @@ p {
 }
 
 /* ==================================================
-   9. SECCIÓN DE VIDEO
+   8. VIDEO
    ================================================== */
 .seccion-video {
     max-width: 1200px;
@@ -324,7 +270,6 @@ p {
     position: relative;
     z-index: 1;
 }
-
 .video-container {
     background: var(--fondo-card);
     padding: var(--espacio-md);
@@ -334,7 +279,6 @@ p {
     max-width: 800px;
     margin: 0 auto;
 }
-
 .video-invitacion {
     width: 100%;
     max-width: 100%;
@@ -343,7 +287,7 @@ p {
 }
 
 /* ==================================================
-   10. SECCIÓN DE NORMAS
+   9. SECCIÓN DE NORMAS
    ================================================== */
 .seccion-normas {
     max-width: 1200px;
@@ -352,7 +296,6 @@ p {
     position: relative;
     z-index: 1;
 }
-
 .grid-normas {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -360,7 +303,6 @@ p {
     padding: var(--espacio-md) 0;
 }
 
-/* Tarjetas de normas */
 .norma-card {
     background: var(--fondo-card);
     padding: var(--espacio-lg) 25px;
@@ -371,7 +313,6 @@ p {
     position: relative;
     overflow: hidden;
 }
-
 .norma-card::before {
     content: '';
     position: absolute;
@@ -381,19 +322,15 @@ p {
     height: 4px;
     background: linear-gradient(90deg, var(--lila), var(--rosa), var(--dorado));
 }
-
 .norma-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--sombra-media);
 }
 
-/* Colores sutiles por tarjeta */
 .norma-card:nth-child(1) { background: linear-gradient(135deg, #FFFFFF, #F3E8FF); }
 .norma-card:nth-child(2) { background: linear-gradient(135deg, #FFFFFF, #FCE7F3); }
 .norma-card:nth-child(3) { background: linear-gradient(135deg, #FFFFFF, #FEF3C7); }
 .norma-card:nth-child(4) { background: linear-gradient(135deg, #FFFFFF, #DBEAFE); }
-.norma-card:nth-child(5) { background: linear-gradient(135deg, #FFFFFF, #D1FAE5); }
-.norma-card:nth-child(6) { background: linear-gradient(135deg, #FFFFFF, #FCE7F3); }
 
 .norma-icono {
     font-size: 2.5rem;
@@ -407,26 +344,19 @@ p {
     justify-content: center;
     margin-bottom: 15px;
 }
-
 .norma-card h3 {
     font-family: var(--fuente-titulo);
     font-size: 1.8rem;
     color: var(--lila-oscuro);
     margin: var(--espacio-sm) 0;
 }
-
 .norma-card p {
     color: var(--texto-secundario);
     line-height: 1.8;
 }
 
 /* ==================================================
-   11. SECCIÓN DE BOTÓN (ELIMINADA - AHORA FLOTANTE)
-   ================================================== */
-/* La sección .seccion-boton ha sido eliminada y reemplazada por el botón flotante */
-
-/* ==================================================
-   12. BOTÓN DE MÚSICA (Flotante)
+   10. BOTÓN DE MÚSICA (Flotante)
    ================================================== */
 .music-button {
     position: fixed;
@@ -445,19 +375,17 @@ p {
     transition: all 0.3s ease;
     font-family: var(--fuente-texto);
 }
-
 .music-button:hover {
     transform: scale(1.1);
     box-shadow: 0 15px 40px rgba(192, 132, 252, 0.6);
 }
-
 .music-button.activo {
     background: linear-gradient(135deg, var(--rosa), var(--dorado));
     animation: latido 1s ease-in-out infinite;
 }
 
 /* ==================================================
-   13. BOTÓN DE CONFIRMACIÓN FLOTANTE (NUEVO)
+   11. BOTÓN DE CONFIRMACIÓN FLOTANTE
    ================================================== */
 .btn-confirmar-flotante {
     position: fixed;
@@ -465,7 +393,7 @@ p {
     right: 30px;
     z-index: 999;
     display: inline-block;
-    padding: 15px 25px;
+    padding: 15px 30px;
     background: linear-gradient(135deg, var(--lila), var(--rosa));
     color: var(--texto-blanco);
     text-decoration: none;
@@ -478,18 +406,16 @@ p {
     text-align: center;
     animation: latido 2s ease-in-out infinite;
 }
-
 .btn-confirmar-flotante:hover {
     transform: scale(1.05);
     box-shadow: 0 15px 40px rgba(192, 132, 252, 0.6);
 }
-
 .btn-confirmar-flotante:active {
     transform: scale(0.95);
 }
 
 /* ==================================================
-   14. DECORACIONES LATERALES FLOTANTES
+   12. DECORACIONES LATERALES FLOTANTES
    ================================================== */
 .decoracion-lateral {
     position: fixed;
@@ -499,25 +425,22 @@ p {
     z-index: 0;
     animation: flotarDecoracion 6s ease-in-out infinite;
 }
-
 .decoracion-lateral-izquierda {
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
 }
-
 .decoracion-lateral-derecha {
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
 }
-
 @media (max-width: 1024px) {
     .decoracion-lateral { display: none; }
 }
 
 /* ==================================================
-   15. FOOTER
+   13. FOOTER
    ================================================== */
 .footer-principal {
     background: linear-gradient(135deg, #4B2B5C, var(--lila-oscuro));
@@ -528,7 +451,6 @@ p {
     position: relative;
     overflow: hidden;
 }
-
 .footer-principal::before {
     content: '🌸 🌺 🌸';
     position: absolute;
@@ -540,62 +462,52 @@ p {
     letter-spacing: 30px;
     pointer-events: none;
 }
-
 .footer-contenido {
     max-width: 1200px;
     margin: 0 auto;
 }
-
 .footer-info {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 30px;
     margin-bottom: var(--espacio-xl);
 }
-
 .footer-item {
     display: flex;
     align-items: flex-start;
     gap: 15px;
 }
-
 .footer-icono {
     font-size: 1.5rem;
     min-width: 40px;
 }
-
 .footer-item strong {
     display: block;
     font-size: 1.1rem;
     margin-bottom: var(--espacio-xs);
     color: var(--dorado);
 }
-
 .footer-item p {
     margin: var(--espacio-xs) 0;
     opacity: 0.9;
     color: var(--texto-blanco);
 }
-
 .footer-redes {
     text-align: center;
     margin-bottom: var(--espacio-lg);
 }
-
 .footer-redes h4 {
     font-family: var(--fuente-titulo);
     font-size: 2rem;
     margin-bottom: var(--espacio-md);
     color: var(--dorado);
 }
-
 .redes-sociales {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 15px;
 }
-
 .red-social {
     color: var(--texto-blanco);
     text-decoration: none;
@@ -606,25 +518,21 @@ p {
     border: 1px solid rgba(255, 255, 255, 0.1);
     font-weight: 500;
 }
-
 .red-social:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-3px);
     border-color: var(--dorado);
 }
-
 .footer-copy {
     text-align: center;
     padding-top: var(--espacio-lg);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-
 .footer-copy p {
     opacity: 0.8;
     font-size: 0.9rem;
     color: var(--texto-blanco);
 }
-
 .footer-corazon {
     margin-top: var(--espacio-sm);
     opacity: 0.6;
@@ -632,24 +540,19 @@ p {
 }
 
 /* ==================================================
-   16. FORMULARIO - ESTRUCTURA PRINCIPAL
+   14. FORMULARIO
    ================================================== */
 .seccion-formulario {
     max-width: 800px;
     margin: 0 auto;
     padding: var(--espacio-md);
 }
-
 .formulario-container {
     background: var(--fondo-card);
     padding: var(--espacio-xl);
     border-radius: 30px;
     box-shadow: var(--sombra-fuerte);
 }
-
-/* ==================================================
-   17. FORMULARIO - MENSAJE DE BIENVENIDA
-   ================================================== */
 .mensaje-bienvenida {
     text-align: center;
     margin-bottom: var(--espacio-lg);
@@ -657,23 +560,17 @@ p {
     background: linear-gradient(135deg, var(--lila-claro), var(--rosa-claro));
     border-radius: 20px;
 }
-
 .mensaje-bienvenida p {
     font-size: 1.1rem;
     font-weight: 500;
     color: var(--texto-principal);
 }
-
 .mensaje-bienvenida .mensaje-pequeno {
     font-size: 0.9rem;
     font-weight: 400;
     color: var(--texto-claro);
     margin-top: var(--espacio-sm);
 }
-
-/* ==================================================
-   18. FORMULARIO - GRUPOS Y CAMPOS
-   ================================================== */
 .grupo-formulario {
     margin-bottom: 35px;
     padding: 25px;
@@ -681,14 +578,9 @@ p {
     border-radius: 20px;
     border: var(--borde-suave);
 }
-
-/* ==================================================
-   19. FORMULARIO - CAMPOS DE ENTRADA
-   ================================================== */
 .campo-formulario {
     margin-bottom: var(--espacio-md);
 }
-
 .campo-formulario label {
     display: block;
     font-weight: 600;
@@ -696,7 +588,6 @@ p {
     margin-bottom: 8px;
     color: var(--texto-principal);
 }
-
 .campo-formulario input {
     width: 100%;
     padding: 12px 16px;
@@ -709,28 +600,21 @@ p {
     color: var(--texto-principal);
     transition: all 0.3s ease;
 }
-
 .campo-formulario input:focus {
     outline: none;
     border-color: var(--lila);
     box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.1);
 }
-
 .campo-formulario input::placeholder {
     color: #B0A0C0;
     font-weight: 300;
 }
-
 .campo-ayuda {
     display: block;
     font-size: 0.8rem;
     color: var(--texto-claro);
     margin-top: 5px;
 }
-
-/* ==================================================
-   20. FORMULARIO - TARJETAS DE INVITADOS
-   ================================================== */
 .invitado-card {
     background: var(--fondo-card);
     padding: var(--espacio-md);
@@ -739,22 +623,16 @@ p {
     border: var(--borde-suave);
     transition: all 0.3s ease;
 }
-
 .invitado-card:hover {
     border-color: var(--lila);
     box-shadow: 0 5px 20px rgba(192, 132, 252, 0.1);
 }
-
 .invitado-titulo {
     font-family: var(--fuente-titulo);
     color: var(--lila-oscuro);
     font-size: 1.3rem;
     margin-bottom: 15px;
 }
-
-/* ==================================================
-   21. FORMULARIO - BOTONES DE ACCIÓN
-   ================================================== */
 .acciones-formulario {
     display: flex;
     flex-wrap: wrap;
@@ -762,7 +640,6 @@ p {
     margin-top: var(--espacio-lg);
     justify-content: center;
 }
-
 .btn-guardar,
 .btn-limpiar,
 .btn-volver {
@@ -778,47 +655,36 @@ p {
     display: inline-block;
     text-align: center;
 }
-
 .btn-guardar {
     background: linear-gradient(135deg, var(--lila), var(--lila-oscuro));
     color: var(--texto-blanco);
     box-shadow: 0 10px 30px rgba(192, 132, 252, 0.3);
 }
-
 .btn-guardar:hover {
     transform: translateY(-3px);
     box-shadow: 0 15px 40px rgba(192, 132, 252, 0.4);
 }
-
 .btn-limpiar {
     background: var(--lila-claro);
     color: var(--lila-oscuro);
 }
-
 .btn-limpiar:hover {
     background: #E9D5FF;
     transform: translateY(-3px);
 }
-
 .btn-volver {
     background: var(--rosa-claro);
     color: var(--rosa);
 }
-
 .btn-volver:hover {
     background: #F9A8D4;
     color: var(--texto-blanco);
     transform: translateY(-3px);
 }
-
-/* ==================================================
-   22. FORMULARIO - MENSAJES DE RESPUESTA
-   ================================================== */
 .mensajes {
     margin-top: 25px;
     min-height: 60px;
 }
-
 .mensaje {
     padding: 15px 20px;
     border-radius: 15px;
@@ -827,216 +693,69 @@ p {
     animation: slideIn 0.3s ease;
     line-height: 1.6;
 }
-
 .mensaje.exito {
     background: #D1FAE5;
     color: #065F46;
     border: 2px solid #6EE7B7;
 }
-
 .mensaje.error {
     background: #FEE2E2;
     color: #991B1B;
     border: 2px solid #FCA5A5;
 }
-
 .mensaje.info {
     background: #DBEAFE;
     color: #1E40AF;
     border: 2px solid #93C5FD;
 }
-
-/* ==================================================
-   23. ICONOS DEL FORMULARIO
-   ================================================== */
 .icono-grupo {
     margin-right: 10px;
 }
 
 /* ==================================================
-   24. RESPONSIVE - TABLET Y MÓVIL
+   15. RESPONSIVE
    ================================================== */
 @media (max-width: 1024px) {
-    .titulo-grande {
-        font-size: 4rem;
-    }
-    
-    .foto-principal-container {
-        max-width: 400px;
-    }
-    
-    .foto-principal {
-        height: 400px;
-        object-position: top 25%;
-    }
+    .titulo-grande { font-size: 4rem; }
+    .foto-principal-container { max-width: 400px; }
+    .foto-principal { height: 400px; object-position: top 25%; }
 }
 
 @media (max-width: 768px) {
-    .titulo-grande {
-        font-size: 3.5rem;
-    }
-    
-    .titulo-nombre {
-        font-size: 2rem;
-    }
-    
-    .titulo-seccion {
-        font-size: 2.2rem;
-    }
-    
-    .subtitulo-formulario {
-        font-size: 1.5rem;
-    }
-    
-    .foto-principal-container {
-        max-width: 350px;
-    }
-    
-    .foto-principal {
-        height: 350px;
-        object-fit: cover;
-        object-position: top 20%;
-    }
-    
-    .grid-normas {
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-info {
-        grid-template-columns: 1fr;
-    }
-    
-    .formulario-container {
-        padding: var(--espacio-md);
-    }
-    
-    .grupo-formulario {
-        padding: 15px;
-    }
-    
-    .acciones-formulario {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .btn-guardar,
-    .btn-limpiar,
-    .btn-volver {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .music-button {
-        bottom: 15px;
-        right: 15px;
-        padding: 10px 18px;
-        font-size: 0.9rem;
-    }
-    
-    .btn-confirmar-flotante {
-        bottom: 80px;
-        right: 15px;
-        padding: 12px 18px;
-        font-size: 0.9rem;
-    }
+    .titulo-grande { font-size: 3.5rem; }
+    .titulo-nombre { font-size: 2rem; }
+    .titulo-seccion { font-size: 2.2rem; }
+    .subtitulo-formulario { font-size: 1.5rem; }
+    .foto-principal-container { max-width: 350px; }
+    .foto-principal { height: 350px; object-fit: cover; object-position: top 20%; }
+    .grid-normas { grid-template-columns: 1fr; }
+    .footer-info { grid-template-columns: 1fr; }
+    .formulario-container { padding: var(--espacio-md); }
+    .grupo-formulario { padding: 15px; }
+    .acciones-formulario { flex-direction: column; align-items: stretch; }
+    .btn-guardar, .btn-limpiar, .btn-volver { width: 100%; justify-content: center; }
+    .music-button { bottom: 15px; right: 15px; padding: 10px 18px; font-size: 0.9rem; }
+    .btn-confirmar-flotante { bottom: 80px; right: 15px; padding: 12px 18px; font-size: 0.9rem; }
 }
 
 @media (max-width: 480px) {
-    .titulo-grande {
-        font-size: 2.8rem;
-    }
-    
-    .titulo-pequeno {
-        font-size: 1.3rem;
-    }
-    
-    .titulo-nombre {
-        font-size: 1.6rem;
-    }
-    
-    .foto-principal-container {
-        max-width: 280px;
-    }
-    
-    .foto-principal {
-        height: 280px;
-        object-fit: cover;
-        object-position: top 15%;
-    }
-    
-    .norma-card {
-        padding: var(--espacio-md);
-    }
-    
-    .formulario-container {
-        padding: 15px;
-    }
+    .titulo-grande { font-size: 2.8rem; }
+    .titulo-pequeno { font-size: 1.3rem; }
+    .titulo-nombre { font-size: 1.6rem; }
+    .foto-principal-container { max-width: 280px; }
+    .foto-principal { height: 280px; object-fit: cover; object-position: top 15%; }
+    .norma-card { padding: var(--espacio-md); }
+    .formulario-container { padding: 15px; }
 }
 
 /* ==================================================
-   25. MEJORAS DE ACCESIBILIDAD Y LEGIBILIDAD
+   16. ACCESIBILIDAD
    ================================================== */
-.texto-contraste {
-    color: var(--texto-principal);
-}
-
-::selection {
-    background: var(--lila);
-    color: var(--texto-blanco);
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-:focus-visible {
-    outline: 3px solid var(--lila);
-    outline-offset: 2px;
-}
+.texto-contraste { color: var(--texto-principal); }
+::selection { background: var(--lila); color: var(--texto-blanco); }
+html { scroll-behavior: smooth; }
+:focus-visible { outline: 3px solid var(--lila); outline-offset: 2px; }
 
 /* ==================================================
-   26. FIN DEL CSS
+   17. FIN DEL CSS
    ================================================== */
-/* ==================================================
-   13. BOTÓN DE CONFIRMACIÓN FLOTANTE (CON MISMO ESTILO)
-   ================================================== */
-.btn-confirmar-flotante {
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    z-index: 1000;
-    display: inline-block;
-    padding: 15px 25px;
-    background: linear-gradient(135deg, var(--lila), var(--rosa));
-    color: var(--texto-blanco);
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 50px;
-    box-shadow: 0 10px 30px rgba(192, 132, 252, 0.4);
-    transition: all 0.3s ease;
-    font-family: var(--fuente-texto);
-    text-align: center;
-    border: none;
-    cursor: pointer;
-    animation: latido 2s ease-in-out infinite;
-}
-
-.btn-confirmar-flotante:hover {
-    transform: scale(1.1);
-    box-shadow: 0 15px 40px rgba(192, 132, 252, 0.6);
-}
-
-.btn-confirmar-flotante:active {
-    transform: scale(0.95);
-}
-
-/* Ajustes para móviles */
-@media (max-width: 768px) {
-    .btn-confirmar-flotante {
-        bottom: 80px;
-        right: 15px;
-        padding: 12px 18px;
-        font-size: 0.9rem;
-    }
-}
