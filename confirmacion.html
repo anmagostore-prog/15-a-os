@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -11,30 +11,52 @@
     <!-- FUENTES BONITAS -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- CONEXIÓN A FIREBASE -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- ============================================ -->
+    <!-- CONEXIÓN A FIREBASE (VERSIÓN COMPAT)        -->
+    <!-- ============================================ -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // ⬇️ TU CONFIGURACIÓN DE FIREBASE ⬇️
+        const firebaseConfig = {
+            apiKey: "AIzaSyCzsQI6QGv7Ksg097jS1hpMPIPXQR2yZQg",
+            authDomain: "fiesta-15-anos-mariana.firebaseapp.com",
+            projectId: "fiesta-15-anos-mariana",
+            storageBucket: "fiesta-15-anos-mariana.firebasestorage.app",
+            messagingSenderId: "859702756674",
+            appId: "1:859702756674:web:c91d4f0a139a59a746f4db"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        console.log('🔥 Firebase conectado correctamente');
+        console.log('📁 Colección: "invitados"');
+    </script>
 </head>
 <body>
 
-   <!-- ============================================ -->
-<!-- 1. BOTÓN DE MÚSICA (flotante)                -->
-<!-- ============================================ -->
-<button id="musica-btn" class="music-button">
-    🎵 Activar Música
-</button>
+    <!-- ============================================ -->
+    <!-- 1. BOTÓN DE MÚSICA (flotante)                -->
+    <!-- ============================================ -->
+    <button id="musica-btn" class="music-button">
+        🎵 Activar Música
+    </button>
 
-<!-- REPRODUCTOR DE YOUTUBE (OCULTO, SOLO AUDIO) -->
-<!-- REPRODUCTOR DE YOUTUBE (INVISIBLE PERO NO OCULTO) -->
-<div id="youtube-audio" style="position: absolute; width: 1px; height: 1px; overflow: hidden; top: -1000px; left: -1000px;">
-    <iframe 
-        id="audio-iframe"
-        src="https://www.youtube.com/embed/fZSZMp32XaA?autoplay=0&mute=0&controls=0&loop=1&playlist=fZSZMp32XaA&enablejsapi=1" 
-        allow="autoplay; encrypted-media">
-    </iframe>
-</div>
+    <!-- REPRODUCTOR DE YOUTUBE (INVISIBLE PERO NO OCULTO) -->
+    <div id="youtube-audio" style="position: absolute; width: 1px; height: 1px; overflow: hidden; top: -1000px; left: -1000px;">
+        <iframe 
+            id="audio-iframe"
+            src="https://www.youtube.com/embed/fZSZMp32XaA?autoplay=0&mute=0&controls=0&loop=1&playlist=fZSZMp32XaA&enablejsapi=1" 
+            allow="autoplay; encrypted-media">
+        </iframe>
+    </div>
 
-    <!-- ENCABEZADO -->
+    <!-- ============================================ -->
+    <!-- 2. ENCABEZADO                                -->
+    <!-- ============================================ -->
     <header class="header-principal">
         <div class="header-contenido">
             <div class="decoracion-superior">
@@ -57,7 +79,9 @@
         </div>
     </header>
 
-    <!-- FORMULARIO -->
+    <!-- ============================================ -->
+    <!-- 3. FORMULARIO                                -->
+    <!-- ============================================ -->
     <section class="seccion-formulario">
         <div class="formulario-container">
             
@@ -69,7 +93,7 @@
             <form id="formulario-invitados" class="formulario">
                 
                 <!-- ========================================== -->
-                <!-- 1. DATOS DEL LÍDER (SOLO UNA VEZ)         -->
+                <!-- DATOS DEL LÍDER (SOLO UNA VEZ)             -->
                 <!-- ========================================== -->
                 <div class="grupo-formulario grupo-lider">
                     <h3 class="subtitulo-formulario">
@@ -106,7 +130,7 @@
                 </div>
                 
                 <!-- ========================================== -->
-                <!-- 2. CANTIDAD DE PERSONAS                    -->
+                <!-- CANTIDAD DE PERSONAS                       -->
                 <!-- ========================================== -->
                 <div class="grupo-formulario grupo-cantidad">
                     <h3 class="subtitulo-formulario">
@@ -130,7 +154,7 @@
                 </div>
                 
                 <!-- ========================================== -->
-                <!-- 3. CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)   -->
+                <!-- CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)       -->
                 <!-- ========================================== -->
                 <div class="grupo-formulario grupo-invitados" id="grupo-invitados">
                     <h3 class="subtitulo-formulario">
@@ -144,12 +168,11 @@
                     
                     <div id="contenedor-invitados">
                         <!-- AQUÍ SE GENERARÁN LOS CAMPOS DINÁMICAMENTE -->
-                        <!-- SOLO PARA ACOMPAÑANTES (NUNCA EL LÍDER) -->
                     </div>
                 </div>
                 
                 <!-- ========================================== -->
-                <!-- 4. BOTONES                                -->
+                <!-- BOTONES DE ACCIÓN                          -->
                 <!-- ========================================== -->
                 <div class="acciones-formulario">
                     <button type="button" id="btn-guardar" class="btn-guardar">
@@ -172,19 +195,22 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ============================================ -->
+    <!-- 4. FOOTER                                    -->
+    <!-- ============================================ -->
     <footer class="footer-principal">
         <div class="footer-contenido">
             <div class="footer-copy">
-                <p>© 2026 - [Nombre de tu hija] - Todos los derechos reservados</p>
+                <p>© 2026 - Mariana Buitrago Gomez - Todos los derechos reservados</p>
                 <p class="footer-corazon">Hecho con ❤️ para mi princesa</p>
             </div>
         </div>
     </footer>
 
-    <!-- JAVASCRIPT -->
+    <!-- ============================================ -->
+    <!-- 5. JAVASCRIPT                                -->
+    <!-- ============================================ -->
     <script src="app.js"></script>
-    <script src="firebase-config.js"></script>
     <script src="formulario.js"></script>
     
 </body>
