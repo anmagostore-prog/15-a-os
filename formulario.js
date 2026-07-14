@@ -10,10 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const contenedor = document.getElementById('contenedor-invitados');
     
     function generarCamposInvitados(cantidad) {
-        // Limpiar el contenedor
         contenedor.innerHTML = '';
         
-        // Validar cantidad
         if (isNaN(cantidad) || cantidad < 1) {
             cantidad = 1;
         }
@@ -24,27 +22,17 @@ document.addEventListener('DOMContentLoaded', function() {
             cantidadInput.value = 4;
         }
         
-        // ✅ CALCULAR ACOMPAÑANTES (cantidad - 1)
         const numAcompanantes = cantidad - 1;
         
-        // Si solo va el líder, mostrar mensaje
         if (numAcompanantes === 0) {
             contenedor.innerHTML = `
-                <div style="
-                    background: #F3E8FF; 
-                    padding: 20px; 
-                    border-radius: 12px; 
-                    text-align: center;
-                    color: #7C3AED;
-                    font-size: 1.1rem;
-                ">
+                <div style="background: #F3E8FF; padding: 20px; border-radius: 12px; text-align: center; color: #7C3AED; font-size: 1.1rem;">
                     💫 Solo asistirá el líder. No hay acompañantes.
                 </div>
             `;
             return;
         }
         
-        // ✅ GENERAR SOLO ACOMPAÑANTES (NUNCA EL LÍDER)
         for (let i = 1; i <= numAcompanantes; i++) {
             const invitadoDiv = document.createElement('div');
             invitadoDiv.className = 'invitado-card';
@@ -80,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Escuchar cambios en la cantidad
     cantidadInput.addEventListener('change', function() {
         const cantidad = parseInt(this.value) || 1;
         generarCamposInvitados(cantidad);
@@ -93,12 +80,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Generar campos iniciales (cantidad = 1 → solo líder)
     generarCamposInvitados(1);
 });
 
 // =====================================================
-// 2. VALIDACIÓN Y GUARDADO
+// 2. VALIDACIÓN Y GUARDADO (CON FIREBASE)
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnGuardar = document.getElementById('btn-guardar');
@@ -113,10 +99,90 @@ document.addEventListener('DOMContentLoaded', function() {
         
         setTimeout(() => {
             mensajesDiv.innerHTML = '';
-        }, 5000);
+        }, 6000);
     }
     
+    // ✅ FUNCIÓN PARA VERIFICAR DUPLICADO
+    async function verificarDuplicado(telefono) {
+        try {
+            const querySnapshot = await window.db.collection('invitados')
+                .where('telefono', '==', telefono)
+                .get();
+            
+            return !querySnapshot.empty;
+        } catch (error) {
+            console.error('❌ Error al verificar duplicado:', error);
+            return false;
+        }
+    }
+
+    // ✅ FUNCIÓN PARA GUARDAR UN INVITADO
+    async function guardarInvitado(datosInvitado) {
+        try {
+            const existe = await verificarDuplicado(datosInvitado.telefono);
+            
+            if (existe) {
+                return {
+                    success: false,
+                    message: `⚠️ El teléfono ${datosInvitado.telefono} ya está registrado`
+                };
+            }
+            
+            const docRef = await window.db.collection('invitados').add({
+                nombre: datosInvitado.nombre,
+                telefono: datosInvitado.telefono,
+                lider: datosInvitado.lider,
+                telefonoLider: datosInvitado.telefonoLider,
+                tipo: datosInvitado.tipo || 'invitado',
+                fechaRegistro: datosInvitado.fechaRegistro || new Date().toISOString()
+            });
+            
+            return {
+                success: true,
+                message: `✅ ${datosInvitado.nombre} registrado exitosamente`,
+                id: docRef.id
+            };
+        } catch (error) {
+            console.error('❌ Error al guardar:', error);
+            return {
+                success: false,
+                message: `❌ Error al guardar a ${datosInvitado.nombre}`
+            };
+        }
+    }
+
+    // ✅ FUNCIÓN PARA GUARDAR MÚLTIPLES INVITADOS
+    async function guardarMultiplesInvitados(listaInvitados) {
+        const resultados = [];
+        let errores = [];
+        
+        for (const invitado of listaInvitados) {
+            const resultado = await guardarInvitado(invitado);
+            resultados.push(resultado);
+            
+            if (!resultado.success) {
+                errores.push(resultado.message);
+            }
+        }
+        
+        return {
+            success: errores.length === 0,
+            resultados: resultados,
+            errores: errores,
+            total: listaInvitados.length,
+            guardados: resultados.filter(r => r.success).length
+        };
+    }
+    
+    // ✅ FUNCIÓN PRINCIPAL PARA GUARDAR
     async function guardarInvitados() {
+        // Verificar que Firebase está disponible
+        if (typeof window.db === 'undefined') {
+            mostrarMensaje('error', '❌ Firebase no está disponible. Revisa la conexión.');
+            console.error('❌ window.db no está definido');
+            return;
+        }
+        
         // Obtener datos del líder
         const nombreLider = document.getElementById('nombreLider').value.trim();
         const telefonoLider = document.getElementById('telefonoLider').value.trim();
@@ -135,10 +201,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // ✅ RECOLECTAR DATOS
+        // Recolectar datos
         const invitados = [];
+        const numAcompanantes = cantidad - 1;
+        let hayError = false;
         
-        // 1. Agregar al líder (SIEMPRE va primero)
+        // 1. Agregar al líder
         invitados.push({
             nombre: nombreLider,
             telefono: telefonoLider,
@@ -148,10 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fechaRegistro: new Date().toISOString()
         });
         
-        // 2. Agregar a los acompañantes
-        const numAcompanantes = cantidad - 1;
-        let hayError = false;
-        
+        // 2. Agregar acompañantes
         for (let i = 1; i <= numAcompanantes; i++) {
             const nombre = document.getElementById(`nombre_acompanante_${i}`).value.trim();
             const telefono = document.getElementById(`telefono_acompanante_${i}`).value.trim();
@@ -188,13 +253,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Guardar
+        // Guardar en Firebase
         mostrarMensaje('info', '⏳ Guardando datos en la nube...');
         
         try {
-            if (typeof guardarMultiplesInvitados !== 'function') {
-                throw new Error('Firebase no está configurado');
-            }
+            console.log('🔥 Intentando guardar en Firebase...');
+            console.log('📊 Datos a guardar:', invitados);
             
             const resultado = await guardarMultiplesInvitados(invitados);
             
@@ -214,16 +278,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 mostrarMensaje('error', `
                     ⚠️ Se guardaron ${resultado.guardados} de ${resultado.total}
                     <br>
-                    <small>${resultado.errores.join(', ')}</small>
+                    <small>${resultado.errores.join('<br>')}</small>
                 `);
             }
             
         } catch (error) {
-            console.error('❌ Error:', error);
-            mostrarMensaje('error', '❌ Error al guardar. Revisa Firebase.');
+            console.error('❌ Error general:', error);
+            mostrarMensaje('error', `
+                ❌ Error al guardar: ${error.message}
+                <br>
+                <small>Revisa la consola para más detalles.</small>
+            `);
         }
     }
     
+    // Evento del botón
     btnGuardar.addEventListener('click', guardarInvitados);
 });
 
@@ -243,7 +312,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-console.log('📝 Formulario cargado correctamente');
+console.log('📝 formulario.js cargado correctamente');
+console.log('🔥 Firebase disponible:', typeof window.db !== 'undefined' ? '✅ Sí' : '❌ No');
 console.log('✅ El líder se pide UNA SOLA VEZ');
 console.log('✅ Los campos dinámicos son SOLO para acompañantes');
 console.log('👑 1 líder + máximo 3 acompañantes = 4 personas');
