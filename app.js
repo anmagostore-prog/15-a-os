@@ -1,14 +1,12 @@
 // =====================================================
-// app.js - CONTROLADOR DE LA PÁGINA PRINCIPAL
+// app.js - CONTROL DE MÚSICA (CON YOUTUBE - CORREGIDO)
 // =====================================================
 
-// =====================================================
-// 1. CONTROL DE MÚSICA (CON YOUTUBE)
-// =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const musicaBtn = document.getElementById('musica-btn');
     const iframe = document.getElementById('audio-iframe');
     let musicaActiva = false;
+    let youtubeListo = false;
 
     // Verificar que el iframe existe
     if (!iframe) {
@@ -16,25 +14,47 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
+    // Esperar a que el iframe de YouTube esté listo
+    iframe.addEventListener('load', function() {
+        youtubeListo = true;
+        console.log('✅ YouTube cargado y listo');
+    });
+
     // Función para controlar el reproductor de YouTube
     function controlarYouTube(comando) {
-        iframe.contentWindow.postMessage(
-            JSON.stringify({ event: 'command', func: comando, args: [] }),
-            '*'
-        );
+        if (!youtubeListo) {
+            console.log('⏳ YouTube no está listo aún, esperando...');
+            // Intentar de nuevo después de 1 segundo
+            setTimeout(() => {
+                controlarYouTube(comando);
+            }, 1000);
+            return;
+        }
+
+        try {
+            iframe.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func: comando, args: [] }),
+                '*'
+            );
+            console.log(`📤 Comando enviado: ${comando}`);
+        } catch (error) {
+            console.error('❌ Error al enviar comando:', error);
+        }
     }
 
-    // Evento del botón
+    // Evento del botón (MEJORADO)
     musicaBtn.addEventListener('click', function() {
         console.log('🔄 Click en botón de música');
 
         if (!musicaActiva) {
+            // Activar música
             controlarYouTube('playVideo');
             musicaBtn.innerHTML = '🔇 Desactivar Música';
             musicaBtn.classList.add('activo');
             musicaActiva = true;
             console.log('✅ Música activada');
         } else {
+            // Desactivar música
             controlarYouTube('pauseVideo');
             musicaBtn.innerHTML = '🎵 Activar Música';
             musicaBtn.classList.remove('activo');
