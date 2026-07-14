@@ -1,5 +1,5 @@
 // =====================================================
-// formulario.js - LÓGICA DEL FORMULARIO (CORREGIDO)
+// formulario.js - LÓGICA DEL FORMULARIO (DEFINITIVO)
 // =====================================================
 
 // =====================================================
@@ -84,7 +84,83 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =====================================================
-// 2. VALIDACIÓN Y GUARDADO (CON FIREBASE)
+// 2. FUNCIONES DE FIREBASE (DEFINIDAS AQUÍ)
+// =====================================================
+
+// ✅ FUNCIÓN PARA VERIFICAR DUPLICADO
+async function verificarDuplicado(telefono) {
+    try {
+        const querySnapshot = await window.db.collection('invitados')
+            .where('telefono', '==', telefono)
+            .get();
+        
+        return !querySnapshot.empty;
+    } catch (error) {
+        console.error('❌ Error al verificar duplicado:', error);
+        return false;
+    }
+}
+
+// ✅ FUNCIÓN PARA GUARDAR UN INVITADO
+async function guardarInvitado(datosInvitado) {
+    try {
+        const existe = await verificarDuplicado(datosInvitado.telefono);
+        
+        if (existe) {
+            return {
+                success: false,
+                message: `⚠️ El teléfono ${datosInvitado.telefono} ya está registrado`
+            };
+        }
+        
+        const docRef = await window.db.collection('invitados').add({
+            nombre: datosInvitado.nombre,
+            telefono: datosInvitado.telefono,
+            lider: datosInvitado.lider,
+            telefonoLider: datosInvitado.telefonoLider,
+            tipo: datosInvitado.tipo || 'invitado',
+            fechaRegistro: datosInvitado.fechaRegistro || new Date().toISOString()
+        });
+        
+        return {
+            success: true,
+            message: `✅ ${datosInvitado.nombre} registrado exitosamente`,
+            id: docRef.id
+        };
+    } catch (error) {
+        console.error('❌ Error al guardar:', error);
+        return {
+            success: false,
+            message: `❌ Error al guardar a ${datosInvitado.nombre}`
+        };
+    }
+}
+
+// ✅ FUNCIÓN PARA GUARDAR MÚLTIPLES INVITADOS
+async function guardarMultiplesInvitados(listaInvitados) {
+    const resultados = [];
+    let errores = [];
+    
+    for (const invitado of listaInvitados) {
+        const resultado = await guardarInvitado(invitado);
+        resultados.push(resultado);
+        
+        if (!resultado.success) {
+            errores.push(resultado.message);
+        }
+    }
+    
+    return {
+        success: errores.length === 0,
+        resultados: resultados,
+        errores: errores,
+        total: listaInvitados.length,
+        guardados: resultados.filter(r => r.success).length
+    };
+}
+
+// =====================================================
+// 3. VALIDACIÓN Y GUARDADO (CON FIREBASE)
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnGuardar = document.getElementById('btn-guardar');
@@ -102,86 +178,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 6000);
     }
     
-    // ✅ FUNCIÓN PARA VERIFICAR DUPLICADO
-    async function verificarDuplicado(telefono) {
-        try {
-            const querySnapshot = await window.db.collection('invitados')
-                .where('telefono', '==', telefono)
-                .get();
-            
-            return !querySnapshot.empty;
-        } catch (error) {
-            console.error('❌ Error al verificar duplicado:', error);
-            return false;
-        }
-    }
-
-    // ✅ FUNCIÓN PARA GUARDAR UN INVITADO
-    async function guardarInvitado(datosInvitado) {
-        try {
-            const existe = await verificarDuplicado(datosInvitado.telefono);
-            
-            if (existe) {
-                return {
-                    success: false,
-                    message: `⚠️ El teléfono ${datosInvitado.telefono} ya está registrado`
-                };
-            }
-            
-            const docRef = await window.db.collection('invitados').add({
-                nombre: datosInvitado.nombre,
-                telefono: datosInvitado.telefono,
-                lider: datosInvitado.lider,
-                telefonoLider: datosInvitado.telefonoLider,
-                tipo: datosInvitado.tipo || 'invitado',
-                fechaRegistro: datosInvitado.fechaRegistro || new Date().toISOString()
-            });
-            
-            return {
-                success: true,
-                message: `✅ ${datosInvitado.nombre} registrado exitosamente`,
-                id: docRef.id
-            };
-        } catch (error) {
-            console.error('❌ Error al guardar:', error);
-            return {
-                success: false,
-                message: `❌ Error al guardar a ${datosInvitado.nombre}`
-            };
-        }
-    }
-
-    // ✅ FUNCIÓN PARA GUARDAR MÚLTIPLES INVITADOS
-    async function guardarMultiplesInvitados(listaInvitados) {
-        const resultados = [];
-        let errores = [];
-        
-        for (const invitado of listaInvitados) {
-            const resultado = await guardarInvitado(invitado);
-            resultados.push(resultado);
-            
-            if (!resultado.success) {
-                errores.push(resultado.message);
-            }
-        }
-        
-        return {
-            success: errores.length === 0,
-            resultados: resultados,
-            errores: errores,
-            total: listaInvitados.length,
-            guardados: resultados.filter(r => r.success).length
-        };
-    }
-    
     // ✅ FUNCIÓN PRINCIPAL PARA GUARDAR
     async function guardarInvitados() {
-        // Verificar que Firebase está disponible
+        // 🔥 VERIFICAR QUE FIREBASE ESTÁ DISPONIBLE
         if (typeof window.db === 'undefined') {
             mostrarMensaje('error', '❌ Firebase no está disponible. Revisa la conexión.');
             console.error('❌ window.db no está definido');
             return;
         }
+        
+        console.log('✅ Firebase disponible, procediendo a guardar...');
         
         // Obtener datos del líder
         const nombreLider = document.getElementById('nombreLider').value.trim();
@@ -297,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =====================================================
-// 3. LIMPIAR FORMULARIO
+// 4. LIMPIAR FORMULARIO
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnLimpiar = document.getElementById('btn-limpiar');
