@@ -1,5 +1,5 @@
 // =====================================================
-// formulario.js - VERSIÓN CORREGIDA (VALIDACIÓN EN TIEMPO REAL)
+// formulario.js - VERSIÓN DEFINITIVA (CON WINDOW)
 // =====================================================
 
 // =====================================================
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const telefonoInput = document.getElementById('telefonoLider');
     const validacionDiv = document.getElementById('validacion-lider');
     
-    // ✅ VARIABLES GLOBALES PARA VALIDACIÓN
+    // ✅ INICIALIZAR VARIABLES GLOBALES
     window.telefonoVerificado = false;
     window.telefonoRegistrado = false;
     window.telefonoActual = '';
