@@ -311,3 +311,4 @@ document.addEventListener('DOMContentLoaded', function() {
 console.log('📝 Formulario cargado correctamente');
 console.log('✅ Validación de teléfono en tiempo real (con window.)');
 console.log('✅ Líder + acompañantes con parentesco');
+console.log('👑 1 líder + máximo 3 acompañantes = 4 personas');
