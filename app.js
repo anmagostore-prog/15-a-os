@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Si no está cargado, esperar a que cargue
                 const timeout = setTimeout(() => {
                     reject(new Error('Timeout: El audio no cargó a tiempo'));
-                }, 10000); // Esperar 10 segundos máximo
+                }, 30000); // Esperar 10 segundos máximo
 
                 audio.addEventListener('canplaythrough', function onLoad() {
                     clearTimeout(timeout);
