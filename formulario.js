@@ -1,5 +1,5 @@
 // =====================================================
-// formulario.js - LÓGICA DEL FORMULARIO (DEFINITIVO)
+// formulario.js - NUEVA VERSIÓN (CON PARENTESCO)
 // =====================================================
 
 // =====================================================
@@ -12,28 +12,26 @@ document.addEventListener('DOMContentLoaded', function() {
     function generarCamposInvitados(cantidad) {
         contenedor.innerHTML = '';
         
-        if (isNaN(cantidad) || cantidad < 1) {
-            cantidad = 1;
+        if (isNaN(cantidad) || cantidad < 0) {
+            cantidad = 0;
         }
         
-        if (cantidad > 4) {
-            alert('⚠️ Máximo 4 personas por grupo (1 líder + 3 acompañantes)');
-            cantidad = 4;
-            cantidadInput.value = 4;
+        if (cantidad > 3) {
+            alert('⚠️ Máximo 3 acompañantes por grupo');
+            cantidad = 3;
+            cantidadInput.value = 3;
         }
         
-        const numAcompanantes = cantidad - 1;
-        
-        if (numAcompanantes === 0) {
+        if (cantidad === 0) {
             contenedor.innerHTML = `
                 <div style="background: #F3E8FF; padding: 20px; border-radius: 12px; text-align: center; color: #7C3AED; font-size: 1.1rem;">
-                    💫 Solo asistirá el líder. No hay acompañantes.
+                    💫 No hay acompañantes. Solo asistirá el líder.
                 </div>
             `;
             return;
         }
         
-        for (let i = 1; i <= numAcompanantes; i++) {
+        for (let i = 1; i <= cantidad; i++) {
             const invitadoDiv = document.createElement('div');
             invitadoDiv.className = 'invitado-card';
             
@@ -52,15 +50,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 
                 <div class="campo-formulario">
-                    <label for="telefono_acompanante_${i}">Teléfono del acompañante ${i}:</label>
-                    <input 
-                        type="tel" 
-                        id="telefono_acompanante_${i}" 
-                        name="telefono_acompanante_${i}" 
-                        placeholder="Ej: 3219876543"
-                        required
-                    >
-                    <span class="campo-ayuda">📌 Número de contacto del acompañante</span>
+                    <label for="parentesco_${i}">Parentesco con el líder:</label>
+                    <select id="parentesco_${i}" name="parentesco_${i}" required>
+                        <option value="">Selecciona...</option>
+                        <option value="Esposo/Esposa">Esposo/Esposa</option>
+                        <option value="Hijo/Hija">Hijo/Hija</option>
+                        <option value="Hermano/Hermana">Hermano/Hermana</option>
+                        <option value="Padre/Madre">Padre/Madre</option>
+                        <option value="Abuelo/Abuela">Abuelo/Abuela</option>
+                        <option value="Tío/Tía">Tío/Tía</option>
+                        <option value="Primo/Prima">Primo/Prima</option>
+                        <option value="Sobrino/Sobrina">Sobrino/Sobrina</option>
+                        <option value="Amigo/Amiga">Amigo/Amiga</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                    <span class="campo-ayuda">📌 Relación con el líder del grupo</span>
                 </div>
             `;
             
@@ -69,98 +73,81 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     cantidadInput.addEventListener('change', function() {
-        const cantidad = parseInt(this.value) || 1;
+        const cantidad = parseInt(this.value) || 0;
         generarCamposInvitados(cantidad);
     });
     
     cantidadInput.addEventListener('keyup', function(e) {
         if (e.key === 'Enter') {
-            const cantidad = parseInt(this.value) || 1;
+            const cantidad = parseInt(this.value) || 0;
             generarCamposInvitados(cantidad);
         }
     });
     
-    generarCamposInvitados(1);
+    generarCamposInvitados(0);
 });
 
 // =====================================================
-// 2. FUNCIONES DE FIREBASE (DEFINIDAS AQUÍ)
+// 2. VALIDACIÓN EN TIEMPO REAL DEL TELÉFONO
 // =====================================================
+document.addEventListener('DOMContentLoaded', function() {
+    const telefonoInput = document.getElementById('telefonoLider');
+    const validacionDiv = document.getElementById('validacion-lider');
+    let telefonoVerificado = false;
+    let telefonoRegistrado = false;
 
-// ✅ FUNCIÓN PARA VERIFICAR DUPLICADO
-async function verificarDuplicado(telefono) {
-    try {
-        const querySnapshot = await window.db.collection('invitados')
-            .where('telefono', '==', telefono)
-            .get();
+    telefonoInput.addEventListener('input', async function() {
+        const telefono = this.value.trim();
+        const validacionDiv = document.getElementById('validacion-lider');
         
-        return !querySnapshot.empty;
-    } catch (error) {
-        console.error('❌ Error al verificar duplicado:', error);
-        return false;
-    }
-}
-
-// ✅ FUNCIÓN PARA GUARDAR UN INVITADO
-async function guardarInvitado(datosInvitado) {
-    try {
-        const existe = await verificarDuplicado(datosInvitado.telefono);
-        
-        if (existe) {
-            return {
-                success: false,
-                message: `⚠️ El teléfono ${datosInvitado.telefono} ya está registrado`
-            };
+        // Validar formato (mínimo 7 dígitos)
+        if (telefono.length < 7) {
+            validacionDiv.innerHTML = `
+                <span style="color: #F59E0B;">⏳ Ingresa al menos 7 dígitos...</span>
+            `;
+            telefonoVerificado = false;
+            return;
         }
-        
-        const docRef = await window.db.collection('invitados').add({
-            nombre: datosInvitado.nombre,
-            telefono: datosInvitado.telefono,
-            lider: datosInvitado.lider,
-            telefonoLider: datosInvitado.telefonoLider,
-            tipo: datosInvitado.tipo || 'invitado',
-            fechaRegistro: datosInvitado.fechaRegistro || new Date().toISOString()
-        });
-        
-        return {
-            success: true,
-            message: `✅ ${datosInvitado.nombre} registrado exitosamente`,
-            id: docRef.id
-        };
-    } catch (error) {
-        console.error('❌ Error al guardar:', error);
-        return {
-            success: false,
-            message: `❌ Error al guardar a ${datosInvitado.nombre}`
-        };
-    }
-}
 
-// ✅ FUNCIÓN PARA GUARDAR MÚLTIPLES INVITADOS
-async function guardarMultiplesInvitados(listaInvitados) {
-    const resultados = [];
-    let errores = [];
-    
-    for (const invitado of listaInvitados) {
-        const resultado = await guardarInvitado(invitado);
-        resultados.push(resultado);
-        
-        if (!resultado.success) {
-            errores.push(resultado.message);
+        // Verificar en Firebase si ya existe
+        try {
+            validacionDiv.innerHTML = `
+                <span style="color: #60A5FA;">⏳ Verificando teléfono...</span>
+            `;
+
+            const querySnapshot = await window.db.collection('grupos')
+                .where('telefonoLider', '==', telefono)
+                .get();
+
+            if (!querySnapshot.empty) {
+                validacionDiv.innerHTML = `
+                    <span style="color: #EF4444;">❌ Este número ya está registrado</span>
+                `;
+                telefonoVerificado = false;
+                telefonoRegistrado = true;
+            } else {
+                validacionDiv.innerHTML = `
+                    <span style="color: #10B981;">✅ Teléfono disponible</span>
+                `;
+                telefonoVerificado = true;
+                telefonoRegistrado = false;
+            }
+        } catch (error) {
+            console.error('❌ Error al verificar:', error);
+            validacionDiv.innerHTML = `
+                <span style="color: #EF4444;">❌ Error al verificar. Intenta nuevamente.</span>
+            `;
+            telefonoVerificado = false;
         }
-    }
-    
-    return {
-        success: errores.length === 0,
-        resultados: resultados,
-        errores: errores,
-        total: listaInvitados.length,
-        guardados: resultados.filter(r => r.success).length
-    };
-}
+    });
+
+    // Exponer variables para usar en guardarInvitados
+    window.telefonoVerificado = telefonoVerificado;
+    window.telefonoRegistrado = telefonoRegistrado;
+});
 
 // =====================================================
-// 3. VALIDACIÓN Y GUARDADO (CON FIREBASE)
+// 3. GUARDAR EN FIREBASE
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnGuardar = document.getElementById('btn-guardar');
@@ -178,127 +165,110 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 6000);
     }
     
-    // ✅ FUNCIÓN PRINCIPAL PARA GUARDAR
     async function guardarInvitados() {
-        // 🔥 VERIFICAR QUE FIREBASE ESTÁ DISPONIBLE
+        // 🔥 Verificar Firebase
         if (typeof window.db === 'undefined') {
-            mostrarMensaje('error', '❌ Firebase no está disponible. Revisa la conexión.');
-            console.error('❌ window.db no está definido');
+            mostrarMensaje('error', '❌ Firebase no está disponible.');
             return;
         }
-        
-        console.log('✅ Firebase disponible, procediendo a guardar...');
-        
+
         // Obtener datos del líder
         const nombreLider = document.getElementById('nombreLider').value.trim();
         const telefonoLider = document.getElementById('telefonoLider').value.trim();
-        const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
+        const cantidad = parseInt(document.getElementById('cantidad').value) || 0;
+        
+        // ✅ VALIDACIÓN EN TIEMPO REAL
+        if (!telefonoLider || telefonoLider.length < 7) {
+            mostrarMensaje('error', '⚠️ El teléfono debe tener al menos 7 dígitos');
+            return;
+        }
+
+        // Verificar que el teléfono esté disponible
+        if (window.telefonoRegistrado) {
+            mostrarMensaje('error', '⚠️ Este teléfono ya está registrado');
+            return;
+        }
+
+        if (!window.telefonoVerificado) {
+            mostrarMensaje('error', '⚠️ Verifica el teléfono antes de guardar');
+            return;
+        }
         
         // Validar líder
         if (!nombreLider) {
-            mostrarMensaje('error', '⚠️ Por favor, ingresa el nombre del líder');
+            mostrarMensaje('error', '⚠️ Ingresa el nombre del líder');
             document.getElementById('nombreLider').focus();
             return;
         }
         
-        if (!telefonoLider || telefonoLider.length < 7) {
-            mostrarMensaje('error', '⚠️ Por favor, ingresa un teléfono válido para el líder');
-            document.getElementById('telefonoLider').focus();
-            return;
-        }
-        
-        // Recolectar datos
-        const invitados = [];
-        const numAcompanantes = cantidad - 1;
+        // Recolectar acompañantes
+        const acompanantes = [];
         let hayError = false;
         
-        // 1. Agregar al líder
-        invitados.push({
-            nombre: nombreLider,
-            telefono: telefonoLider,
-            lider: nombreLider,
-            telefonoLider: telefonoLider,
-            tipo: 'líder',
-            fechaRegistro: new Date().toISOString()
-        });
-        
-        // 2. Agregar acompañantes
-        for (let i = 1; i <= numAcompanantes; i++) {
+        for (let i = 1; i <= cantidad; i++) {
             const nombre = document.getElementById(`nombre_acompanante_${i}`).value.trim();
-            const telefono = document.getElementById(`telefono_acompanante_${i}`).value.trim();
+            const parentesco = document.getElementById(`parentesco_${i}`).value;
             
             if (!nombre) {
-                mostrarMensaje('error', `⚠️ Por favor, ingresa el nombre del acompañante ${i}`);
+                mostrarMensaje('error', `⚠️ Ingresa el nombre del acompañante ${i}`);
                 document.getElementById(`nombre_acompanante_${i}`).focus();
                 hayError = true;
                 break;
             }
             
-            if (!telefono || telefono.length < 7) {
-                mostrarMensaje('error', `⚠️ Por favor, ingresa un teléfono válido para el acompañante ${i}`);
-                document.getElementById(`telefono_acompanante_${i}`).focus();
+            if (!parentesco) {
+                mostrarMensaje('error', `⚠️ Selecciona el parentesco del acompañante ${i}`);
+                document.getElementById(`parentesco_${i}`).focus();
                 hayError = true;
                 break;
             }
             
-            invitados.push({
+            acompanantes.push({
                 nombre: nombre,
-                telefono: telefono,
-                lider: nombreLider,
-                telefonoLider: telefonoLider,
-                tipo: 'acompañante',
-                fechaRegistro: new Date().toISOString()
+                parentesco: parentesco
             });
         }
         
         if (hayError) return;
         
-        // Verificar límite
-        if (invitados.length > 4) {
-            mostrarMensaje('error', '⚠️ Máximo 4 personas (1 líder + 3 acompañantes)');
-            return;
-        }
-        
         // Guardar en Firebase
         mostrarMensaje('info', '⏳ Guardando datos en la nube...');
         
         try {
-            console.log('🔥 Intentando guardar en Firebase...');
-            console.log('📊 Datos a guardar:', invitados);
+            const grupoData = {
+                lider: nombreLider,
+                telefonoLider: telefonoLider,
+                acompanantes: acompanantes,
+                totalPersonas: 1 + acompanantes.length,
+                fechaRegistro: new Date().toISOString()
+            };
+
+            console.log('📊 Datos a guardar:', grupoData);
+
+            const docRef = await window.db.collection('grupos').add(grupoData);
             
-            const resultado = await guardarMultiplesInvitados(invitados);
+            mostrarMensaje('exito', `
+                ✅ ¡Grupo familiar registrado exitosamente!
+                <br>
+                <small>👑 Líder: ${nombreLider} | 👥 Acompañantes: ${acompanantes.length}</small>
+                <br>
+                <small>📁 ID: ${docRef.id}</small>
+            `);
             
-            if (resultado.success) {
-                mostrarMensaje('exito', `
-                    ✅ ¡${resultado.guardados} de ${resultado.total} invitados registrados!
-                    <br>
-                    <small>👑 Líder: ${nombreLider} | 👥 Acompañantes: ${numAcompanantes}</small>
-                `);
-                
-                // Limpiar formulario
-                document.getElementById('formulario-invitados').reset();
-                document.getElementById('cantidad').value = 1;
-                document.getElementById('cantidad').dispatchEvent(new Event('change'));
-                
-            } else {
-                mostrarMensaje('error', `
-                    ⚠️ Se guardaron ${resultado.guardados} de ${resultado.total}
-                    <br>
-                    <small>${resultado.errores.join('<br>')}</small>
-                `);
-            }
+            // Limpiar formulario
+            document.getElementById('formulario-invitados').reset();
+            document.getElementById('cantidad').value = 0;
+            document.getElementById('cantidad').dispatchEvent(new Event('change'));
+            document.getElementById('validacion-lider').innerHTML = '';
+            window.telefonoVerificado = false;
+            window.telefonoRegistrado = false;
             
         } catch (error) {
-            console.error('❌ Error general:', error);
-            mostrarMensaje('error', `
-                ❌ Error al guardar: ${error.message}
-                <br>
-                <small>Revisa la consola para más detalles.</small>
-            `);
+            console.error('❌ Error:', error);
+            mostrarMensaje('error', `❌ Error al guardar: ${error.message}`);
         }
     }
     
-    // Evento del botón
     btnGuardar.addEventListener('click', guardarInvitados);
 });
 
@@ -311,15 +281,16 @@ document.addEventListener('DOMContentLoaded', function() {
     btnLimpiar.addEventListener('click', function() {
         if (confirm('¿Limpiar el formulario?')) {
             document.getElementById('formulario-invitados').reset();
-            document.getElementById('cantidad').value = 1;
+            document.getElementById('cantidad').value = 0;
             document.getElementById('cantidad').dispatchEvent(new Event('change'));
+            document.getElementById('validacion-lider').innerHTML = '';
             document.getElementById('mensajes').innerHTML = '';
+            window.telefonoVerificado = false;
+            window.telefonoRegistrado = false;
         }
     });
 });
 
-console.log('📝 formulario.js cargado correctamente');
-console.log('🔥 Firebase disponible:', typeof window.db !== 'undefined' ? '✅ Sí' : '❌ No');
-console.log('✅ El líder se pide UNA SOLA VEZ');
-console.log('✅ Los campos dinámicos son SOLO para acompañantes');
-console.log('👑 1 líder + máximo 3 acompañantes = 4 personas');
+console.log('📝 Nueva versión del formulario cargada');
+console.log('✅ Líder + acompañantes con parentesco');
+console.log('✅ Validación de teléfono en tiempo real');
