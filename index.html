@@ -13,21 +13,21 @@
 </head>
 <body>
 
-    <!-- ============================================ -->
-    <!-- 1. BOTÓN DE MÚSICA (flotante)                -->
-    <!-- ============================================ -->
-    <button id="musica-btn" class="music-button">
-        🎵 Activar Música
-    </button>
-    
-    <!-- MÚSICA DE FONDO (oculta) -->
-    <audio id="musica-fondo" loop>
-        <!-- AQUÍ PONES LA RUTA DE TU CANCIÓN -->
-        <source src="https://anmagostore-prog.github.io/15-a-os/musica/rapunzel.mp3" type="audio/mpeg">
-        <!-- Si no funciona, el navegador mostrará este mensaje -->
-        Tu navegador no soporta el audio.
-    </audio>
+   <!-- ============================================ -->
+<!-- 1. BOTÓN DE MÚSICA (flotante)                -->
+<!-- ============================================ -->
+<button id="musica-btn" class="music-button">
+    🎵 Activar Música
+</button>
 
+<!-- REPRODUCTOR DE YOUTUBE (OCULTO, SOLO AUDIO) -->
+<div id="youtube-audio" style="display: none;">
+    <iframe 
+        id="audio-iframe"
+        src="https://www.youtube.com/embed/TU_ID_DEL_VIDEO?autoplay=0&mute=0&controls=0&loop=1&playlist=TU_ID_DEL_VIDEO" 
+        allow="autoplay; encrypted-media">
+    </iframe>
+</div>
     <!-- ============================================ -->
     <!-- 2. ENCABEZADO PRINCIPAL                      -->
     <!-- ============================================ -->
