@@ -17,11 +17,22 @@
 </head>
 <body>
 
-    <!-- BOTÓN DE MÚSICA -->
-    <button id="musica-btn" class="music-button">🎵 Activar Música</button>
-    <audio id="musica-fondo" loop>
-        <source src="musica/rapunzel.mp3" type="audio/mpeg">
-    </audio>
+   <!-- ============================================ -->
+<!-- 1. BOTÓN DE MÚSICA (flotante)                -->
+<!-- ============================================ -->
+<button id="musica-btn" class="music-button">
+    🎵 Activar Música
+</button>
+
+<!-- REPRODUCTOR DE YOUTUBE (OCULTO, SOLO AUDIO) -->
+<!-- REPRODUCTOR DE YOUTUBE (INVISIBLE PERO NO OCULTO) -->
+<div id="youtube-audio" style="position: absolute; width: 1px; height: 1px; overflow: hidden; top: -1000px; left: -1000px;">
+    <iframe 
+        id="audio-iframe"
+        src="https://www.youtube.com/embed/fZSZMp32XaA?autoplay=0&mute=0&controls=0&loop=1&playlist=fZSZMp32XaA&enablejsapi=1" 
+        allow="autoplay; encrypted-media">
+    </iframe>
+</div>
 
     <!-- ENCABEZADO -->
     <header class="header-principal">
