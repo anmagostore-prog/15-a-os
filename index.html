@@ -1,4 +1,4 @@
-r<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -13,24 +13,31 @@ r<!DOCTYPE html>
 </head>
 <body>
 
-   <!-- ============================================ -->
-<!-- 1. BOTÓN DE MÚSICA (flotante)                -->
-<!-- ============================================ -->
-<button id="musica-btn" class="music-button">
-    🎵 Activar Música
-</button>
-
-<!-- REPRODUCTOR DE YOUTUBE (OCULTO, SOLO AUDIO) -->
-<!-- REPRODUCTOR DE YOUTUBE (INVISIBLE PERO NO OCULTO) -->
-<div id="youtube-audio" style="position: absolute; width: 1px; height: 1px; overflow: hidden; top: -1000px; left: -1000px;">
-    <iframe 
-        id="audio-iframe"
-        src="https://www.youtube.com/embed/fZSZMp32XaA?autoplay=0&mute=0&controls=0&loop=1&playlist=fZSZMp32XaA&enablejsapi=1" 
-        allow="autoplay; encrypted-media">
-    </iframe>
-</div>
     <!-- ============================================ -->
-    <!-- 2. ENCABEZADO PRINCIPAL                      -->
+    <!-- 1. BOTÓN DE MÚSICA (flotante)                -->
+    <!-- ============================================ -->
+    <button id="musica-btn" class="music-button">
+        🎵 Activar Música
+    </button>
+
+    <!-- ============================================ -->
+    <!-- 2. BOTÓN DE CONFIRMACIÓN FLOTANTE           -->
+    <!-- ============================================ -->
+    <a href="confirmacion.html" class="btn-confirmar-flotante">
+        ✨ Confirmar Asistencia ✨
+    </a>
+
+    <!-- REPRODUCTOR DE YOUTUBE (INVISIBLE PERO NO OCULTO) -->
+    <div id="youtube-audio" style="position: absolute; width: 1px; height: 1px; overflow: hidden; top: -1000px; left: -1000px;">
+        <iframe 
+            id="audio-iframe"
+            src="https://www.youtube.com/embed/fZSZMp32XaA?autoplay=0&mute=0&controls=0&loop=1&playlist=fZSZMp32XaA&enablejsapi=1" 
+            allow="autoplay; encrypted-media">
+        </iframe>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- 3. ENCABEZADO PRINCIPAL                      -->
     <!-- ============================================ -->
     <header class="header-principal">
         <div class="header-contenido">
@@ -45,8 +52,8 @@ r<!DOCTYPE html>
             <h1 class="titulo-principal">
                 <span class="titulo-pequeno">Andres Buitrago, Angela Gomez y Evelin Gomez te invitamos a celebrar los</span>
                 <span class="titulo-grande">15 Años</span>
-                <span class="titulo-nombre">de nuestra hija y hermana </span> 
-                <span class="titulo-nombre">Mariana Buitrago Gomez</span>
+                <span class="titulo-nombre">de nuestra hija y hermana</span> 
+                <span class="titulo-nombre" style="font-size: 3rem;">Mariana Buitrago Gomez</span>
             </h1>
             
             <!-- DECORACIÓN INFERIOR -->
@@ -56,47 +63,42 @@ r<!DOCTYPE html>
                 <span class="estrella">✨</span>
             </div>
 
-            <!-- ============================================ -->
-            <!-- AQUÍ VA LA FOTO PRINCIPAL (ImageKit)        -->
-            <!-- ============================================ -->
-           
+            <!-- FOTO PRINCIPAL -->
             <div class="foto-principal-container">
-    <img 
-        src="imagenes/foto.jpeg" 
-        alt="Foto de [Nombre de tu hija]" 
-        class="foto-principal"
-    >
-    
-</div>
+                <img 
+                    src="imagenes/foto.jpeg" 
+                    alt="Foto de Mariana Buitrago Gomez" 
+                    class="foto-principal"
+                >
+            </div>
         </div>
     </header>
-<!-- ============================================ -->
-<!-- VIDEO CON YOUTUBE (FUNCIONA SIEMPRE)        -->
-<!-- ============================================ -->
-<section id="video" class="seccion-video">
-    <h2 class="titulo-seccion">
-        <span class="decoracion">🎬</span>
-        Video de Invitación
-        <span class="decoracion">✨</span>
-    </h2>
-    
-    <div class="video-container">
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 20px; box-shadow: 0 10px 30px rgba(192, 132, 252, 0.2);">
-            <!-- ⬇️ AQUÍ PEGAS EL CÓDIGO DE YOUTUBE ⬇️ -->
-            <iframe 
-                src="https://www.youtube.com/embed/2y0oqFInagw" 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
-            </iframe>
-            <!-- ⬆️ AQUÍ TERMINA EL CÓDIGO DE YOUTUBE ⬆️ -->
-        </div>
-        <p class="comentario-video">🎥 ¡Mira nuestro video de invitación! No olvides confirmar tu asistencia.</p>
-    </div>
-</section>
 
     <!-- ============================================ -->
-    <!-- 4. SECCIÓN DE NORMAS                         -->
+    <!-- 4. VIDEO DE INVITACIÓN                       -->
+    <!-- ============================================ -->
+    <section id="video" class="seccion-video">
+        <h2 class="titulo-seccion">
+            <span class="decoracion">🎬</span>
+            Video de Invitación
+            <span class="decoracion">✨</span>
+        </h2>
+        
+        <div class="video-container">
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 20px; box-shadow: 0 10px 30px rgba(192, 132, 252, 0.2);">
+                <iframe 
+                    src="https://www.youtube.com/embed/2y0oqFInagw" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <p class="comentario-video">🎥 ¡Mira nuestro video de invitación! No olvides confirmar tu asistencia.</p>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 5. SECCIÓN DE NORMAS                         -->
     <!-- ============================================ -->
     <section id="normas" class="seccion-normas">
         <h2 class="titulo-seccion">
@@ -106,24 +108,20 @@ r<!DOCTYPE html>
         </h2>
         
         <div class="grid-normas">
-            <!-- ============================================ -->
-<!-- NORMA: VESTUARIO                             -->
-<!-- ============================================ -->
-<div class="norma-card">
-    <div class="norma-icono">👗</div>
-    <h3>Vestuario</h3>
-    <p>
-        <strong>Ellos</strong> elegantes, <strong>ellas</strong> divinas. 
-        <br>
-        Se reserva el uso del color <strong style="color: #7C3AED;">💜 Lila</strong>. 
-        <br>
-        <span style="font-size: 0.9rem; color: #6B4F7C;">¡Contamos contigo para lucir espectacular!</span>
-    </p>
-</div>
+            <!-- NORMA: VESTUARIO -->
+            <div class="norma-card">
+                <div class="norma-icono">👗</div>
+                <h3>Vestuario</h3>
+                <p>
+                    <strong>Ellos</strong> elegantes, <strong>ellas</strong> divinas. 
+                    <br>
+                    Se reserva el uso del color <strong style="color: #7C3AED;">💜 Lila</strong>. 
+                    <br>
+                    <span style="font-size: 0.9rem; color: #6B4F7C;">¡Contamos contigo para lucir espectacular!</span>
+                </p>
+            </div>
             
-            <!-- ============================================ -->
-            <!-- NORMA 2: CRONOGRAMA                         -->
-            <!-- ============================================ -->
+            <!-- NORMA: CRONOGRAMA -->
             <div class="norma-card">
                 <div class="norma-icono">📅</div>
                 <h3>Cronograma</h3>
@@ -133,86 +131,45 @@ r<!DOCTYPE html>
                     <strong>9:30 PM</strong> - Baile<br>
                     <strong>11:00 PM</strong> - Despedida
                 </p>
-                <!-- COMENTARIO: Modifica los horarios aquí -->
             </div>
             
-            <!-- ============================================ -->
-            <!-- NORMA 3: PARQUEADERO                        -->
-            <!-- ============================================ -->
-            <!--div class="norma-card">
-                <div class="norma-icono">🅿️</div>
-                <h3>Parqueadero</h3>
-                <p>Contamos con parqueadero <strong>gratuito</strong> para todos los invitados.</p>
-                <!-- COMENTARIO: Cambia "gratuito" o agrega más info -->
-        </div-->
-            
-            <!-- ============================================ -->
-            <!-- NORMA 4: HORA DE FINALIZACIÓN               -->
-            <!-- ============================================ -->
-            <!--div class="norma-card">
-                <div class="norma-icono">🌙</div>
-                <h3>Hora de Finalización</h3>
-                <p>El evento finaliza a las <strong>11:30 PM</strong>.</p>
-                <!-- COMENTARIO: Modifica la hora aquí -->
-        </div-->
-            
-            <!-- ============================================ -->
-            <!-- NORMA 5: LLUVIA DE SOBRES                   -->
-            <!-- ============================================ -->
+            <!-- NORMA: LLUVIA DE SOBRES -->
             <div class="norma-card">
                 <div class="norma-icono">💝</div>
                 <h3>Lluvia de Sobres</h3>
                 <p>Se realizará la tradicional <strong>lluvia de sobres</strong> durante el baile.</p>
-                <!-- COMENTARIO: Explica cómo se maneja aquí -->
             </div>
             
-            <!-- ============================================ -->
-<!-- NORMA: HORA Y LUGAR                          -->
-<!-- ============================================ -->
-<div class="norma-card">
-    <div class="norma-icono">📍</div>
-    <h3>Hora y Lugar</h3>
-    <p>
-        <strong>📅 Fecha:</strong> 27 de febrero de 2027
-        <br>
-        <strong>⏰ Hora:</strong> 7:00 PM
-        <br>
-        <strong>📍 Dirección:</strong> AV. 123 # 45-67, Bogotá, Colombia
-        <br>
-        <span style="font-size: 0.9rem; color: #6B4F7C; display: block; margin-top: 8px;">
-            💡 Te esperamos puntual para disfrutar juntos de esta celebración.
-        </span>
-    </p>
-</div>
-    </section>
-
-    <!-- ============================================ -->
-    <!-- 5. BOTÓN DE CONFIRMACIÓN                    -->
-    <!-- ============================================ -->
-    <section class="seccion-boton">
-        <div class="boton-container">
-            <a href="confirmacion.html" class="btn-confirmar">
-                <span class="btn-texto">✨ Confirmar    Asistencia ✨</span>
-                <span class="btn-subtexto">¡No faltes, te esperamos!</span>
-            </a>
+            <!-- NORMA: HORA Y LUGAR -->
+            <div class="norma-card">
+                <div class="norma-icono">📍</div>
+                <h3>Hora y Lugar</h3>
+                <p>
+                    <strong>📅 Fecha:</strong> 27 de febrero de 2027
+                    <br>
+                    <strong>⏰ Hora:</strong> 7:00 PM
+                    <br>
+                    <strong>📍 Dirección:</strong> AV. 123 # 45-67, Bogotá, Colombia
+                    <br>
+                    <span style="font-size: 0.9rem; color: #6B4F7C; display: block; margin-top: 8px;">
+                        💡 Te esperamos puntual para disfrutar juntos de esta celebración.
+                    </span>
+                </p>
+            </div>
         </div>
     </section>
 
     <!-- ============================================ -->
-    <!-- 6. FOOTER (PIE DE PÁGINA)                   -->
+    <!-- 6. FOOTER (PIE DE PÁGINA)                    -->
     <!-- ============================================ -->
     <footer class="footer-principal">
         <div class="footer-contenido">
             <div class="footer-info">
-                <!-- ============================================ -->
-                <!-- MODIFICA ESTOS DATOS CON LOS TUYOS          -->
-                <!-- ============================================ -->
                 <div class="footer-item">
                     <span class="footer-icono">📍</span>
                     <div>
                         <strong>Dirección:</strong>
                         <p>AV. 123 # 45-67, Bogotá, Colombia</p>
-                        
                     </div>
                 </div>
                 
@@ -222,7 +179,6 @@ r<!DOCTYPE html>
                         <strong>Teléfonos:</strong>
                         <p>+57 300 649 8710</p>
                         <p>+57 311 504 6741</p>
-                        <!-- COMENTARIO: Cambia los teléfonos aquí -->
                     </div>
                 </div>
                 
@@ -243,9 +199,6 @@ r<!DOCTYPE html>
                 </div>
             </div>
             
-           
-            </div>
-            
             <div class="footer-copy">
                 <p>© 2026 - Mariana Buitrago Gomez - Todos los derechos reservados</p>
                 <p class="footer-corazon">Hecho con ❤️ para mi princesa</p>
@@ -254,10 +207,9 @@ r<!DOCTYPE html>
     </footer>
 
     <!-- ============================================ -->
-    <!-- CONEXIÓN AL JAVASCRIPT                      -->
+    <!-- 7. CONEXIÓN AL JAVASCRIPT                    -->
     <!-- ============================================ -->
     <script src="app.js"></script>
     
-    <!-- COMENTARIO FINAL: Ahora vamos a crear el CSS -->
 </body>
 </html>
