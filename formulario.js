@@ -1,9 +1,48 @@
 // =====================================================
-// formulario.js - VERSIÓN DEFINITIVA (CON WINDOW)
+// formulario.js - VERSIÓN CON MEJOR MANEJO DE ERRORES
 // =====================================================
 
 // =====================================================
-// 1. GENERAR CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)
+// 1. VERIFICAR CONEXIÓN A FIREBASE AL CARGAR
+// =====================================================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📝 Iniciando formulario...');
+    
+    // Verificar Firebase
+    if (typeof window.db === 'undefined') {
+        console.error('❌ Firebase no está disponible');
+        mostrarErrorGlobal('⚠️ Error de conexión: Firebase no está disponible. Recarga la página.');
+        return;
+    }
+
+    // Verificar conexión
+    window.db.collection('grupos').limit(1).get()
+        .then(() => {
+            console.log('✅ Conexión a Firebase exitosa');
+            document.getElementById('mensajes').innerHTML = '';
+        })
+        .catch(error => {
+            console.error('❌ Error de conexión a Firestore:', error);
+            mostrarErrorGlobal('⚠️ No se pudo conectar a la base de datos. Verifica tu conexión a internet.');
+        });
+});
+
+// =====================================================
+// 2. FUNCIÓN PARA MOSTRAR ERRORES GLOBALES
+// =====================================================
+function mostrarErrorGlobal(mensaje) {
+    const mensajesDiv = document.getElementById('mensajes');
+    if (mensajesDiv) {
+        mensajesDiv.innerHTML = `
+            <div class="mensaje error" style="background: #FEE2E2; border: 2px solid #EF4444; padding: 15px; border-radius: 10px; color: #991B1B;">
+                <strong>⚠️ ${mensaje}</strong>
+            </div>
+        `;
+    }
+}
+
+// =====================================================
+// 3. GENERAR CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const cantidadInput = document.getElementById('cantidad');
@@ -88,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =====================================================
-// 2. VALIDACIÓN EN TIEMPO REAL DEL TELÉFONO
+// 4. VALIDACIÓN EN TIEMPO REAL DEL TELÉFONO (MEJORADA)
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const telefonoInput = document.getElementById('telefonoLider');
@@ -99,29 +138,36 @@ document.addEventListener('DOMContentLoaded', function() {
     window.telefonoRegistrado = false;
     window.telefonoActual = '';
 
-    telefonoInput.addEventListener('input', async function() {
-        const telefono = this.value.trim();
-        window.telefonoActual = telefono;
-        
-        // Validar formato (mínimo 7 dígitos)
-        if (telefono.length < 7) {
-            validacionDiv.innerHTML = `
-                <span style="color: #F59E0B;">⏳ Ingresa al menos 7 dígitos...</span>
-            `;
-            window.telefonoVerificado = false;
-            window.telefonoRegistrado = false;
-            return;
-        }
-
-        // Verificar en Firebase si ya existe
+    // Función para verificar teléfono
+    async function verificarTelefono(telefono) {
         try {
+            if (!window.db) {
+                throw new Error('Firebase no disponible');
+            }
+
             validacionDiv.innerHTML = `
                 <span style="color: #60A5FA;">⏳ Verificando teléfono...</span>
             `;
 
+            // Limpiar el teléfono (solo números)
+            const telefonoLimpio = telefono.replace(/\D/g, '');
+            
+            if (telefonoLimpio.length < 7) {
+                validacionDiv.innerHTML = `
+                    <span style="color: #F59E0B;">⏳ Ingresa al menos 7 dígitos...</span>
+                `;
+                window.telefonoVerificado = false;
+                window.telefonoRegistrado = false;
+                return;
+            }
+
+            console.log(`🔍 Verificando teléfono: ${telefonoLimpio}`);
+
             const querySnapshot = await window.db.collection('grupos')
-                .where('telefonoLider', '==', telefono)
+                .where('telefonoLider', '==', telefonoLimpio)
                 .get();
+
+            console.log(`📊 Resultado: ${querySnapshot.empty ? 'No existe' : 'Ya registrado'}`);
 
             if (!querySnapshot.empty) {
                 validacionDiv.innerHTML = `
@@ -135,20 +181,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 window.telefonoVerificado = true;
                 window.telefonoRegistrado = false;
+                window.telefonoActual = telefonoLimpio;
             }
         } catch (error) {
-            console.error('❌ Error al verificar:', error);
+            console.error('❌ Error al verificar teléfono:', error);
             validacionDiv.innerHTML = `
                 <span style="color: #EF4444;">❌ Error al verificar. Intenta nuevamente.</span>
+                <br>
+                <small style="color: #6B7280;">${error.message}</small>
             `;
             window.telefonoVerificado = false;
             window.telefonoRegistrado = false;
         }
+    }
+
+    // Evento con debounce para evitar muchas llamadas
+    let timeoutId;
+    telefonoInput.addEventListener('input', function() {
+        const telefono = this.value.trim();
+        window.telefonoActual = telefono;
+        
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            verificarTelefono(telefono);
+        }, 500);
     });
 });
 
 // =====================================================
-// 3. GUARDAR EN FIREBASE
+// 5. GUARDAR EN FIREBASE (MEJORADO)
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnGuardar = document.getElementById('btn-guardar');
@@ -156,27 +217,39 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function mostrarMensaje(tipo, texto) {
         mensajesDiv.innerHTML = `
-            <div class="mensaje ${tipo}">
+            <div class="mensaje ${tipo}" style="padding: 15px; border-radius: 10px; margin: 10px 0; ${tipo === 'error' ? 'background: #FEE2E2; border: 2px solid #EF4444; color: #991B1B;' : tipo === 'exito' ? 'background: #D1FAE5; border: 2px solid #10B981; color: #065F46;' : 'background: #DBEAFE; border: 2px solid #3B82F6; color: #1E3A8A;'}">
                 ${texto}
             </div>
         `;
         
         setTimeout(() => {
             mensajesDiv.innerHTML = '';
-        }, 6000);
+        }, 8000);
     }
     
     async function guardarInvitados() {
         // 🔥 Verificar Firebase
         if (typeof window.db === 'undefined') {
-            mostrarMensaje('error', '❌ Firebase no está disponible.');
+            mostrarMensaje('error', '❌ Firebase no está disponible. Recarga la página.');
+            return;
+        }
+
+        // Verificar conexión primero
+        try {
+            await window.db.collection('grupos').limit(1).get();
+        } catch (error) {
+            console.error('❌ Error de conexión:', error);
+            mostrarMensaje('error', '❌ No se puede conectar a la base de datos. Verifica tu conexión a internet.');
             return;
         }
 
         // Obtener datos del líder
         const nombreLider = document.getElementById('nombreLider').value.trim();
-        const telefonoLider = document.getElementById('telefonoLider').value.trim();
+        let telefonoLider = document.getElementById('telefonoLider').value.trim();
         const cantidad = parseInt(document.getElementById('cantidad').value) || 0;
+        
+        // Limpiar teléfono (solo números)
+        telefonoLider = telefonoLider.replace(/\D/g, '');
         
         // ✅ VALIDACIÓN DEL TELÉFONO
         if (!telefonoLider || telefonoLider.length < 7) {
@@ -185,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // 🔥 VALIDACIÓN EN TIEMPO REAL (USANDO window.)
+        // 🔥 VALIDACIÓN EN TIEMPO REAL
         if (window.telefonoRegistrado) {
             mostrarMensaje('error', '⚠️ Este teléfono ya está registrado. Usa otro número.');
             document.getElementById('telefonoLider').focus();
@@ -193,14 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (!window.telefonoVerificado) {
-            mostrarMensaje('error', '⚠️ Verifica el teléfono antes de guardar (espera a que aparezca "✅ Teléfono disponible")');
-            document.getElementById('telefonoLider').focus();
-            return;
-        }
-        
-        // ✅ Validar que el teléfono actual coincida con el verificado
-        if (telefonoLider !== window.telefonoActual) {
-            mostrarMensaje('error', '⚠️ El teléfono ha cambiado. Verifica nuevamente.');
+            mostrarMensaje('error', '⚠️ Verifica el teléfono antes de guardar');
             document.getElementById('telefonoLider').focus();
             return;
         }
@@ -258,6 +324,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const docRef = await window.db.collection('grupos').add(grupoData);
             
+            console.log('✅ Documento guardado con ID:', docRef.id);
+            
             mostrarMensaje('exito', `
                 ✅ ¡Grupo familiar registrado exitosamente!
                 <br>
@@ -278,7 +346,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.telefonoActual = '';
             
         } catch (error) {
-            console.error('❌ Error:', error);
+            console.error('❌ Error al guardar:', error);
             mostrarMensaje('error', `❌ Error al guardar: ${error.message}`);
         }
     }
@@ -287,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =====================================================
-// 4. LIMPIAR FORMULARIO
+// 6. LIMPIAR FORMULARIO
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnLimpiar = document.getElementById('btn-limpiar');
@@ -309,6 +377,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('📝 Formulario cargado correctamente');
-console.log('✅ Validación de teléfono en tiempo real (con window.)');
-console.log('✅ Líder + acompañantes con parentesco');
+console.log('✅ Validación de teléfono en tiempo real (con debounce)');
+console.log('✅ Manejo de errores mejorado');
 console.log('👑 1 líder + máximo 3 acompañantes = 4 personas');
