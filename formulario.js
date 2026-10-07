@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Verificar conexión
-    window.db.collection('grupos').limit(1).get()
+    window.db.collection('grupos').where('telefonoLider', '==', '__test__').limit(1).get()
         .then(() => {
             console.log('✅ Conexión a Firebase exitosa');
             document.getElementById('mensajes').innerHTML = '';
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Verificar conexión primero
         try {
-            await window.db.collection('grupos').limit(1).get();
+            await window.db.collection('grupos').where('telefonoLider', '==', '__test__').limit(1).get();
         } catch (error) {
             console.error('❌ Error de conexión:', error);
             mostrarMensaje('error', '❌ No se puede conectar a la base de datos. Verifica tu conexión a internet.');
