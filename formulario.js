@@ -164,8 +164,9 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(`🔍 Verificando teléfono: ${telefonoLimpio}`);
 
             const querySnapshot = await window.db.collection('grupos')
-                .where('telefonoLider', '==', telefonoLimpio)
-                .get();
+    .where('telefonoLider', '==', telefonoLimpio)
+    .limit(1)
+    .get();
 
             console.log(`📊 Resultado: ${querySnapshot.empty ? 'No existe' : 'Ya registrado'}`);
 
