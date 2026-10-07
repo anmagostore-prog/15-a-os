@@ -5,15 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📝 Confirmar Asistencia - 15 Años</title>
     
-    <!-- CONEXIÓN AL CSS -->
     <link rel="stylesheet" href="styles.css">
     
-    <!-- FUENTES BONITAS -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- ============================================ -->
-    <!-- CONEXIÓN A FIREBASE (VERSIÓN COMPAT)        -->
-    <!-- ============================================ -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     
@@ -36,14 +31,12 @@
 </head>
 <body>
 
-    <!-- ============================================ -->
-    <!-- 1. BOTÓN DE MÚSICA (flotante)                -->
-    <!-- ============================================ -->
+    <!-- BOTÓN DE MÚSICA -->
     <button id="musica-btn" class="music-button">
         🎵 Activar Música
     </button>
 
-    <!-- REPRODUCTOR DE YOUTUBE (INVISIBLE PERO NO OCULTO) -->
+    <!-- REPRODUCTOR DE YOUTUBE -->
     <div id="youtube-audio" style="position: absolute; width: 1px; height: 1px; overflow: hidden; top: -1000px; left: -1000px;">
         <iframe 
             id="audio-iframe"
@@ -52,9 +45,7 @@
         </iframe>
     </div>
 
-    <!-- ============================================ -->
-    <!-- 2. ENCABEZADO                                -->
-    <!-- ============================================ -->
+    <!-- ENCABEZADO -->
     <header class="header-principal">
         <div class="header-contenido">
             <div class="decoracion-superior">
@@ -77,15 +68,10 @@
         </div>
     </header>
 
-    <!-- ============================================ -->
-    <!-- 3. FORMULARIO                                -->
-    <!-- ============================================ -->
+    <!-- FORMULARIO -->
     <section class="seccion-formulario">
         <div class="formulario-container">
             
-            <!-- ========================================== -->
-            <!-- AVISOS IMPORTANTES                         -->
-            <!-- ========================================== -->
             <div style="background: #FEF3C7; padding: 15px; border-radius: 10px; border-left: 4px solid #F59E0B; margin-bottom: 15px;">
                 <p style="color: #92400E; font-size: 0.95rem; margin: 0; line-height: 1.6;">
                     🔒 <strong>Este enlace es personal e intransferible.</strong>
@@ -121,9 +107,7 @@
             
             <form id="formulario-invitados" class="formulario">
                 
-                <!-- ========================================== -->
-                <!-- DATOS DEL LÍDER (SOLO UNA VEZ)             -->
-                <!-- ========================================== -->
+                <!-- DATOS DEL LÍDER -->
                 <div class="grupo-formulario grupo-lider">
                     <h3 class="subtitulo-formulario">
                         <span class="icono-grupo">👑</span>
@@ -156,14 +140,9 @@
                         >
                         <span class="campo-ayuda">📌 El líder será contactado por este número</span>
                     </div>
-
-                    <!-- VALIDACIÓN EN TIEMPO REAL -->
-                    <div id="validacion-lider" style="margin-top: 10px; font-size: 0.9rem;"></div>
                 </div>
                 
-                <!-- ========================================== -->
-                <!-- CANTIDAD DE ACOMPAÑANTES                   -->
-                <!-- ========================================== -->
+                <!-- CANTIDAD DE ACOMPAÑANTES -->
                 <div class="grupo-formulario grupo-cantidad">
                     <h3 class="subtitulo-formulario">
                         <span class="icono-grupo">👥</span>
@@ -184,7 +163,6 @@
                         <span class="campo-ayuda">📌 Máximo <strong>3 acompañantes</strong> por grupo familiar</span>
                     </div>
 
-                    <!-- AVISO PARA CASOS ESPECIALES -->
                     <div style="background: #FEF3C7; padding: 12px 15px; border-radius: 10px; border-left: 4px solid #F59E0B; margin-top: 10px;">
                         <p style="color: #92400E; font-size: 0.9rem; margin: 0;">
                             📌 ¿Necesitas registrar a más de 3 acompañantes?
@@ -195,9 +173,7 @@
                     </div>
                 </div>
                 
-                <!-- ========================================== -->
-                <!-- CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)       -->
-                <!-- ========================================== -->
+                <!-- CAMPOS DINÁMICOS -->
                 <div class="grupo-formulario grupo-invitados" id="grupo-invitados">
                     <h3 class="subtitulo-formulario">
                         <span class="icono-grupo">🎀</span>
@@ -209,13 +185,11 @@
                     </p>
                     
                     <div id="contenedor-invitados">
-                        <!-- AQUÍ SE GENERARÁN LOS CAMPOS DINÁMICAMENTE -->
+                        <!-- AQUÍ SE GENERAN LOS CAMPOS DINÁMICAMENTE -->
                     </div>
                 </div>
                 
-                <!-- ========================================== -->
-                <!-- BOTONES DE ACCIÓN                          -->
-                <!-- ========================================== -->
+                <!-- BOTONES -->
                 <div class="acciones-formulario">
                     <button type="button" id="btn-guardar" class="btn-guardar">
                         💾 Guardar Grupo Familiar
@@ -237,9 +211,7 @@
         </div>
     </section>
 
-    <!-- ============================================ -->
-    <!-- 4. FOOTER                                    -->
-    <!-- ============================================ -->
+    <!-- FOOTER -->
     <footer class="footer-principal">
         <div class="footer-contenido">
             <div class="footer-copy">
@@ -249,9 +221,6 @@
         </div>
     </footer>
 
-    <!-- ============================================ -->
-    <!-- 5. JAVASCRIPT                                -->
-    <!-- ============================================ -->
     <script src="app.js"></script>
     <script src="formulario.js"></script>
     
