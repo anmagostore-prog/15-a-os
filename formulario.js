@@ -1,37 +1,9 @@
 // =====================================================
-// formulario.js - VERSIÓN COMPATIBLE CON REGLAS SEGURAS
+// formulario.js - VERSIÓN FINAL
 // =====================================================
 
 // =====================================================
-// 1. VERIFICAR CONEXIÓN A FIREBASE AL CARGAR
-// =====================================================
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('📝 Iniciando formulario...');
-    
-    if (typeof window.db === 'undefined') {
-        console.error('❌ Firebase no está disponible');
-        mostrarErrorGlobal('⚠️ Error de conexión: Firebase no está disponible. Recarga la página.');
-        return;
-    }
-
-    // ✅ Verificación de conexión con consulta válida según las reglas
-    //    (filtro + limit(1) es lo único que las reglas permiten leer)
-    window.db.collection('grupos')
-        .where('telefonoLider', '==', '__test__')
-        .limit(1)
-        .get()
-        .then(() => {
-            console.log('✅ Conexión a Firebase exitosa');
-            document.getElementById('mensajes').innerHTML = '';
-        })
-        .catch(error => {
-            console.error('❌ Error de conexión a Firestore:', error);
-            mostrarErrorGlobal('⚠️ No se pudo conectar a la base de datos. Verifica tu conexión a internet.');
-        });
-});
-
-// =====================================================
-// 2. FUNCIÓN PARA MOSTRAR ERRORES GLOBALES
+// 1. FUNCIÓN PARA MOSTRAR ERRORES GLOBALES
 // =====================================================
 function mostrarErrorGlobal(mensaje) {
     const mensajesDiv = document.getElementById('mensajes');
@@ -45,9 +17,11 @@ function mostrarErrorGlobal(mensaje) {
 }
 
 // =====================================================
-// 3. GENERAR CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)
+// 2. GENERAR CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('📝 Iniciando formulario...');
+
     const cantidadInput = document.getElementById('cantidad');
     const contenedor = document.getElementById('contenedor-invitados');
     
@@ -130,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =====================================================
-// 4. VALIDACIÓN EN TIEMPO REAL DEL TELÉFONO
+// 3. VALIDACIÓN EN TIEMPO REAL DEL TELÉFONO
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const telefonoInput = document.getElementById('telefonoLider');
@@ -163,10 +137,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             console.log(`🔍 Verificando teléfono: ${telefonoLimpio}`);
 
-            // ✅ CONSULTA COMPATIBLE CON LAS REGLAS: filtro + limit(1)
             const querySnapshot = await window.db.collection('grupos')
                 .where('telefonoLider', '==', telefonoLimpio)
-                .limit(1)
                 .get();
 
             console.log(`📊 Resultado: ${querySnapshot.empty ? 'No existe' : 'Ya registrado'}`);
@@ -210,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =====================================================
-// 5. GUARDAR EN FIREBASE
+// 4. GUARDAR EN FIREBASE
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnGuardar = document.getElementById('btn-guardar');
@@ -231,18 +203,6 @@ document.addEventListener('DOMContentLoaded', function() {
     async function guardarInvitados() {
         if (typeof window.db === 'undefined') {
             mostrarMensaje('error', '❌ Firebase no está disponible. Recarga la página.');
-            return;
-        }
-
-        // ✅ Verificación de conexión con consulta válida según las reglas
-        try {
-            await window.db.collection('grupos')
-                .where('telefonoLider', '==', '__test__')
-                .limit(1)
-                .get();
-        } catch (error) {
-            console.error('❌ Error de conexión:', error);
-            mostrarMensaje('error', '❌ No se puede conectar a la base de datos. Verifica tu conexión a internet.');
             return;
         }
 
@@ -349,7 +309,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =====================================================
-// 6. LIMPIAR FORMULARIO
+// 5. LIMPIAR FORMULARIO
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnLimpiar = document.getElementById('btn-limpiar');
@@ -370,5 +330,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('📝 Formulario cargado correctamente');
-console.log('✅ Compatible con reglas de Firestore seguras');
 console.log('👑 1 líder + máximo 3 acompañantes = 4 personas');
