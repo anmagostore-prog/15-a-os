@@ -118,28 +118,34 @@
                         📌 El líder es la persona que coordinará al grupo familiar
                     </p>
                     
-                    <div class="campo-formulario">
-                        <label for="nombreLider">Nombre completo del líder:</label>
-                        <input 
-                            type="text" 
-                            id="nombreLider" 
-                            name="nombreLider" 
-                            placeholder="Ej: Carlos Gómez"
-                            required
-                        >
-                    </div>
-                    
-                    <div class="campo-formulario">
-                        <label for="telefonoLider">📞 Teléfono del líder:</label>
-                        <input 
-                            type="tel" 
-                            id="telefonoLider" 
-                            name="telefonoLider" 
-                            placeholder="Ej: 3101234567"
-                            required
-                        >
-                        <span class="campo-ayuda">📌 El líder será contactado por este número</span>
-                    </div>
+                    <!-- TELÉFONO PRIMERO -->
+<div class="campo-formulario">
+    <label for="telefonoLider">📞 Teléfono del líder (WhatsApp):</label>
+    <input 
+        type="tel" 
+        id="telefonoLider" 
+        name="telefonoLider" 
+        placeholder="Ej: 3101234567"
+        required
+        inputmode="numeric"
+    >
+    <span class="campo-ayuda">📌 Usaremos este número para verificar tu registro y contactarte</span>
+</div>
+
+<!-- ✅ DIV DE VALIDACIÓN (obligatorio, aquí se muestra el resultado) -->
+<div id="validacion-lider" style="margin-bottom: 15px; font-size: 0.9rem;"></div>
+
+<!-- NOMBRE DESPUÉS -->
+<div class="campo-formulario">
+    <label for="nombreLider">Nombre completo del líder:</label>
+    <input 
+        type="text" 
+        id="nombreLider" 
+        name="nombreLider" 
+        placeholder="Ej: Carlos Gómez"
+        required
+    >
+</div>
                 </div>
                 
                 <!-- CANTIDAD DE ACOMPAÑANTES -->
