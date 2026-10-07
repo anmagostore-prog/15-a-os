@@ -1,228 +1,357 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📝 Confirmar Asistencia - 15 Años</title>
-    
-    <link rel="stylesheet" href="styles.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCzsQI6QGv7Ksg097jS1hpMPIPXQR2yZQg",
-            authDomain: "fiesta-15-anos-mariana.firebaseapp.com",
-            projectId: "fiesta-15-anos-mariana",
-            storageBucket: "fiesta-15-anos-mariana.firebasestorage.app",
-            messagingSenderId: "859702756674",
-            appId: "1:859702756674:web:c91d4f0a139a59a746f4db"
-        };
+// =====================================================
+// formulario.js - VERSIÓN FINAL CON VALIDACIÓN DE TELÉFONO
+// =====================================================
 
-        firebase.initializeApp(firebaseConfig);
-        window.db = firebase.firestore();
+// =====================================================
+// 1. VERIFICAR CONEXIÓN A FIREBASE AL CARGAR
+// =====================================================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📝 Iniciando formulario...');
+    
+    if (typeof window.db === 'undefined') {
+        console.error('❌ Firebase no está disponible');
+        mostrarErrorGlobal('⚠️ Error de conexión: Firebase no está disponible. Recarga la página.');
+        return;
+    }
+    
+    console.log('✅ Firebase disponible');
+});
+
+// =====================================================
+// 2. FUNCIÓN PARA MOSTRAR ERRORES GLOBALES
+// =====================================================
+function mostrarErrorGlobal(mensaje) {
+    const mensajesDiv = document.getElementById('mensajes');
+    if (mensajesDiv) {
+        mensajesDiv.innerHTML = `
+            <div class="mensaje error" style="background: #FEE2E2; border: 2px solid #EF4444; padding: 15px; border-radius: 10px; color: #991B1B;">
+                <strong>⚠️ ${mensaje}</strong>
+            </div>
+        `;
+    }
+}
+
+// =====================================================
+// 3. GENERAR CAMPOS DINÁMICOS
+// =====================================================
+document.addEventListener('DOMContentLoaded', function() {
+    const cantidadInput = document.getElementById('cantidad');
+    const contenedor = document.getElementById('contenedor-invitados');
+    
+    function generarCamposInvitados(cantidad) {
+        contenedor.innerHTML = '';
         
-        console.log('🔥 Firebase conectado correctamente');
-        console.log('📁 Colección: "grupos"');
-    </script>
-</head>
-<body>
-
-    <!-- BOTÓN DE MÚSICA -->
-    <button id="musica-btn" class="music-button">
-        🎵 Activar Música
-    </button>
-
-    <!-- REPRODUCTOR DE YOUTUBE -->
-    <div id="youtube-audio" style="position: absolute; width: 1px; height: 1px; overflow: hidden; top: -1000px; left: -1000px;">
-        <iframe 
-            id="audio-iframe"
-            src="https://www.youtube.com/embed/fZSZMp32XaA?autoplay=0&mute=0&controls=0&loop=1&playlist=fZSZMp32XaA&enablejsapi=1" 
-            allow="autoplay; encrypted-media">
-        </iframe>
-    </div>
-
-    <!-- ENCABEZADO -->
-    <header class="header-principal">
-        <div class="header-contenido">
-            <div class="decoracion-superior">
-                <span class="flor">🌸</span>
-                <span class="flor">🌺</span>
-                <span class="flor">🌸</span>
-            </div>
+        if (isNaN(cantidad) || cantidad < 0) cantidad = 0;
+        
+        if (cantidad > 3) {
+            alert('⚠️ Máximo 3 acompañantes por grupo');
+            cantidad = 3;
+            cantidadInput.value = 3;
+        }
+        
+        if (cantidad === 0) {
+            contenedor.innerHTML = `
+                <div style="background: #F3E8FF; padding: 20px; border-radius: 12px; text-align: center; color: #7C3AED; font-size: 1.1rem;">
+                    💫 No hay acompañantes. Solo asistirá el líder.
+                </div>
+            `;
+            return;
+        }
+        
+        for (let i = 1; i <= cantidad; i++) {
+            const invitadoDiv = document.createElement('div');
+            invitadoDiv.className = 'invitado-card';
             
-            <h1 class="titulo-principal">
-                <span class="titulo-pequeno">Confirma tu</span>
-                <span class="titulo-grande" style="font-size: 3.5rem;">Asistencia</span>
-                <span class="titulo-nombre">✨ ¡Te esperamos! ✨</span>
-            </h1>
-            
-            <div class="decoracion-inferior">
-                <span class="estrella">✨</span>
-                <span class="estrella">🌟</span>
-                <span class="estrella">✨</span>
-            </div>
-        </div>
-    </header>
-
-    <!-- FORMULARIO -->
-    <section class="seccion-formulario">
-        <div class="formulario-container">
-            
-            <div style="background: #FEF3C7; padding: 15px; border-radius: 10px; border-left: 4px solid #F59E0B; margin-bottom: 15px;">
-                <p style="color: #92400E; font-size: 0.95rem; margin: 0; line-height: 1.6;">
-                    🔒 <strong>Este enlace es personal e intransferible.</strong>
-                    <br>
-                    • Solo las personas invitadas pueden confirmar asistencia.
-                    <br>
-                    • No compartas este enlace en redes sociales o grupos públicos.
-                    <br>
-                    • Cada persona debe aparecer en <strong>UN SOLO</strong> grupo.
-                    <br>
-                    • Si necesitas ayuda, contáctanos al <strong>+57 300 649 8710</strong>.
-                </p>
-            </div>
-
-            <div style="background: #F3E8FF; padding: 15px; border-radius: 10px; border-left: 4px solid #7C3AED; margin-bottom: 20px;">
-                <p style="color: #4B2B5C; font-size: 0.95rem; margin: 0; line-height: 1.6;">
-                    📌 <strong>¿Cómo funciona el registro?</strong>
-                    <br>
-                    • Registra solo a tu <strong>núcleo familiar</strong> (esposo/a, hijos menores, etc.).
-                    <br>
-                    • Los <strong>hijos mayores</strong> (con su propia familia) recibirán su propia invitación.
-                    <br>
-                    • Cada persona debe aparecer en <strong>UN SOLO</strong> grupo.
-                    <br>
-                    • <strong>Límite:</strong> 1 líder + 3 acompañantes por grupo.
-                </p>
-            </div>
-            
-            <div class="mensaje-bienvenida">
-                <p>💝 Completa el siguiente formulario para confirmar tu asistencia</p>
-                <p class="mensaje-pequeno">📌 Máximo <strong>4 personas</strong> por grupo familiar (1 líder + 3 acompañantes)</p>
-            </div>
-            
-            <form id="formulario-invitados" class="formulario">
+            invitadoDiv.innerHTML = `
+                <h4 class="invitado-titulo">👤 Acompañante ${i}</h4>
                 
-                <!-- DATOS DEL LÍDER -->
-                <div class="grupo-formulario grupo-lider">
-                    <h3 class="subtitulo-formulario">
-                        <span class="icono-grupo">👑</span>
-                        Datos del Líder del Grupo
-                    </h3>
-                    
-                    <p style="color: #6B4F7C; font-size: 0.95rem; margin-bottom: 20px;">
-                        📌 El líder es la persona que coordinará al grupo familiar
-                    </p>
-                    
-                    <div class="campo-formulario">
-                        <label for="nombreLider">Nombre completo del líder:</label>
-                        <input 
-                            type="text" 
-                            id="nombreLider" 
-                            name="nombreLider" 
-                            placeholder="Ej: Carlos Gómez"
-                            required
-                        >
-                    </div>
-                    
-                    <div class="campo-formulario">
-                        <label for="telefonoLider">📞 Teléfono del líder:</label>
-                        <input 
-                            type="tel" 
-                            id="telefonoLider" 
-                            name="telefonoLider" 
-                            placeholder="Ej: 3101234567"
-                            required
-                        >
-                        <span class="campo-ayuda">📌 El líder será contactado por este número</span>
-                    </div>
+                <div class="campo-formulario">
+                    <label for="nombre_acompanante_${i}">Nombre completo del acompañante ${i}:</label>
+                    <input 
+                        type="text" 
+                        id="nombre_acompanante_${i}" 
+                        name="nombre_acompanante_${i}" 
+                        placeholder="Ej: María Pérez"
+                        required
+                    >
                 </div>
                 
-                <!-- CANTIDAD DE ACOMPAÑANTES -->
-                <div class="grupo-formulario grupo-cantidad">
-                    <h3 class="subtitulo-formulario">
-                        <span class="icono-grupo">👥</span>
-                        ¿Cuántos acompañantes llevas?
-                    </h3>
-                    
-                    <div class="campo-formulario">
-                        <label for="cantidad">Número de acompañantes (máximo 3):</label>
-                        <input 
-                            type="number" 
-                            id="cantidad" 
-                            name="cantidad" 
-                            min="0" 
-                            max="3" 
-                            value="0"
-                            required
-                        >
-                        <span class="campo-ayuda">📌 Máximo <strong>3 acompañantes</strong> por grupo familiar</span>
-                    </div>
-
-                    <div style="background: #FEF3C7; padding: 12px 15px; border-radius: 10px; border-left: 4px solid #F59E0B; margin-top: 10px;">
-                        <p style="color: #92400E; font-size: 0.9rem; margin: 0;">
-                            📌 ¿Necesitas registrar a más de 3 acompañantes?
-                            <br>
-                            <strong>Contáctanos</strong> y evaluaremos tu caso: 
-                            <a href="tel:+573006498710" style="color: #7C3AED; font-weight: 600;">📞 +57 300 649 8710</a>
-                        </p>
-                    </div>
+                <div class="campo-formulario">
+                    <label for="parentesco_${i}">Parentesco con el líder:</label>
+                    <select id="parentesco_${i}" name="parentesco_${i}" required>
+                        <option value="">Selecciona...</option>
+                        <option value="Esposo/Esposa">Esposo/Esposa</option>
+                        <option value="Hijo/Hija">Hijo/Hija</option>
+                        <option value="Hermano/Hermana">Hermano/Hermana</option>
+                        <option value="Padre/Madre">Padre/Madre</option>
+                        <option value="Abuelo/Abuela">Abuelo/Abuela</option>
+                        <option value="Tío/Tía">Tío/Tía</option>
+                        <option value="Primo/Prima">Primo/Prima</option>
+                        <option value="Sobrino/Sobrina">Sobrino/Sobrina</option>
+                        <option value="Amigo/Amiga">Amigo/Amiga</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                    <span class="campo-ayuda">📌 Relación con el líder del grupo</span>
                 </div>
-                
-                <!-- CAMPOS DINÁMICOS -->
-                <div class="grupo-formulario grupo-invitados" id="grupo-invitados">
-                    <h3 class="subtitulo-formulario">
-                        <span class="icono-grupo">🎀</span>
-                        Datos de los Acompañantes
-                    </h3>
-                    
-                    <p style="color: #6B4F7C; font-size: 0.95rem; margin-bottom: 15px;">
-                        📌 Ingresa los datos de cada persona que acompañará al líder
-                    </p>
-                    
-                    <div id="contenedor-invitados">
-                        <!-- AQUÍ SE GENERAN LOS CAMPOS DINÁMICAMENTE -->
-                    </div>
-                </div>
-                
-                <!-- BOTONES -->
-                <div class="acciones-formulario">
-                    <button type="button" id="btn-guardar" class="btn-guardar">
-                        💾 Guardar Grupo Familiar
-                    </button>
-                    
-                    <button type="reset" id="btn-limpiar" class="btn-limpiar">
-                        🧹 Limpiar Formulario
-                    </button>
-                    
-                    <a href="index.html" class="btn-volver">
-                        🏠 Volver al Inicio
-                    </a>
-                </div>
-                
-                <!-- MENSAJES -->
-                <div id="mensajes" class="mensajes"></div>
-                
-            </form>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer-principal">
-        <div class="footer-contenido">
-            <div class="footer-copy">
-                <p>© 2026 - Mariana Buitrago Gomez - Todos los derechos reservados</p>
-                <p class="footer-corazon">Hecho con ❤️ para mi princesa</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="app.js"></script>
-    <script src="formulario.js"></script>
+            `;
+            
+            contenedor.appendChild(invitadoDiv);
+        }
+    }
     
-</body>
-</html>
+    cantidadInput.addEventListener('change', function() {
+        const cantidad = parseInt(this.value) || 0;
+        generarCamposInvitados(cantidad);
+    });
+    
+    cantidadInput.addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') {
+            const cantidad = parseInt(this.value) || 0;
+            generarCamposInvitados(cantidad);
+        }
+    });
+    
+    generarCamposInvitados(0);
+});
+
+// =====================================================
+// 4. VALIDACIÓN EN TIEMPO REAL DEL TELÉFONO
+// =====================================================
+document.addEventListener('DOMContentLoaded', function() {
+    const telefonoInput = document.getElementById('telefonoLider');
+    const validacionDiv = document.getElementById('validacion-lider');
+    
+    // Variables globales
+    window.telefonoVerificado = false;
+    window.telefonoRegistrado = false;
+    window.telefonoActual = '';
+
+    async function verificarTelefono(telefono) {
+        try {
+            if (!window.db) {
+                throw new Error('Firebase no disponible');
+            }
+
+            validacionDiv.innerHTML = `
+                <span style="color: #60A5FA;">⏳ Verificando teléfono...</span>
+            `;
+
+            const telefonoLimpio = telefono.replace(/\D/g, '');
+            
+            if (telefonoLimpio.length < 7) {
+                validacionDiv.innerHTML = `
+                    <span style="color: #F59E0B;">⏳ Ingresa al menos 7 dígitos...</span>
+                `;
+                window.telefonoVerificado = false;
+                window.telefonoRegistrado = false;
+                return;
+            }
+
+            console.log(`🔍 Verificando teléfono: ${telefonoLimpio}`);
+
+            // ✅ Consulta con filtro: permitida por las reglas
+            const querySnapshot = await window.db.collection('grupos')
+                .where('telefonoLider', '==', telefonoLimpio)
+                .get();
+
+            console.log(`📊 Resultado: ${querySnapshot.empty ? 'No existe' : 'Ya registrado'}`);
+
+            if (!querySnapshot.empty) {
+                validacionDiv.innerHTML = `
+                    <span style="color: #EF4444;">❌ Este número ya está registrado. Si eres tú, contacta al organizador.</span>
+                `;
+                window.telefonoVerificado = false;
+                window.telefonoRegistrado = true;
+            } else {
+                validacionDiv.innerHTML = `
+                    <span style="color: #10B981;">✅ Teléfono disponible</span>
+                `;
+                window.telefonoVerificado = true;
+                window.telefonoRegistrado = false;
+                window.telefonoActual = telefonoLimpio;
+            }
+        } catch (error) {
+            console.error('❌ Error al verificar teléfono:', error);
+            validacionDiv.innerHTML = `
+                <span style="color: #EF4444;">❌ Error al verificar. Intenta nuevamente.</span>
+                <br>
+                <small style="color: #6B7280;">${error.message}</small>
+            `;
+            window.telefonoVerificado = false;
+            window.telefonoRegistrado = false;
+        }
+    }
+
+    let timeoutId;
+    telefonoInput.addEventListener('input', function() {
+        const telefono = this.value.trim();
+        window.telefonoActual = telefono;
+        
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            verificarTelefono(telefono);
+        }, 500);
+    });
+});
+
+// =====================================================
+// 5. GUARDAR EN FIREBASE
+// =====================================================
+document.addEventListener('DOMContentLoaded', function() {
+    const btnGuardar = document.getElementById('btn-guardar');
+    const mensajesDiv = document.getElementById('mensajes');
+    
+    function mostrarMensaje(tipo, texto) {
+        mensajesDiv.innerHTML = `
+            <div class="mensaje ${tipo}" style="padding: 15px; border-radius: 10px; margin: 10px 0; ${
+                tipo === 'error' ? 'background: #FEE2E2; border: 2px solid #EF4444; color: #991B1B;' 
+                : tipo === 'exito' ? 'background: #D1FAE5; border: 2px solid #10B981; color: #065F46;' 
+                : 'background: #DBEAFE; border: 2px solid #3B82F6; color: #1E3A8A;'
+            }">
+                ${texto}
+            </div>
+        `;
+        
+        if (tipo === 'exito' || tipo === 'error') {
+            setTimeout(() => {
+                mensajesDiv.innerHTML = '';
+            }, 8000);
+        }
+    }
+    
+    async function guardarInvitados() {
+        if (typeof window.db === 'undefined') {
+            mostrarMensaje('error', '❌ Firebase no está disponible. Recarga la página.');
+            return;
+        }
+
+        const nombreLider = document.getElementById('nombreLider').value.trim();
+        let telefonoLider = document.getElementById('telefonoLider').value.trim();
+        const cantidad = parseInt(document.getElementById('cantidad').value) || 0;
+        
+        telefonoLider = telefonoLider.replace(/\D/g, '');
+        
+        // ✅ Validar teléfono
+        if (!telefonoLider || telefonoLider.length < 7) {
+            mostrarMensaje('error', '⚠️ El teléfono debe tener al menos 7 dígitos');
+            document.getElementById('telefonoLider').focus();
+            return;
+        }
+
+        // ✅ Bloquear si el teléfono ya existe
+        if (window.telefonoRegistrado) {
+            mostrarMensaje('error', '⚠️ Este teléfono ya está registrado. Si eres tú, contacta al organizador.');
+            document.getElementById('telefonoLider').focus();
+            return;
+        }
+
+        // ✅ Bloquear si aún no se ha verificado
+        if (!window.telefonoVerificado) {
+            mostrarMensaje('error', '⚠️ Espera a que el sistema verifique el teléfono');
+            document.getElementById('telefonoLider').focus();
+            return;
+        }
+        
+        if (!nombreLider) {
+            mostrarMensaje('error', '⚠️ Ingresa el nombre del líder');
+            document.getElementById('nombreLider').focus();
+            return;
+        }
+        
+        const acompanantes = [];
+        let hayError = false;
+        
+        for (let i = 1; i <= cantidad; i++) {
+            const nombre = document.getElementById(`nombre_acompanante_${i}`).value.trim();
+            const parentesco = document.getElementById(`parentesco_${i}`).value;
+            
+            if (!nombre) {
+                mostrarMensaje('error', `⚠️ Ingresa el nombre del acompañante ${i}`);
+                document.getElementById(`nombre_acompanante_${i}`).focus();
+                hayError = true;
+                break;
+            }
+            
+            if (!parentesco) {
+                mostrarMensaje('error', `⚠️ Selecciona el parentesco del acompañante ${i}`);
+                document.getElementById(`parentesco_${i}`).focus();
+                hayError = true;
+                break;
+            }
+            
+            acompanantes.push({
+                nombre: nombre,
+                parentesco: parentesco
+            });
+        }
+        
+        if (hayError) return;
+        
+        mostrarMensaje('info', '⏳ Guardando datos en la nube...');
+        
+        try {
+            const grupoData = {
+                lider: nombreLider,
+                telefonoLider: telefonoLider,
+                acompanantes: acompanantes,
+                totalPersonas: 1 + acompanantes.length,
+                fechaRegistro: new Date().toISOString()
+            };
+
+            console.log('📊 Datos a guardar:', grupoData);
+
+            const docRef = await window.db.collection('grupos').add(grupoData);
+            
+            console.log('✅ Documento guardado con ID:', docRef.id);
+            
+            mostrarMensaje('exito', `
+                ✅ ¡Grupo familiar registrado exitosamente!
+                <br>
+                <small>👑 Líder: ${nombreLider} | 👥 Acompañantes: ${acompanantes.length}</small>
+                <br>
+                <small>📁 ID: ${docRef.id}</small>
+            `);
+            
+            // Limpiar
+            document.getElementById('formulario-invitados').reset();
+            document.getElementById('cantidad').value = 0;
+            document.getElementById('cantidad').dispatchEvent(new Event('change'));
+            document.getElementById('validacion-lider').innerHTML = '';
+            
+            window.telefonoVerificado = false;
+            window.telefonoRegistrado = false;
+            window.telefonoActual = '';
+            
+        } catch (error) {
+            console.error('❌ Error al guardar:', error);
+            mostrarMensaje('error', `❌ Error al guardar: ${error.message}`);
+        }
+    }
+    
+    btnGuardar.addEventListener('click', guardarInvitados);
+});
+
+// =====================================================
+// 6. LIMPIAR FORMULARIO
+// =====================================================
+document.addEventListener('DOMContentLoaded', function() {
+    const btnLimpiar = document.getElementById('btn-limpiar');
+    
+    btnLimpiar.addEventListener('click', function() {
+        if (confirm('¿Limpiar el formulario?')) {
+            document.getElementById('formulario-invitados').reset();
+            document.getElementById('cantidad').value = 0;
+            document.getElementById('cantidad').dispatchEvent(new Event('change'));
+            document.getElementById('validacion-lider').innerHTML = '';
+            document.getElementById('mensajes').innerHTML = '';
+            
+            window.telefonoVerificado = false;
+            window.telefonoRegistrado = false;
+            window.telefonoActual = '';
+        }
+    });
+});
+
+console.log('📝 Formulario cargado correctamente');
+console.log('✅ Validación de teléfono en tiempo real activa');
+console.log('👑 1 líder + máximo 3 acompañantes = 4 personas');
