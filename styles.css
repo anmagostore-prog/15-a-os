@@ -1,5 +1,9 @@
 /* ==================================================
-   🎀 ESTILOS PARA FIESTA DE 15 AÑOS - VERSIÓN MÓVIL-FIRST
+   🎀 ESTILOS PARA FIESTA DE 15 AÑOS - VERSIÓN CLARA
+   ==================================================
+   📌 Diseño sin modo oscuro automático.
+   Colores claros, tarjetas blancas, texto oscuro.
+   Optimizado para celular y PC.
    ================================================== */
 
 /* ==================================================
@@ -11,6 +15,8 @@
    2. VARIABLES
    ================================================== */
 :root {
+    color-scheme: light only;
+
     /* Paleta principal */
     --lila: #A66BD9;
     --lila-claro: #F0E3FB;
@@ -30,9 +36,8 @@
     /* Fondos - SÓLIDOS */
     --fondo-body: #F7F0FE;
     --fondo-card: #FFFFFF;
-    --fondo-card-alt: #FAF5FF;
-    --fondo-input: #FFFFFF;
     --fondo-grupo: #FBF7FF;
+    --fondo-input: #FFFFFF;
 
     /* Bordes */
     --borde-suave: 1px solid #E4D4F5;
@@ -99,7 +104,7 @@ body {
 }
 
 /* ==================================================
-   4. TIPOGRAFÍA - ALTO CONTRASTE
+   4. TIPOGRAFÍA
    ================================================== */
 h1, h2, h3, h4 {
     font-family: var(--fuente-titulo);
@@ -144,7 +149,7 @@ p {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    color: var(--lila-oscuro); /* fallback */
+    color: var(--lila-oscuro);
 }
 
 .titulo-nombre {
@@ -190,7 +195,7 @@ p {
 }
 
 /* ==================================================
-   5. ANIMACIONES (sutiles)
+   5. ANIMACIONES
    ================================================== */
 @keyframes slideIn {
     from { opacity: 0; transform: translateY(-8px); }
@@ -418,7 +423,7 @@ p {
 }
 
 /* ==================================================
-   11. FORMULARIO - FONDO SÓLIDO, ALTO CONTRASTE
+   11. FORMULARIO
    ================================================== */
 .seccion-formulario {
     max-width: 720px;
@@ -458,7 +463,6 @@ p {
     margin-top: 8px;
 }
 
-/* Grupos del formulario */
 .grupo-formulario {
     margin-bottom: var(--espacio-lg);
     padding: var(--espacio-md);
@@ -467,7 +471,6 @@ p {
     border-radius: var(--radio-lg);
 }
 
-/* Campos */
 .campo-formulario {
     margin-bottom: var(--espacio-md);
 }
@@ -486,7 +489,7 @@ p {
     width: 100%;
     padding: 14px 16px;
     font-family: var(--fuente-texto);
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 500;
     color: var(--texto-principal);
     background: #FFFFFF;
@@ -515,7 +518,6 @@ p {
     color: var(--texto-terciario);
 }
 
-/* Tarjetas de acompañante */
 .invitado-card {
     background: #FFFFFF;
     padding: var(--espacio-md);
@@ -534,12 +536,6 @@ p {
     font-weight: 700;
     color: var(--lila-oscuro);
     margin-bottom: var(--espacio-sm);
-}
-
-/* Avisos dentro del formulario (los divs con estilos inline) */
-.formulario-container > div[style*="background"] {
-    /* reforzar contraste de los avisos */
-    font-weight: 500 !important;
 }
 
 /* ==================================================
@@ -726,10 +722,8 @@ p {
 }
 
 /* ==================================================
-   15. RESPONSIVE - MÓVIL FIRST REFINADO
+   15. RESPONSIVE
    ================================================== */
-
-/* Tablets */
 @media (max-width: 900px) {
     .titulo-grande { font-size: 4rem; }
     .titulo-nombre { font-size: 2rem; }
@@ -737,7 +731,6 @@ p {
     .foto-principal { height: 420px; }
 }
 
-/* Móvil grande */
 @media (max-width: 640px) {
     :root {
         --espacio-lg: 22px;
@@ -786,7 +779,6 @@ p {
         border-radius: 24px 10px 24px 10px;
     }
 
-    /* Formulario a pantalla completa */
     .seccion-formulario {
         padding: var(--espacio-sm);
     }
@@ -801,7 +793,6 @@ p {
         margin-bottom: var(--espacio-md);
     }
 
-    /* Botones a ancho completo */
     .acciones-formulario {
         flex-direction: column;
         gap: 10px;
@@ -815,7 +806,6 @@ p {
         font-size: 1rem;
     }
 
-    /* Cards de normas */
     .grid-normas {
         grid-template-columns: 1fr;
         gap: var(--espacio-sm);
@@ -825,7 +815,6 @@ p {
         padding: var(--espacio-md);
     }
 
-    /* Botones flotantes más compactos */
     .music-button {
         bottom: 16px;
         right: 16px;
@@ -840,14 +829,12 @@ p {
         font-size: 0.85rem;
     }
 
-    /* Footer */
     .footer-principal {
         padding: var(--espacio-lg) var(--espacio-sm) var(--espacio-md);
         border-radius: var(--radio-lg) var(--radio-lg) 0 0;
     }
 }
 
-/* Móvil pequeño */
 @media (max-width: 380px) {
     .titulo-grande { font-size: 3rem; }
     .titulo-nombre { font-size: 1.6rem; }
@@ -862,120 +849,12 @@ p {
     .campo-formulario input,
     .campo-formulario select {
         padding: 13px 14px;
-        font-size: 16px; /* evita zoom en iOS */
+        font-size: 16px;
     }
 }
 
 /* ==================================================
-   16. MODO OSCURO - ALTO CONTRASTE
-   ================================================== */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --texto-principal: #FFFFFF;
-        --texto-secundario: #E4D5F5;
-        --texto-terciario: #C4B0DC;
-
-        --fondo-body: #1A0B2E;
-        --fondo-card: #2A1548;
-        --fondo-grupo: #331B54;
-        --fondo-input: #241240;
-
-        --borde-suave: 1px solid #4A2E6E;
-        --borde-medio: 1px solid #6B3FA0;
-        --borde-input: 2px solid #6B3FA0;
-
-        --lila-claro: #3D2160;
-        --rosa-claro: #4A1F3D;
-    }
-
-    body {
-        background: var(--fondo-body);
-        background-image:
-            radial-gradient(circle at 10% 0%, rgba(166, 107, 217, 0.18) 0%, transparent 40%),
-            radial-gradient(circle at 90% 100%, rgba(232, 91, 160, 0.12) 0%, transparent 40%);
-    }
-
-    .formulario-container,
-    .norma-card,
-    .video-container {
-        background: var(--fondo-card);
-        border-color: var(--borde-medio);
-    }
-
-    .grupo-formulario {
-        background: var(--fondo-grupo);
-        border-color: var(--borde-suave);
-    }
-
-    .campo-formulario input,
-    .campo-formulario select {
-        background: var(--fondo-input);
-        color: #FFFFFF;
-        border-color: var(--borde-input);
-    }
-
-    .campo-formulario input::placeholder {
-        color: #9985B5;
-    }
-
-    .invitado-card {
-        background: var(--fondo-grupo);
-        border-color: var(--borde-suave);
-    }
-
-    .mensaje-bienvenida {
-        background: linear-gradient(135deg, var(--lila-claro), var(--rosa-claro));
-    }
-
-    .mensaje-bienvenida p {
-        color: #FFFFFF;
-    }
-
-    .comentario-imagen,
-    .comentario-video {
-        background: var(--fondo-card);
-        color: var(--texto-secundario);
-        border-color: var(--borde-medio);
-    }
-
-    .mensaje.exito {
-        background: #064E3B;
-        color: #A7F3D0;
-        border-color: #10B981;
-    }
-
-    .mensaje.error {
-        background: #7F1D1D;
-        color: #FECACA;
-        border-color: #EF4444;
-    }
-
-    .mensaje.info {
-        background: #1E3A8A;
-        color: #BFDBFE;
-        border-color: #3B82F6;
-    }
-
-    /* Avisos inline (los divs con style) se ven forzados a buen contraste */
-    .formulario-container div[style*="#FEF3C7"] {
-        background: #4A3410 !important;
-        border-left-color: #F59E0B !important;
-    }
-    .formulario-container div[style*="#FEF3C7"] p {
-        color: #FDE68A !important;
-    }
-
-    .formulario-container div[style*="#F3E8FF"] {
-        background: #3D2160 !important;
-        border-left-color: #A66BD9 !important;
-    }
-    .formulario-container div[style*="#F3E8FF"] p {
-        color: #E4D5F5 !important;
-    }
-}
-
-/* ==================================================
-   17. ACCESIBILIDAD
+   16. ACCESIBILIDAD
    ================================================== */
 ::selection {
     background: var(--lila);
@@ -996,3 +875,7 @@ p {
         scroll-behavior: auto !important;
     }
 }
+
+/* ==================================================
+   17. FIN DEL CSS
+   ================================================== */
