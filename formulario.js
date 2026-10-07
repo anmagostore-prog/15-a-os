@@ -1,23 +1,9 @@
 // =====================================================
-// formulario.js - VERSIÓN FINAL
+// formulario.js - VERSIÓN FINAL SIN VALIDACIÓN DE TELÉFONO
 // =====================================================
 
 // =====================================================
-// 1. FUNCIÓN PARA MOSTRAR ERRORES GLOBALES
-// =====================================================
-function mostrarErrorGlobal(mensaje) {
-    const mensajesDiv = document.getElementById('mensajes');
-    if (mensajesDiv) {
-        mensajesDiv.innerHTML = `
-            <div class="mensaje error" style="background: #FEE2E2; border: 2px solid #EF4444; padding: 15px; border-radius: 10px; color: #991B1B;">
-                <strong>⚠️ ${mensaje}</strong>
-            </div>
-        `;
-    }
-}
-
-// =====================================================
-// 2. GENERAR CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)
+// 1. GENERAR CAMPOS DINÁMICOS (SOLO ACOMPAÑANTES)
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📝 Iniciando formulario...');
@@ -26,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const contenedor = document.getElementById('contenedor-invitados');
     
     function generarCamposInvitados(cantidad) {
+        if (!contenedor) return;
         contenedor.innerHTML = '';
         
         if (isNaN(cantidad) || cantidad < 0) {
@@ -88,154 +75,79 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    cantidadInput.addEventListener('change', function() {
-        const cantidad = parseInt(this.value) || 0;
-        generarCamposInvitados(cantidad);
-    });
-    
-    cantidadInput.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter') {
+    if (cantidadInput) {
+        cantidadInput.addEventListener('change', function() {
             const cantidad = parseInt(this.value) || 0;
             generarCamposInvitados(cantidad);
-        }
-    });
-    
-    generarCamposInvitados(0);
-});
-
-// =====================================================
-// 3. VALIDACIÓN EN TIEMPO REAL DEL TELÉFONO
-// =====================================================
-document.addEventListener('DOMContentLoaded', function() {
-    const telefonoInput = document.getElementById('telefonoLider');
-    const validacionDiv = document.getElementById('validacion-lider');
-    
-    window.telefonoVerificado = false;
-    window.telefonoRegistrado = false;
-    window.telefonoActual = '';
-
-    async function verificarTelefono(telefono) {
-        try {
-            if (!window.db) {
-                throw new Error('Firebase no disponible');
-            }
-
-            validacionDiv.innerHTML = `
-                <span style="color: #60A5FA;">⏳ Verificando teléfono...</span>
-            `;
-
-            const telefonoLimpio = telefono.replace(/\D/g, '');
-            
-            if (telefonoLimpio.length < 7) {
-                validacionDiv.innerHTML = `
-                    <span style="color: #F59E0B;">⏳ Ingresa al menos 7 dígitos...</span>
-                `;
-                window.telefonoVerificado = false;
-                window.telefonoRegistrado = false;
-                return;
-            }
-
-            console.log(`🔍 Verificando teléfono: ${telefonoLimpio}`);
-
-            const querySnapshot = await window.db.collection('grupos')
-                .where('telefonoLider', '==', telefonoLimpio)
-                .get();
-
-            console.log(`📊 Resultado: ${querySnapshot.empty ? 'No existe' : 'Ya registrado'}`);
-
-            if (!querySnapshot.empty) {
-                validacionDiv.innerHTML = `
-                    <span style="color: #EF4444;">❌ Este número ya está registrado</span>
-                `;
-                window.telefonoVerificado = false;
-                window.telefonoRegistrado = true;
-            } else {
-                validacionDiv.innerHTML = `
-                    <span style="color: #10B981;">✅ Teléfono disponible</span>
-                `;
-                window.telefonoVerificado = true;
-                window.telefonoRegistrado = false;
-                window.telefonoActual = telefonoLimpio;
-            }
-        } catch (error) {
-            console.error('❌ Error al verificar teléfono:', error);
-            validacionDiv.innerHTML = `
-                <span style="color: #EF4444;">❌ Error al verificar. Intenta nuevamente.</span>
-                <br>
-                <small style="color: #6B7280;">${error.message}</small>
-            `;
-            window.telefonoVerificado = false;
-            window.telefonoRegistrado = false;
-        }
-    }
-
-    let timeoutId;
-    telefonoInput.addEventListener('input', function() {
-        const telefono = this.value.trim();
-        window.telefonoActual = telefono;
+        });
         
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            verificarTelefono(telefono);
-        }, 500);
-    });
+        cantidadInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                const cantidad = parseInt(this.value) || 0;
+                generarCamposInvitados(cantidad);
+            }
+        });
+        
+        generarCamposInvitados(0);
+    }
 });
 
 // =====================================================
-// 4. GUARDAR EN FIREBASE
+// 2. GUARDAR EN FIREBASE
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnGuardar = document.getElementById('btn-guardar');
     const mensajesDiv = document.getElementById('mensajes');
     
     function mostrarMensaje(tipo, texto) {
+        if (!mensajesDiv) return;
         mensajesDiv.innerHTML = `
-            <div class="mensaje ${tipo}" style="padding: 15px; border-radius: 10px; margin: 10px 0; ${tipo === 'error' ? 'background: #FEE2E2; border: 2px solid #EF4444; color: #991B1B;' : tipo === 'exito' ? 'background: #D1FAE5; border: 2px solid #10B981; color: #065F46;' : 'background: #DBEAFE; border: 2px solid #3B82F6; color: #1E3A8A;'}">
+            <div class="mensaje ${tipo}" style="padding: 15px; border-radius: 10px; margin: 10px 0; ${
+                tipo === 'error' ? 'background: #FEE2E2; border: 2px solid #EF4444; color: #991B1B;' 
+                : tipo === 'exito' ? 'background: #D1FAE5; border: 2px solid #10B981; color: #065F46;' 
+                : 'background: #DBEAFE; border: 2px solid #3B82F6; color: #1E3A8A;'
+            }">
                 ${texto}
             </div>
         `;
         
-        setTimeout(() => {
-            mensajesDiv.innerHTML = '';
-        }, 8000);
+        if (tipo === 'exito' || tipo === 'error') {
+            setTimeout(() => {
+                mensajesDiv.innerHTML = '';
+            }, 8000);
+        }
     }
     
     async function guardarInvitados() {
+        // Verificar Firebase disponible
         if (typeof window.db === 'undefined') {
             mostrarMensaje('error', '❌ Firebase no está disponible. Recarga la página.');
             return;
         }
 
+        // Obtener datos del líder
         const nombreLider = document.getElementById('nombreLider').value.trim();
         let telefonoLider = document.getElementById('telefonoLider').value.trim();
         const cantidad = parseInt(document.getElementById('cantidad').value) || 0;
         
+        // Limpiar teléfono (solo números)
         telefonoLider = telefonoLider.replace(/\D/g, '');
         
+        // Validar teléfono
         if (!telefonoLider || telefonoLider.length < 7) {
             mostrarMensaje('error', '⚠️ El teléfono debe tener al menos 7 dígitos');
             document.getElementById('telefonoLider').focus();
             return;
         }
-
-        if (window.telefonoRegistrado) {
-            mostrarMensaje('error', '⚠️ Este teléfono ya está registrado. Usa otro número.');
-            document.getElementById('telefonoLider').focus();
-            return;
-        }
-
-        if (!window.telefonoVerificado) {
-            mostrarMensaje('error', '⚠️ Verifica el teléfono antes de guardar');
-            document.getElementById('telefonoLider').focus();
-            return;
-        }
         
+        // Validar nombre del líder
         if (!nombreLider) {
             mostrarMensaje('error', '⚠️ Ingresa el nombre del líder');
             document.getElementById('nombreLider').focus();
             return;
         }
         
+        // Recolectar acompañantes
         const acompanantes = [];
         let hayError = false;
         
@@ -265,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (hayError) return;
         
+        // Guardar en Firebase
         mostrarMensaje('info', '⏳ Guardando datos en la nube...');
         
         try {
@@ -290,14 +203,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <small>📁 ID: ${docRef.id}</small>
             `);
             
+            // Limpiar formulario
             document.getElementById('formulario-invitados').reset();
             document.getElementById('cantidad').value = 0;
             document.getElementById('cantidad').dispatchEvent(new Event('change'));
-            document.getElementById('validacion-lider').innerHTML = '';
-            
-            window.telefonoVerificado = false;
-            window.telefonoRegistrado = false;
-            window.telefonoActual = '';
             
         } catch (error) {
             console.error('❌ Error al guardar:', error);
@@ -305,28 +214,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    btnGuardar.addEventListener('click', guardarInvitados);
+    if (btnGuardar) {
+        btnGuardar.addEventListener('click', guardarInvitados);
+    }
 });
 
 // =====================================================
-// 5. LIMPIAR FORMULARIO
+// 3. LIMPIAR FORMULARIO
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnLimpiar = document.getElementById('btn-limpiar');
     
-    btnLimpiar.addEventListener('click', function() {
-        if (confirm('¿Limpiar el formulario?')) {
-            document.getElementById('formulario-invitados').reset();
-            document.getElementById('cantidad').value = 0;
-            document.getElementById('cantidad').dispatchEvent(new Event('change'));
-            document.getElementById('validacion-lider').innerHTML = '';
-            document.getElementById('mensajes').innerHTML = '';
-            
-            window.telefonoVerificado = false;
-            window.telefonoRegistrado = false;
-            window.telefonoActual = '';
-        }
-    });
+    if (btnLimpiar) {
+        btnLimpiar.addEventListener('click', function() {
+            if (confirm('¿Limpiar el formulario?')) {
+                document.getElementById('formulario-invitados').reset();
+                document.getElementById('cantidad').value = 0;
+                document.getElementById('cantidad').dispatchEvent(new Event('change'));
+                document.getElementById('mensajes').innerHTML = '';
+            }
+        });
+    }
 });
 
 console.log('📝 Formulario cargado correctamente');
