@@ -1,5 +1,5 @@
 // =====================================================
-// formulario.js - VERSIÓN CON MEJOR MANEJO DE ERRORES
+// formulario.js - VERSIÓN COMPATIBLE CON REGLAS SEGURAS
 // =====================================================
 
 // =====================================================
@@ -8,15 +8,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📝 Iniciando formulario...');
     
-    // Verificar Firebase
     if (typeof window.db === 'undefined') {
         console.error('❌ Firebase no está disponible');
         mostrarErrorGlobal('⚠️ Error de conexión: Firebase no está disponible. Recarga la página.');
         return;
     }
 
-    // Verificar conexión
-    window.db.collection('grupos').where('telefonoLider', '==', '__test__').limit(1).get()
+    // ✅ Verificación de conexión con consulta válida según las reglas
+    //    (filtro + limit(1) es lo único que las reglas permiten leer)
+    window.db.collection('grupos')
+        .where('telefonoLider', '==', '__test__')
+        .limit(1)
+        .get()
         .then(() => {
             console.log('✅ Conexión a Firebase exitosa');
             document.getElementById('mensajes').innerHTML = '';
@@ -127,18 +130,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =====================================================
-// 4. VALIDACIÓN EN TIEMPO REAL DEL TELÉFONO (MEJORADA)
+// 4. VALIDACIÓN EN TIEMPO REAL DEL TELÉFONO
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const telefonoInput = document.getElementById('telefonoLider');
     const validacionDiv = document.getElementById('validacion-lider');
     
-    // ✅ INICIALIZAR VARIABLES GLOBALES
     window.telefonoVerificado = false;
     window.telefonoRegistrado = false;
     window.telefonoActual = '';
 
-    // Función para verificar teléfono
     async function verificarTelefono(telefono) {
         try {
             if (!window.db) {
@@ -149,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span style="color: #60A5FA;">⏳ Verificando teléfono...</span>
             `;
 
-            // Limpiar el teléfono (solo números)
             const telefonoLimpio = telefono.replace(/\D/g, '');
             
             if (telefonoLimpio.length < 7) {
@@ -163,10 +163,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             console.log(`🔍 Verificando teléfono: ${telefonoLimpio}`);
 
+            // ✅ CONSULTA COMPATIBLE CON LAS REGLAS: filtro + limit(1)
             const querySnapshot = await window.db.collection('grupos')
-    .where('telefonoLider', '==', telefonoLimpio)
-    .limit(1)
-    .get();
+                .where('telefonoLider', '==', telefonoLimpio)
+                .limit(1)
+                .get();
 
             console.log(`📊 Resultado: ${querySnapshot.empty ? 'No existe' : 'Ya registrado'}`);
 
@@ -196,7 +197,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Evento con debounce para evitar muchas llamadas
     let timeoutId;
     telefonoInput.addEventListener('input', function() {
         const telefono = this.value.trim();
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =====================================================
-// 5. GUARDAR EN FIREBASE (MEJORADO)
+// 5. GUARDAR EN FIREBASE
 // =====================================================
 document.addEventListener('DOMContentLoaded', function() {
     const btnGuardar = document.getElementById('btn-guardar');
@@ -229,37 +229,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     async function guardarInvitados() {
-        // 🔥 Verificar Firebase
         if (typeof window.db === 'undefined') {
             mostrarMensaje('error', '❌ Firebase no está disponible. Recarga la página.');
             return;
         }
 
-        // Verificar conexión primero
+        // ✅ Verificación de conexión con consulta válida según las reglas
         try {
-            await window.db.collection('grupos').where('telefonoLider', '==', '__test__').limit(1).get();
+            await window.db.collection('grupos')
+                .where('telefonoLider', '==', '__test__')
+                .limit(1)
+                .get();
         } catch (error) {
             console.error('❌ Error de conexión:', error);
             mostrarMensaje('error', '❌ No se puede conectar a la base de datos. Verifica tu conexión a internet.');
             return;
         }
 
-        // Obtener datos del líder
         const nombreLider = document.getElementById('nombreLider').value.trim();
         let telefonoLider = document.getElementById('telefonoLider').value.trim();
         const cantidad = parseInt(document.getElementById('cantidad').value) || 0;
         
-        // Limpiar teléfono (solo números)
         telefonoLider = telefonoLider.replace(/\D/g, '');
         
-        // ✅ VALIDACIÓN DEL TELÉFONO
         if (!telefonoLider || telefonoLider.length < 7) {
             mostrarMensaje('error', '⚠️ El teléfono debe tener al menos 7 dígitos');
             document.getElementById('telefonoLider').focus();
             return;
         }
 
-        // 🔥 VALIDACIÓN EN TIEMPO REAL
         if (window.telefonoRegistrado) {
             mostrarMensaje('error', '⚠️ Este teléfono ya está registrado. Usa otro número.');
             document.getElementById('telefonoLider').focus();
@@ -272,14 +270,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Validar líder
         if (!nombreLider) {
             mostrarMensaje('error', '⚠️ Ingresa el nombre del líder');
             document.getElementById('nombreLider').focus();
             return;
         }
         
-        // Recolectar acompañantes
         const acompanantes = [];
         let hayError = false;
         
@@ -309,7 +305,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (hayError) return;
         
-        // Guardar en Firebase
         mostrarMensaje('info', '⏳ Guardando datos en la nube...');
         
         try {
@@ -335,13 +330,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <small>📁 ID: ${docRef.id}</small>
             `);
             
-            // Limpiar formulario
             document.getElementById('formulario-invitados').reset();
             document.getElementById('cantidad').value = 0;
             document.getElementById('cantidad').dispatchEvent(new Event('change'));
             document.getElementById('validacion-lider').innerHTML = '';
             
-            // ✅ RESETEAR VARIABLES GLOBALES
             window.telefonoVerificado = false;
             window.telefonoRegistrado = false;
             window.telefonoActual = '';
@@ -369,7 +362,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('validacion-lider').innerHTML = '';
             document.getElementById('mensajes').innerHTML = '';
             
-            // ✅ RESETEAR VARIABLES GLOBALES
             window.telefonoVerificado = false;
             window.telefonoRegistrado = false;
             window.telefonoActual = '';
@@ -378,6 +370,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('📝 Formulario cargado correctamente');
-console.log('✅ Validación de teléfono en tiempo real (con debounce)');
-console.log('✅ Manejo de errores mejorado');
+console.log('✅ Compatible con reglas de Firestore seguras');
 console.log('👑 1 líder + máximo 3 acompañantes = 4 personas');
